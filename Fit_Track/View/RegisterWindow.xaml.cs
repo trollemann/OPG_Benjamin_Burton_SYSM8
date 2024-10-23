@@ -17,9 +17,9 @@ namespace Fit_Track.View
     /// <summary>
     /// Interaction logic for RegisterWindow.xaml
     /// </summary>
-    public partial class RegisterWindow : Window
+    public partial class PasswordWindow : Window
     {
-        public RegisterWindow()
+        public PasswordWindow()
         {
             InitializeComponent();
         }

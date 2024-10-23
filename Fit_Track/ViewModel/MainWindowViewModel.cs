@@ -33,7 +33,7 @@ namespace Fit_Track.ViewModel
         public RelayCommand ForgotPasswordCommand { get; }
 
         //användarlista
-        private List<User> _users;
+        public List<User> _users;
         public MainWindowViewModel()
         {
             //lista med existerande användare
@@ -81,7 +81,7 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteRegister(object param)
         {
-            RegisterWindow registerWindow = new RegisterWindow();
+            PasswordWindow registerWindow = new PasswordWindow();
             var mainWindow = param as Window;
             registerWindow.Show();
             mainWindow.Close();
