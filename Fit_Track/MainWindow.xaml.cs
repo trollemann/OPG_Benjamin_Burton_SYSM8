@@ -11,7 +11,9 @@ namespace Fit_Track
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
+            var viewModel = new MainWindowViewModel();
+            DataContext = viewModel;
+            btnSignIn.CommandParameter = this;
         }
     }
 }

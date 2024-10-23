@@ -8,9 +8,12 @@ namespace Fit_Track.Model
 {
     public class User : Person
     {
+        //properties
         public string Country { get; set; }
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
+
+        //constructor
         public User(string username, string password, string country, string securityQuestion, string securityAnswer) : base(username, password)
         {
             Country = country;
@@ -18,11 +21,13 @@ namespace Fit_Track.Model
             SecurityAnswer = securityAnswer;
         }
 
+        //overriding method
         public override void SignIn()
         {
             Console.WriteLine($"{Username} has signed in");
         }
 
+        //method
         public void ResetPassword(string securityAnswer)
         {
             if (SecurityAnswer == SecurityAnswer)

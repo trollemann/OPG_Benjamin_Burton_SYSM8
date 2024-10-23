@@ -1,15 +1,11 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Fit_Track.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        //användarlista
-        private List<User> _users;
-
         //properties
         private string _username;
         public string Username
@@ -21,7 +17,6 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
-
         private string _password;
         public string Password
         {
@@ -33,44 +28,45 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        //kopplar RelayCommand så man kan binda till btnSignIn
         public RelayCommand SignInCommand { get; }
 
+        //användarlista
+        private List<User> _users;
         public MainWindowViewModel()
         {
             //lista med existerande användare
-            _users = new List<User>
-        {
-            new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press")
-        };
+            _users = new List<User> { new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press") };
 
             SignInCommand = new RelayCommand(ExecuteSignIn, CanExecuteSignIn);
         }
 
         //kontrollerar om btnSign kan användas
-        private bool CanExecuteSignIn(object parameter)
+        private bool CanExecuteSignIn(object param)
         {
             return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
         }
 
-        private void ExecuteSignIn(object parameter)
+        private void ExecuteSignIn(object param)
         {
-            //metod från LINQ, hämtar första elementet i listan
-            //'u' representerar enskilt objekt i listan _user
+            //type casta en obj param till ett window-obj
+            //param lagras i variabeln mainWindow
+            //kan nu tillkalla Windows-metoder
+            var mainWindow = param as Window;
+
+            //hämtar första elementet i listan
             var user = _users.FirstOrDefault(u => u.Username == Username && u.Password == Password);
 
             //kontrollerar om användarnamn och lösenord är korrekt
-            //om de är korrekt, öppna WorkoutsWindow
             if (user != null)
             {
                 WorkoutsWindow workoutsWindow = new WorkoutsWindow();
                 workoutsWindow.Show();
+                mainWindow.Close();
             }
-
-            //om ej korrekt öppnas messageBox
             else
             {
-                MessageBox.Show("felaktigt användarnamn eller lösenord");
+                //om ej korrekt öppnas MessageBox
+                MessageBox.Show("Felaktigt användarnamn eller lösenord");
             }
         }
     }
