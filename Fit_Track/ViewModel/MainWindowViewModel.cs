@@ -30,6 +30,7 @@ namespace Fit_Track.ViewModel
 
         public RelayCommand SignInCommand { get; }
         public RelayCommand RegisterCommand { get; }
+        public RelayCommand ForgotPasswordCommand { get; }
 
         //användarlista
         private List<User> _users;
@@ -40,7 +41,7 @@ namespace Fit_Track.ViewModel
 
             SignInCommand = new RelayCommand(ExecuteSignIn, CanExecuteSignIn);
             RegisterCommand = new RelayCommand(ExecuteRegister, CanExecuteRegister);
-
+            ForgotPasswordCommand = new RelayCommand(ExecuteForgotPassword, CanExecuteForgotPassword);
         }
 
         //kontrollerar om btnSign kan användas
@@ -85,5 +86,19 @@ namespace Fit_Track.ViewModel
             registerWindow.Show();
             mainWindow.Close();
         }
+
+        private void ExecuteForgotPassword(object param)
+        {
+            ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
+            var mainWindow = param as Window;
+            forgotPasswordWindow.Show();
+            mainWindow.Close();
+        }
+
+        private bool CanExecuteForgotPassword(object param)
+        {
+            return true;
+        }
     }
+
 }
