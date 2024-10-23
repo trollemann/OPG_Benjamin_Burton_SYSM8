@@ -20,12 +20,12 @@
 
             <TextBox
                 x:Name="txtBoxUsername"
-                Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 Width="120"/>
 
             <TextBox
                 x:Name="txtBoxPassword"
-                Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 Width="120"/>
 
             <Button
