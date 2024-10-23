@@ -34,6 +34,12 @@
                 Width="120"
                 Command="{Binding SignInCommand}"/>
 
+            <Button
+                x:Name="btnRegister"
+                Content="Register"
+                Width="120"
+                Command="{Binding RegisterCommand}"/>
+
             <TextBlock
                 x:Name="txtBlockForgotPass"
                 Text="Forgot password?"

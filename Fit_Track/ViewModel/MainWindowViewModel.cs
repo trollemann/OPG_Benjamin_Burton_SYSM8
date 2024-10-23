@@ -29,6 +29,7 @@ namespace Fit_Track.ViewModel
         }
 
         public RelayCommand SignInCommand { get; }
+        public RelayCommand RegisterCommand { get; }
 
         //användarlista
         private List<User> _users;
@@ -38,6 +39,8 @@ namespace Fit_Track.ViewModel
             _users = new List<User> { new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press") };
 
             SignInCommand = new RelayCommand(ExecuteSignIn, CanExecuteSignIn);
+            RegisterCommand = new RelayCommand(ExecuteRegister, CanExecuteRegister);
+
         }
 
         //kontrollerar om btnSign kan användas
@@ -68,6 +71,19 @@ namespace Fit_Track.ViewModel
                 //om ej korrekt öppnas MessageBox
                 MessageBox.Show("Felaktigt användarnamn eller lösenord");
             }
+        }
+
+        private bool CanExecuteRegister(object param)
+        {
+            return true;
+        }
+
+        private void ExecuteRegister(object param)
+        {
+            RegisterWindow registerWindow = new RegisterWindow();
+            var mainWindow = param as Window;
+            registerWindow.Show();
+            mainWindow.Close();
         }
     }
 }
