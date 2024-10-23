@@ -1,0 +1,45 @@
+﻿<Window x:Class="Fit_Track.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fit_Track"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+
+            <Label
+                x:Name="lblFitTrack"
+                Content="Fit Track"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontFamily="Arial"
+                FontSize="90"
+                Margin="40"/>
+
+            <TextBox
+                x:Name="txtBoxUsername"
+                Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                Width="120"/>
+
+            <TextBox
+                x:Name="txtBoxPassword"
+                Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
+                Width="120"/>
+
+            <Button
+                x:Name="btnSignIn"
+                Content="Sign in"
+                Width="120"
+                Command="{Binding SignInCommand}"/>
+
+            <TextBlock
+                x:Name="txtBlockForgotPass"
+                Text="Forgot password?"
+                TextAlignment="Center"
+                Width="120"/>
+
+        </StackPanel>
+    </Grid>
+</Window>
