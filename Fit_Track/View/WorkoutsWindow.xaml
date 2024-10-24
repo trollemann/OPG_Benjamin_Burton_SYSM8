@@ -44,7 +44,6 @@
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
 
         </StackPanel>
-        
 
         <StackPanel
             Grid.Row="1">

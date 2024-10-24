@@ -19,7 +19,7 @@ namespace Fit_Track.ViewModel
 
         public RelayCommand AddWorkoutCommand { get; }
         public RelayCommand RemoveWorkoutCommand { get; }
-        public RelayCommand OverviewWorkoutCommand { get; }
+        public RelayCommand WorkoutDetailsCommand { get; }
         public RelayCommand UserDetailsCommand { get; }
         public RelayCommand InfoCommand { get; }
         public RelayCommand SignOutCommand { get; }
@@ -38,7 +38,7 @@ namespace Fit_Track.ViewModel
 
             AddWorkoutCommand = new RelayCommand(ExecuteAddWorkout);
             RemoveWorkoutCommand = new RelayCommand(ExecuteRemoveWorkout);
-            OverviewWorkoutCommand = new RelayCommand(ExecuteWorkoutDetails);
+            WorkoutDetailsCommand = new RelayCommand(ExecuteWorkoutDetails);
             UserDetailsCommand = new RelayCommand(ExecuteUserDetails);
             InfoCommand = new RelayCommand(ExecuteInfo);
             SignOutCommand = new RelayCommand(ExecuteSignOut);
@@ -65,7 +65,9 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteWorkoutDetails(object param)
         {
+            WorkoutDetailsWindow workoutDetailsWindow = new WorkoutDetailsWindow();
 
+            workoutDetailsWindow.Show();
         }
 
         private void ExecuteInfo(object param)
