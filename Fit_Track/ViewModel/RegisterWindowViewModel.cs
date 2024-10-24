@@ -73,16 +73,26 @@ namespace Fit_Track.ViewModel
         //kontrollerar att alla fält är ifyllda innan man kan registrera ny användare
         private bool CanExecuteCreateNewUser(object param)
         {
+
             return !string.IsNullOrWhiteSpace(Username) &&
                    !string.IsNullOrWhiteSpace(Password) &&
                    !string.IsNullOrWhiteSpace(Country) &&
                    !string.IsNullOrWhiteSpace(SecurityQuestion) &&
                    !string.IsNullOrWhiteSpace(SecurityAnswer);
+
+
         }
 
         private void ExecuteCreateNewUser(object param)
         {
             var registerWindow = param as Window;
+
+            //tillkallar metod för o kontrollera om användarnamn är taget
+            if (User.UserExists(Username))
+            {
+                MessageBox.Show("Username already taken");
+                return;
+            }
 
             //skapa en ny användare
             User newUser = new User(Username, Password, Country, SecurityQuestion, SecurityAnswer);
@@ -91,6 +101,7 @@ namespace Fit_Track.ViewModel
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             registerWindow.Close();
+
         }
     }
 }

@@ -56,5 +56,11 @@
                 Console.WriteLine("security answer is incorrect");
             }
         }
+
+        //kontrollerar om användare med samma namn redan existerar
+        public static bool UserExists(string username)
+        {
+            return _users.Any(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }
