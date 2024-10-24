@@ -15,7 +15,6 @@ namespace Fit_Track
             DataContext = viewModel;
             btnSignIn.CommandParameter = this;
             btnRegister.CommandParameter = this;
-            btnForgotPassword.CommandParameter = this;
         }
     }
 }

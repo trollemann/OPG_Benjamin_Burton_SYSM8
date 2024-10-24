@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fit_Track.Model
+﻿namespace Fit_Track.Model
 {
     public class User : Person
     {
+        //statisk lista för o spara användare
+        private static List<User> _users = new List<User>();
+
         //properties
         public string Country { get; set; }
         public string SecurityQuestion { get; set; }
@@ -19,11 +16,31 @@ namespace Fit_Track.Model
             Country = country;
             SecurityQuestion = securityQuestion;
             SecurityAnswer = securityAnswer;
+
+            //lägg till ny användare till min lista
+            _users.Add(this);
+        }
+
+        //hämtar användarinformation
+        public static void InitializeUsers()
+        {
+            //kolla om listan är tom för att undvika duplikanter
+            if (_users.Count == 0)
+            {
+                new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press");
+            }
+        }
+
+        //metod för att få alla mina användare
+        public static List<User> GetUsers()
+        {
+            return _users;
         }
 
         //overriding method
         public override void SignIn()
         {
+
             Console.WriteLine($"{Username} has signed in");
         }
 

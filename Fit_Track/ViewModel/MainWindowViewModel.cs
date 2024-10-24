@@ -6,7 +6,7 @@ namespace Fit_Track.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        //properties
+        //egenskaper
         private string _username;
         public string Username
         {
@@ -17,6 +17,7 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
+
         private string _password;
         public string Password
         {
@@ -28,39 +29,34 @@ namespace Fit_Track.ViewModel
             }
         }
 
+        //kommandon
         public RelayCommand SignInCommand { get; }
         public RelayCommand RegisterCommand { get; }
-        public RelayCommand ForgotPasswordCommand { get; }
 
-        //användarlista
-        public List<User> _users;
         public MainWindowViewModel()
         {
-            //lista med existerande användare
-            _users = new List<User> { new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press") };
+            //tillkalla metod
+            User.InitializeUsers();
 
             SignInCommand = new RelayCommand(ExecuteSignIn, CanExecuteSignIn);
-            RegisterCommand = new RelayCommand(ExecuteRegister, CanExecuteRegister);
-            ForgotPasswordCommand = new RelayCommand(ExecuteForgotPassword, CanExecuteForgotPassword);
+            RegisterCommand = new RelayCommand(ExecuteRegister);
         }
 
-        //kontrollerar om btnSign kan användas
+        //kontrollerar om fälten är ifyllda
         private bool CanExecuteSignIn(object param)
         {
+            //returnera falskt om användar- och lösenordsfält är tomma
             return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
         }
 
         private void ExecuteSignIn(object param)
         {
-            //type casta en obj param till ett window-obj
-            //param lagras i variabeln mainWindow
-            //kan nu tillkalla Windows-metoder
             var mainWindow = param as Window;
 
-            //hämtar första elementet i listan
-            var user = _users.FirstOrDefault(u => u.Username == Username && u.Password == Password);
+            //hämta användare från lista
+            var user = User.GetUsers().FirstOrDefault(u => u.Username == Username && u.Password == Password);
 
-            //kontrollerar om användarnamn och lösenord är korrekt
+            //kolla om användarnamn och lösenord är korrekt
             if (user != null)
             {
                 WorkoutsWindow workoutsWindow = new WorkoutsWindow();
@@ -69,36 +65,16 @@ namespace Fit_Track.ViewModel
             }
             else
             {
-                //om ej korrekt öppnas MessageBox
-                MessageBox.Show("Felaktigt användarnamn eller lösenord");
+                MessageBox.Show("Wrong username or password");
             }
-        }
-
-        private bool CanExecuteRegister(object param)
-        {
-            return true;
         }
 
         private void ExecuteRegister(object param)
         {
-            PasswordWindow registerWindow = new PasswordWindow();
+            RegisterWindow registerWindow = new RegisterWindow();
             var mainWindow = param as Window;
             registerWindow.Show();
             mainWindow.Close();
         }
-
-        private void ExecuteForgotPassword(object param)
-        {
-            ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
-            var mainWindow = param as Window;
-            forgotPasswordWindow.Show();
-            mainWindow.Close();
-        }
-
-        private bool CanExecuteForgotPassword(object param)
-        {
-            return true;
-        }
     }
-
 }

@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Fit_Track"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid
+        Background="Crimson">
         <StackPanel>
 
             <Label
@@ -16,7 +17,8 @@
                 VerticalAlignment="Center"
                 FontFamily="Arial"
                 FontSize="90"
-                Margin="40"/>
+                Margin="40"
+                Foreground="LightGray"/>
 
             <TextBox
                 x:Name="txtBoxUsername"
@@ -48,7 +50,6 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Width="120"
-                Cursor="Hand"
                 Command="{Binding ForgotPasswordCommand}"/>
 
         </StackPanel>
