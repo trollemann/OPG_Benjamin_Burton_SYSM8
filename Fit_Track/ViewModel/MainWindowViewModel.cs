@@ -6,7 +6,6 @@ namespace Fit_Track.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        //egenskaper
         private string _username;
         public string Username
         {
@@ -29,23 +28,21 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        //kommandon
         public RelayCommand SignInCommand { get; }
         public RelayCommand RegisterCommand { get; }
 
         public MainWindowViewModel()
         {
-            //tillkalla metod
+            //tillkalla metod för att initiera användare
             User.InitializeUsers();
 
             SignInCommand = new RelayCommand(ExecuteSignIn, CanExecuteSignIn);
             RegisterCommand = new RelayCommand(ExecuteRegister);
         }
 
-        //kontrollerar om fälten är ifyllda
+        //kontrollera om fälten är ifyllda
         private bool CanExecuteSignIn(object param)
         {
-            //returnera falskt om användar- och lösenordsfält är tomma
             return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
         }
 
@@ -53,12 +50,16 @@ namespace Fit_Track.ViewModel
         {
             var mainWindow = param as Window;
 
-            //hämta användare från lista
+            //hämta användare från listan baserat på användarnamn och lösenord
             var user = User.GetUsers().FirstOrDefault(u => u.Username == Username && u.Password == Password);
 
-            //kolla om användarnamn och lösenord är korrekt
+            //kolla om användarnamn och lösenord är korrekta
             if (user != null)
             {
+                //sätt den inloggade användaren som nuvarande användare
+                User.CurrentUser = user;
+
+                //öppna workouts-fönstret
                 WorkoutsWindow workoutsWindow = new WorkoutsWindow();
                 workoutsWindow.Show();
                 mainWindow.Close();
@@ -71,6 +72,7 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteRegister(object param)
         {
+            //öppna registreringsfönstret
             RegisterWindow registerWindow = new RegisterWindow();
             var mainWindow = param as Window;
             registerWindow.Show();

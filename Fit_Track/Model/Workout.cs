@@ -8,6 +8,9 @@ namespace Fit_Track.Model
 {
     public abstract class Workout
     {
+        //statisk lista för o spara användare
+        private static List<Workout> _workouts = new List<Workout>();
+
         public DateTime Date { get; set; }
         public string Type { get; set; }
         public TimeSpan Duration { get; set; }

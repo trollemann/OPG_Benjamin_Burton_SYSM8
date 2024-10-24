@@ -9,6 +9,7 @@
         public string Country { get; set; }
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
+        public static User CurrentUser { get; set; }
 
         //constructor
         public User(string username, string password, string country, string securityQuestion, string securityAnswer) : base(username, password)
@@ -19,6 +20,7 @@
 
             //lägg till ny användare till min lista
             _users.Add(this);
+            CurrentUser = this;
         }
 
         //hämtar användarinformation
@@ -58,7 +60,7 @@
         }
 
         //kontrollerar om användare med samma namn redan existerar
-        public static bool UserExists(string username)
+        public static bool TakenUsername(string username)
         {
             return _users.Any(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
         }

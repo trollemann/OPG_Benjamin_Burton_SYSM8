@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Fit_Track.ViewModel;
+using System.Windows;
 
 namespace Fit_Track.View
 {
@@ -10,6 +11,13 @@ namespace Fit_Track.View
         public WorkoutsWindow()
         {
             InitializeComponent();
+            var viewModel = new WorkoutsWindowViewModel();
+            DataContext = viewModel;
+            
+            btnUserDetails.CommandParameter = this;
+            btnAddWorkout.CommandParameter = this;
+            btnRemoveWorkout.CommandParameter = this;
+            btnWorkoutDetails.CommandParameter = this;
         }
     }
 }

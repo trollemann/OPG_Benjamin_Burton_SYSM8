@@ -13,6 +13,7 @@ namespace Fit_Track
             InitializeComponent();
             var viewModel = new MainWindowViewModel();
             DataContext = viewModel;
+            
             btnSignIn.CommandParameter = this;
             btnRegister.CommandParameter = this;
         }
