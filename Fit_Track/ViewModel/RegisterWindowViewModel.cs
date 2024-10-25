@@ -77,8 +77,6 @@ namespace Fit_Track.ViewModel
                    !string.IsNullOrWhiteSpace(Country) &&
                    !string.IsNullOrWhiteSpace(SecurityQuestion) &&
                    !string.IsNullOrWhiteSpace(SecurityAnswer);
-
-
         }
 
         private void ExecuteCreateNewUser(object param)

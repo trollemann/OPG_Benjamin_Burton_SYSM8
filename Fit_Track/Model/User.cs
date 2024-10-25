@@ -5,18 +5,24 @@
         //statisk lista för o spara användare
         private static List<User> _users = new List<User>();
 
+        //lista för att spara träningspass som är kopplade till denna användare
+        public List<Workout> _workouts { get; private set; }
+
         //properties
         public string Country { get; set; }
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
         public static User CurrentUser { get; set; }
 
-        //constructor
+        //konstructor
         public User(string username, string password, string country, string securityQuestion, string securityAnswer) : base(username, password)
         {
             Country = country;
             SecurityQuestion = securityQuestion;
             SecurityAnswer = securityAnswer;
+
+            //initiera listan för träningspass
+            _workouts = new List<Workout>();
 
             //lägg till ny användare till min lista
             _users.Add(this);
@@ -39,7 +45,7 @@
             return _users;
         }
 
-        //overriding method
+        //overriding metod
         public override void SignIn()
         {
 
