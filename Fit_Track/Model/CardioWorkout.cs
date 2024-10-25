@@ -11,14 +11,14 @@ namespace Fit_Track.Model
     {
         public int Distance { get; set; }
 
-        public CardioWorkout(DateTime date, string type, TimeSpan duration, int caloriesBurned, string notes, int distance) : base(date, type, duration, caloriesBurned, notes)
+        public CardioWorkout(string date, string type, int duration, int caloriesBurned, string notes, int distance) : base(date, type, duration, caloriesBurned, notes)
         {
             Distance = distance;
         }
 
         public override int CalculateCaloriesBurned()
         {
-            return (int)Duration.TotalMinutes * Distance;
+            return Duration * Distance;
         }
     }
 }

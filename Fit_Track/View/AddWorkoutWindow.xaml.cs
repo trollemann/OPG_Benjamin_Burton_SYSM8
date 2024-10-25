@@ -26,7 +26,7 @@ namespace Fit_Track.View
             var viewModel = new AddWorkoutWindowViewModel();
             DataContext = viewModel;
 
-            btnSave.CommandParameter = this;
+            btnSaveWorkout.CommandParameter = this;
         }
     }
 }

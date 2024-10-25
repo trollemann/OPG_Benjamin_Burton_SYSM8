@@ -39,6 +39,16 @@
             }
         }
 
+        public static void InitializeStrengthWorkouts()
+        {
+            new StrengthWorkout("10/11/24", "Upper body", 60, 0, "intense fullbody workout", 100);
+        }
+
+        public static void InitializeCardioWorkouts()
+        {
+            new CardioWorkout("11/11/24", "Long distance", 60, 0, "run around the park", 10);
+        }
+
         //metod för att få alla mina användare
         public static List<User> GetUsers()
         {

@@ -8,10 +8,10 @@
         Title="AddWorkoutWindow" Height="450" Width="800">
 
     <Grid
-        Background="Crimson">
+    Background="Crimson">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="75"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -28,7 +28,8 @@
             Height="30"
             Width="130"
             Margin="5"
-            Command="{Binding StrengthWorkoutCommand}"/>
+            Command="{Binding StrengthWorkoutCommand}"
+            IsEnabled="{Binding IsStrengthWorkoutEnabled}"/>
 
         <Button
             x:Name="btnCardioWorkout"
@@ -39,7 +40,8 @@
             Width="130"
             Margin="5"
             Grid.Column="1"
-            Command="{Binding CardioWorkoutCommand}"/>
+            Command="{Binding CardioWorkoutCommand}"
+            IsEnabled="{Binding IsCardioWorkoutEnabled}"/>
 
 
         <StackPanel
@@ -53,8 +55,7 @@
                 Width="50"
                 Margin="5"
                 FontSize="15"
-                Foreground="LightGray"
-                />
+                Foreground="LightGray"/>
 
             <Label
                 x:Name="lblType"
@@ -77,11 +78,33 @@
                 Foreground="LightGray"/>
 
             <Label
+                x:Name="lblRepititions"
+                Content="Repititions:"
+                HorizontalAlignment="Right"
+                Height="30"
+                Width="87"
+                Margin="5"
+                FontSize="15"
+                Foreground="LightGray"
+                Visibility="{Binding RepetitionsVisibility}"/>
+
+            <Label
+                x:Name="lblDistance"
+                Content="Distance:"
+                HorizontalAlignment="Right"
+                Height="30"
+                Width="87"
+                Margin="5"
+                FontSize="15"
+                Foreground="LightGray"
+                Visibility="{Binding DistanceVisibility}"/>
+
+            <Label
                 x:Name="lblCaloriesBurned"
                 Content="Calories burned:"
                 HorizontalAlignment="Right"
                 Height="30"
-                Width="122"
+                Width="120"
                 Margin="5"
                 FontSize="15"
                 Foreground="LightGray"/>
@@ -91,7 +114,7 @@
                 Content="Notes:"
                 HorizontalAlignment="Right"
                 Height="30"
-                Width="60"
+                Width="55"
                 Margin="5"
                 FontSize="15"
                 Foreground="LightGray"/>
@@ -127,6 +150,24 @@
                 Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
             <TextBox
+                x:Name="txtBoxRepititions"
+                HorizontalAlignment="Left"
+                Height="30"
+                Width="130"
+                Margin="5"
+                Text="{Binding Repetitions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                Visibility="{Binding RepetitionsVisibility}"/>
+
+            <TextBox
+                x:Name="txtBoxDistance"
+                HorizontalAlignment="Left"
+                Height="30"
+                Width="130"
+                Margin="5"
+                Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                Visibility="{Binding DistanceVisibility}"/>
+
+            <TextBox
                 x:Name="txtBoxCaloriesBurned"
                 HorizontalAlignment="Left"
                 Height="30"
@@ -143,14 +184,14 @@
                 Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
             <Button
-                x:Name="btnSave"
+                x:Name="btnSaveWorkout"
                 Content="Save workout"
                 HorizontalAlignment="Left"
                 Height="30"
                 Width="130"
                 Margin="5"
-                Command="{Binding Save}"/>
-
+                Command="{Binding SaveWorkoutCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+           
         </StackPanel>
     </Grid>
 </Window>

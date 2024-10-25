@@ -1,4 +1,5 @@
 ﻿using Fit_Track.Model;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -6,6 +7,55 @@ namespace Fit_Track.ViewModel
 {
     public class AddWorkoutWindowViewModel : ViewModelBase
     {
+        public ObservableCollection<Workout> Workouts { get; set; } = new ObservableCollection<Workout>();
+
+        private WorkoutsWindowViewModel _workoutsWindowViewModel;
+
+
+        private bool _isStrengthWorkoutEnabled = true;
+        public bool IsStrengthWorkoutEnabled
+        {
+            get { return _isStrengthWorkoutEnabled; }
+            set
+            {
+                _isStrengthWorkoutEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isCardioWorkoutEnabled = true;
+        public bool IsCardioWorkoutEnabled
+        {
+            get { return _isCardioWorkoutEnabled; }
+            set
+            {
+                _isCardioWorkoutEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _repetitionsVisibility = Visibility.Visible;
+        public Visibility RepetitionsVisibility
+        {
+            get { return _repetitionsVisibility; }
+            set
+            {
+                _repetitionsVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _distanceVisibility = Visibility.Collapsed;
+        public Visibility DistanceVisibility
+        {
+            get { return _distanceVisibility; }
+            set
+            {
+                _distanceVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string _date;
         public string Date
         {
@@ -36,7 +86,7 @@ namespace Fit_Track.ViewModel
             {
                 _duration = value;
                 OnPropertyChanged();
-                UpdateCaloriesBurned(); // uppdatera brända kalorier när duration ändras
+                UpdateCaloriesBurned();
             }
         }
 
@@ -70,7 +120,7 @@ namespace Fit_Track.ViewModel
             {
                 _repetitions = value;
                 OnPropertyChanged();
-                UpdateCaloriesBurned(); //uppdatera brända kalorier när repetitions ändras
+                UpdateCaloriesBurned();
             }
         }
 
@@ -82,7 +132,7 @@ namespace Fit_Track.ViewModel
             {
                 _distance = value;
                 OnPropertyChanged();
-                UpdateCaloriesBurned(); //uppdatera brända kalorier när repetitions ändras
+                UpdateCaloriesBurned();
             }
         }
 
@@ -94,7 +144,7 @@ namespace Fit_Track.ViewModel
             {
                 _strengthWorkout = value;
                 OnPropertyChanged();
-                UpdateCaloriesBurned(); //uppdatera brända kalorier om typ ändras
+                UpdateVisibility();
             }
         }
 
@@ -106,93 +156,147 @@ namespace Fit_Track.ViewModel
             {
                 _cardioWorkout = value;
                 OnPropertyChanged();
+                UpdateVisibility();
             }
         }
 
-        public ICommand SaveCommand { get; }
+        public ICommand SaveWorkoutCommand { get; }
         public ICommand StrengthWorkoutCommand { get; }
         public ICommand CardioWorkoutCommand { get; }
 
         public AddWorkoutWindowViewModel()
         {
-            StrengthWorkout = true; //styrketräning förvalt)
+            SetWorkout(true);
+
+            StrengthWorkout = true; // Default inställning för Styrketräning
             CardioWorkout = false;
 
             // Initiera kommandon
             StrengthWorkoutCommand = new RelayCommand(_ => SetWorkout(true));
             CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
-            SaveCommand = new RelayCommand(ExecuteSave, CanExecuteSave);
+            SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
+
+            UpdateVisibility();
         }
 
         private void SetWorkout(bool isStrength)
         {
             StrengthWorkout = isStrength;
             CardioWorkout = !isStrength;
+
+            // Uppdatera knappens tillstånd
+            IsStrengthWorkoutEnabled = !isStrength;
+            IsCardioWorkoutEnabled = isStrength;
+
+            UpdateVisibility();
         }
 
-        private bool CanExecuteSave(object param)
+        private void UpdateVisibility()
         {
-            return !string.IsNullOrWhiteSpace(Date) &&
-                   !string.IsNullOrWhiteSpace(Type) &&
-                   !string.IsNullOrWhiteSpace(Duration) &&
-                   (!StrengthWorkout || !string.IsNullOrWhiteSpace(Repetitions)) && //endast krävs om styrketräning
-                   !string.IsNullOrWhiteSpace(Notes);
+            RepetitionsVisibility = StrengthWorkout ? Visibility.Visible : Visibility.Collapsed;
+            DistanceVisibility = CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void ExecuteSave(object param)
+        private bool CanExecuteSaveWorkout(object param)
         {
-            DateTime workoutDate = DateTime.Parse(Date);
-            TimeSpan workoutDuration = TimeSpan.Parse(Duration);
+            if (StrengthWorkout)
+            {
+                return !string.IsNullOrWhiteSpace(Date) &&
+                       !string.IsNullOrWhiteSpace(Type) &&
+                       !string.IsNullOrWhiteSpace(Duration) &&
+                       !string.IsNullOrWhiteSpace(Repetitions) && // Kontrollera att Repetitions inte är tom
+                       !string.IsNullOrWhiteSpace(Notes);
+            }
+            else
+            {
+                return !string.IsNullOrWhiteSpace(Date) &&
+                       !string.IsNullOrWhiteSpace(Type) &&
+                       !string.IsNullOrWhiteSpace(Duration) &&
+                       !string.IsNullOrWhiteSpace(Distance) && // Kontrollera att Distance inte är tom
+                       !string.IsNullOrWhiteSpace(Notes);
+            }
+        }
+
+        private void ExecuteSaveWorkout(object param)
+        {
+            var addWorkoutWindow = param as Window;
+
+            // Försök att parsa träningslängd
+            if (!int.TryParse(Duration, out int workoutDuration))
+            {
+                MessageBox.Show("Please enter a valid number for duration.");
+                return;
+            }
+
+            // Försök att parsa kalorier
             int caloriesBurned = int.TryParse(CaloriesBurned, out int result) ? result : 0;
 
-            Workout newWorkout;
-
-            if (StrengthWorkout)  //om användaren har valt styrketräning
+            if (StrengthWorkout)
             {
-                int repetitions = int.Parse(Repetitions);
-                newWorkout = new StrengthWorkout(
-                    workoutDate,
-                    Type,
-                    workoutDuration,
-                    caloriesBurned,
-                    Notes,
-                    repetitions
-                );
+                // Försök att parsa repetitionsvärdet
+                if (int.TryParse(Repetitions, out int repetitions))
+                {
+                    var newStrengthWorkout = new StrengthWorkout(Date, Type, workoutDuration, caloriesBurned, Notes, repetitions);
+                    MessageBox.Show("New strength-workout has been created");
+                    // Här lägger vi till den till rätt lista (om det finns en lista för styrketräning)
+                    _workoutsWindowViewModel.StrengthWorkouts.Add(newStrengthWorkout); // Se till att ha en lista för styrketräning
+                    addWorkoutWindow.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid number for repetitions.");
+                }
             }
-            else  //om användaren har valt konditionsträning
+            else if (CardioWorkout)
             {
-                int distance = int.Parse(Distance); //använd Distans-egenskapen för CardioWorkout
-                newWorkout = new CardioWorkout(
-                    workoutDate,
-                    Type,
-                    workoutDuration,
-                    caloriesBurned,
-                    Notes,
-                    distance
-                );
+                // Försök att parsa distansvärdet
+                if (int.TryParse(Distance, out int distance))
+                {
+                    var newCardioWorkout = new CardioWorkout(Date, Type, workoutDuration, caloriesBurned, Notes, distance);
+                    MessageBox.Show("New cardio-workout has been created");
+                    _workoutsWindowViewModel.CardioWorkouts.Add(newCardioWorkout); // Lägg till i rätt lista
+                    addWorkoutWindow.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid number for distance.");
+                }
             }
+        }
 
-            MessageBox.Show("New workout has been added");
+        public AddWorkoutWindowViewModel(WorkoutsWindowViewModel workoutsWindowViewModel)
+        {
+            _workoutsWindowViewModel = workoutsWindowViewModel; // Spara referensen
 
-            if (param is Window addWorkoutWindow)
-            {
-                addWorkoutWindow.Close();
-            }
+            SetWorkout(true);
+            StrengthWorkout = true; // Default inställning för Styrketräning
+            CardioWorkout = false;
+
+            // Initiera kommandon
+            StrengthWorkoutCommand = new RelayCommand(_ => SetWorkout(true));
+            CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
+            SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
+
+            UpdateVisibility();
         }
 
         private void UpdateCaloriesBurned()
         {
-            if (TimeSpan.TryParse(Duration, out TimeSpan workoutDuration) &&
-                int.TryParse(Repetitions, out int repetitions))
+            if (int.TryParse(Duration, out int workoutDuration))
             {
-                if (StrengthWorkout)
+                if (StrengthWorkout && int.TryParse(Repetitions, out int repetitions))
                 {
-                    var tempWorkout = new StrengthWorkout(DateTime.Now, Type, workoutDuration, 0, Notes, repetitions);
+                    var tempWorkout = new StrengthWorkout(Date, Type, workoutDuration, 0, Notes, repetitions);
+                    CaloriesBurned = tempWorkout.CalculateCaloriesBurned().ToString();
+                }
+                else if (CardioWorkout && int.TryParse(Distance, out int distance))
+                {
+                    var tempWorkout = new CardioWorkout(Date, Type, workoutDuration, 0, Notes, distance);
                     CaloriesBurned = tempWorkout.CalculateCaloriesBurned().ToString();
                 }
                 else
                 {
-                    CaloriesBurned = "0"; // Exempel, du kan räkna om kalorier för cardio om det är implementerat
+                    CaloriesBurned = "0";
                 }
             }
             else
