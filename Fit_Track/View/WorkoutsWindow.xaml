@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Fit_Track.View"
         mc:Ignorable="d"
         Title="WorkoutsWindow" Height="450" Width="800">
-   
+
 
     <Grid
         Background="Crimson">
@@ -17,9 +17,30 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="341*"/>
+            <ColumnDefinition Width="141*"/>
+            <ColumnDefinition Width="318*"/>
+
         </Grid.ColumnDefinitions>
+
+        <ListBox
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Height="150"
+            Width="130"
+            Margin="5"
+            Grid.Row="1"
+            Grid.Column="2"
+            ItemsSource="{Binding StrengthWorkouts}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Date}" />
+                        <TextBlock Text="{Binding Type}" FontWeight="Bold" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <StackPanel
             Grid.Row="1"
@@ -32,7 +53,6 @@
                 Width="130"
                 Margin="5"
                 ItemsSource="{Binding CardioWorkouts}">
-                
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>

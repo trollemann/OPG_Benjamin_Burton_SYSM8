@@ -1,4 +1,5 @@
-﻿using Fit_Track.ViewModel;
+﻿using Fit_Track.Model;
+using Fit_Track.ViewModel;
 using System.Windows;
 
 namespace Fit_Track.View
@@ -11,7 +12,7 @@ namespace Fit_Track.View
         public WorkoutsWindow()
         {
             InitializeComponent();
-            var viewModel = new WorkoutsWindowViewModel();
+            var viewModel = new WorkoutsWindowViewModel(User.CurrentUser);
             DataContext = viewModel;
             
             btnUserDetails.CommandParameter = this;

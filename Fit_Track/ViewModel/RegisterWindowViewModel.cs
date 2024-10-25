@@ -6,6 +6,7 @@ namespace Fit_Track.ViewModel
 {
     public class RegisterWindowViewModel : ViewModelBase
     {
+        //egenskaper
         private string _username;
         public string Username
         {
@@ -61,14 +62,15 @@ namespace Fit_Track.ViewModel
             }
         }
 
+        //kommandon
         public RelayCommand CreateNewUserCommand { get; }
 
+        //konstruktor
         public RegisterWindowViewModel()
         {
             CreateNewUserCommand = new RelayCommand(ExecuteCreateNewUser, CanExecuteCreateNewUser);
         }
 
-        //kontrollera att alla fält är ifyllda innan man kan registrera ny användare
         private bool CanExecuteCreateNewUser(object param)
         {
 
@@ -83,18 +85,15 @@ namespace Fit_Track.ViewModel
         {
             var registerWindow = param as Window;
 
-            //kontrollera om användarnamn är taget
             if (User.TakenUsername(Username))
             {
                 MessageBox.Show("Username already taken");
                 return;
             }
 
-            //skapa en ny användare och sätt den som inloggad
             User newUser = new User(Username, Password, Country, SecurityQuestion, SecurityAnswer);
             MessageBox.Show("New user has been created");
 
-            //öppna huvudfönstret
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             registerWindow.Close();

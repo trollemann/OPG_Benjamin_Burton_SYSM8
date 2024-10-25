@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
+
 namespace Fit_Track.ViewModel
 {
     public class AddWorkoutWindowViewModel : ViewModelBase
@@ -221,40 +222,42 @@ namespace Fit_Track.ViewModel
         {
             var addWorkoutWindow = param as Window;
 
-            // Försök att parsa träningslängd
+            // Parse and validate duration and calories
             if (!int.TryParse(Duration, out int workoutDuration))
             {
                 MessageBox.Show("Please enter a valid number for duration.");
                 return;
             }
 
-            // Försök att parsa kalorier
             int caloriesBurned = int.TryParse(CaloriesBurned, out int result) ? result : 0;
 
             if (StrengthWorkout)
             {
-                // Försök att parsa repetitionsvärdet
                 if (int.TryParse(Repetitions, out int repetitions))
                 {
                     var newStrengthWorkout = new StrengthWorkout(Date, Type, workoutDuration, caloriesBurned, Notes, repetitions);
-                    MessageBox.Show("New strength-workout has been created");
-                    // Här lägger vi till den till rätt lista (om det finns en lista för styrketräning)
-                    _workoutsWindowViewModel.StrengthWorkouts.Add(newStrengthWorkout); // Se till att ha en lista för styrketräning
+
+                    // Add to both CurrentUser and the local StrengthWorkouts collection
+                    _workoutsWindowViewModel.CurrentUser.AddWorkout(newStrengthWorkout);
+                    _workoutsWindowViewModel.StrengthWorkouts.Add(newStrengthWorkout);
+
                     addWorkoutWindow.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Please enter a valid number for repetitions.");
+                    MessageBox.Show("Please enter a valid number for repetitions");
                 }
             }
             else if (CardioWorkout)
             {
-                // Försök att parsa distansvärdet
                 if (int.TryParse(Distance, out int distance))
                 {
                     var newCardioWorkout = new CardioWorkout(Date, Type, workoutDuration, caloriesBurned, Notes, distance);
-                    MessageBox.Show("New cardio-workout has been created");
-                    _workoutsWindowViewModel.CardioWorkouts.Add(newCardioWorkout); // Lägg till i rätt lista
+
+                    // Add to both CurrentUser and the local CardioWorkouts collection
+                    _workoutsWindowViewModel.CurrentUser.AddWorkout(newCardioWorkout);
+                    _workoutsWindowViewModel.CardioWorkouts.Add(newCardioWorkout);
+
                     addWorkoutWindow.Close();
                 }
                 else

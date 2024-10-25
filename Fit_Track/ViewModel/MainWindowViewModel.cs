@@ -6,6 +6,7 @@ namespace Fit_Track.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        //egenskaper
         private string _username;
         public string Username
         {
@@ -28,6 +29,7 @@ namespace Fit_Track.ViewModel
             }
         }
 
+        //kommandon
         public RelayCommand SignInCommand { get; }
         public RelayCommand RegisterCommand { get; }
 
