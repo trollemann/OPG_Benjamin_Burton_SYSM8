@@ -34,6 +34,14 @@ namespace Fit_Track.Model
             Workouts.Add(workout);
         }
 
+        public void RemoveWorkout(Workout workout)
+        {
+            if (workout != null && Workouts.Contains(workout))
+            {
+                Workouts.Remove(workout);
+            }
+        }
+
         //metod för o initialisera användare o undvika dubletter
         public static void InitializeUsers()
         {

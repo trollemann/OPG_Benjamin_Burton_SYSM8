@@ -21,6 +21,18 @@ namespace Fit_Track.ViewModel
             }
         }
 
+        private Workout _selectedWorkout;
+        public Workout SelectedWorkout
+        {
+            get { return _selectedWorkout; }
+            set
+            {
+                _selectedWorkout = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         public ObservableCollection<CardioWorkout> CardioWorkouts { get; private set; }
         public ObservableCollection<StrengthWorkout> StrengthWorkouts { get; private set; }
         public ObservableCollection<Workout> UserWorkouts => CurrentUser.Workouts;
@@ -49,7 +61,7 @@ namespace Fit_Track.ViewModel
             Username = CurrentUser.Username;
 
             AddWorkoutCommand = new RelayCommand(ExecuteAddWorkout);
-            RemoveWorkoutCommand = new RelayCommand(ExecuteRemoveWorkout);
+            RemoveWorkoutCommand = new RelayCommand(ExecuteRemoveWorkout, CanExecuteRemoveWorkout);
             WorkoutDetailsCommand = new RelayCommand(ExecuteWorkoutDetails);
             UserDetailsCommand = new RelayCommand(ExecuteUserDetails);
             InfoCommand = new RelayCommand(ExecuteInfo);
@@ -63,8 +75,8 @@ namespace Fit_Track.ViewModel
             {
                 if (!CurrentUser.Workouts.OfType<CardioWorkout>().Any())
                 {
-                    var sampleCardioWorkout = new CardioWorkout("2024-11-02", "Jogging", 60, 350, "Night run", 10);
-                    CurrentUser.AddWorkout(sampleCardioWorkout);
+                    var cardioWorkout = new CardioWorkout("2024-11-02", "Jogging", 60, 350, "Night run", 10);
+                    CurrentUser.AddWorkout(cardioWorkout);
                 }
 
                 if (!CurrentUser.Workouts.OfType<StrengthWorkout>().Any())
@@ -100,8 +112,24 @@ namespace Fit_Track.ViewModel
             addWorkoutWindow.Show();
         }
 
+        private bool CanExecuteRemoveWorkout(object param)
+        {
+            return SelectedWorkout != null;
+        }
+
         private void ExecuteRemoveWorkout(object param)
         {
+            if (SelectedWorkout is CardioWorkout cardioWorkout)
+            {
+                CardioWorkouts.Remove(cardioWorkout);
+            }
+            else if (SelectedWorkout is StrengthWorkout strengthWorkout)
+            {
+                StrengthWorkouts.Remove(strengthWorkout);
+            }
+
+            CurrentUser.RemoveWorkout(SelectedWorkout); // Assuming there's a RemoveWorkout method in User
+            SelectedWorkout = null; // Clear selection
         }
 
         private void ExecuteWorkoutDetails(object param)

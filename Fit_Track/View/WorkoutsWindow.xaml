@@ -24,6 +24,7 @@
         </Grid.ColumnDefinitions>
 
         <ListBox
+            x:Name="listBoxStrengthWorkouts"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Height="150"
@@ -31,12 +32,13 @@
             Margin="5"
             Grid.Row="1"
             Grid.Column="2"
-            ItemsSource="{Binding StrengthWorkouts}">
+            ItemsSource="{Binding StrengthWorkouts}"
+            SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
                         <TextBlock Text="{Binding Date}" />
-                        <TextBlock Text="{Binding Type}" FontWeight="Bold" />
+                        <TextBlock Text="{Binding Type}" FontWeight="Bold"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -47,12 +49,14 @@
             Grid.Column="1">
 
             <ListBox
+                x:Name="listBoxCardioWorkouts"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Height="150"
                 Width="130"
                 Margin="5"
-                ItemsSource="{Binding CardioWorkouts}">
+                ItemsSource="{Binding CardioWorkouts}"
+                SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>

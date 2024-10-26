@@ -10,7 +10,6 @@ namespace Fit_Track.ViewModel
         //Kollar om kommandot kan köras
         private Func<object, bool> canExecute;
 
-
         //Event som signalerar när kommandots möjlighet att köras har ändrats
         public event EventHandler? CanExecuteChanged
         {

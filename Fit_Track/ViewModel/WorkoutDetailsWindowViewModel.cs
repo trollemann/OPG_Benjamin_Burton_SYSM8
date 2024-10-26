@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fit_Track.ViewModel
 {
-    internal class WorkoutDetailsViewModel
+    internal class WorkoutDetailsWindowViewModel
     {
     }
 }
