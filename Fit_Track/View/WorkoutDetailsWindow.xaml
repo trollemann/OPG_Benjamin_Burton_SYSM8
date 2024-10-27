@@ -117,7 +117,7 @@
                 Width="130"
                 Margin="5"
                 Text="{Binding Date, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                IsEnabled="False"/>
+                IsEnabled="{Binding IsEditable}"/>
 
             <TextBox
                 x:Name="txtBoxType"
@@ -126,7 +126,7 @@
                 Width="130"
                 Margin="5"
                 Text="{Binding Type, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                IsEnabled="False"/>
+                IsEnabled="{Binding IsEditable}"/>
 
             <TextBox
                 x:Name="txtBoxDuration"
@@ -135,7 +135,7 @@
                 Width="130"
                 Margin="5"
                 Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                IsEnabled="False"/>
+                IsEnabled="{Binding IsEditable}"/>
 
             <TextBox
                 x:Name="txtBoxRepititions"
@@ -145,7 +145,7 @@
                 Margin="5"
                 Text="{Binding Repetitions, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                 Visibility="{Binding RepetitionsVisibility}"
-                IsEnabled="False"/>
+                IsEnabled="{Binding IsEditable}"/>
 
             <TextBox
                 x:Name="txtBoxDistance"
@@ -155,7 +155,7 @@
                 Margin="5"
                 Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                 Visibility="{Binding DistanceVisibility}"
-                IsEnabled="False"/>
+                IsEnabled="{Binding IsEditable}"/>
 
             <TextBox
                 x:Name="txtBoxCaloriesBurned"
@@ -164,7 +164,7 @@
                 Width="130"
                 Margin="5"
                 Text="{Binding CaloriesBurned, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                IsEnabled="False"/>
+                IsEnabled="{Binding IsEditable}"/>
 
             <TextBox
                 x:Name="txtBoxNotes"
@@ -173,7 +173,7 @@
                 Width="130"
                 Margin="5"
                 Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                IsEnabled="False"/>
+                IsEnabled="{Binding IsEditable}"/>
 
             <Button
                 x:Name="btnSave"
@@ -182,8 +182,8 @@
                 Height="30"
                 Width="130"
                 Margin="5"
-                Command="{Binding SaveWorkoutCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                IsEnabled="False"/>
+                Command="{Binding SaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                IsEnabled="{Binding IsEditable}"/>
 
         </StackPanel>
     </Grid>

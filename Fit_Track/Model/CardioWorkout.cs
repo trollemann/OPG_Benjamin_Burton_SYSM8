@@ -10,7 +10,7 @@ namespace Fit_Track.Model
     public class CardioWorkout : Workout
     {
         //egenskap
-        public int Distance { get; private set; }
+        public int Distance { get; set; }
 
         //konstruktor
         public CardioWorkout(string date, string type, int duration, int caloriesBurned, string notes, int distance) : base(date, type, duration, caloriesBurned, notes)
