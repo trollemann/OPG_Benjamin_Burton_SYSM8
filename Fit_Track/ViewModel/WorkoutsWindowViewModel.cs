@@ -62,7 +62,7 @@ namespace Fit_Track.ViewModel
 
             AddWorkoutCommand = new RelayCommand(ExecuteAddWorkout);
             RemoveWorkoutCommand = new RelayCommand(ExecuteRemoveWorkout, CanExecuteRemoveWorkout);
-            WorkoutDetailsCommand = new RelayCommand(ExecuteWorkoutDetails);
+            WorkoutDetailsCommand = new RelayCommand(ExecuteWorkoutDetails, CanExecuteWorkoutDetails);
             UserDetailsCommand = new RelayCommand(ExecuteUserDetails);
             InfoCommand = new RelayCommand(ExecuteInfo);
             SignOutCommand = new RelayCommand(ExecuteSignOut);
@@ -99,6 +99,10 @@ namespace Fit_Track.ViewModel
                 }
             }
         }
+        private bool CanExecuteWorkoutDetails(object param)
+        {
+            return SelectedWorkout != null;
+        }
 
         private void ExecuteUserDetails(object param)
         {
@@ -134,7 +138,13 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteWorkoutDetails(object param)
         {
+            // Create a new instance of the WorkoutDetailsWindow
             WorkoutDetailsWindow workoutDetailsWindow = new WorkoutDetailsWindow();
+
+            // Pass the selected workout to the WorkoutDetailsWindow
+            workoutDetailsWindow.DataContext = new WorkoutDetailsWindowViewModel(SelectedWorkout);
+
+            // Show the WorkoutDetailsWindow
             workoutDetailsWindow.Show();
         }
 

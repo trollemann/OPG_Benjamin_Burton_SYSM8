@@ -161,18 +161,18 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        public ICommand SaveWorkoutCommand { get; }
-        public ICommand StrengthWorkoutCommand { get; }
-        public ICommand CardioWorkoutCommand { get; }
+        public RelayCommand SaveWorkoutCommand { get; }
+        public RelayCommand StrengthWorkoutCommand { get; }
+        public RelayCommand CardioWorkoutCommand { get; }
 
         public AddWorkoutWindowViewModel()
         {
             SetWorkout(true);
 
-            StrengthWorkout = true; // Default inställning för Styrketräning
+            StrengthWorkout = true;
             CardioWorkout = false;
 
-            // Initiera kommandon
+            //initiera kommandon
             StrengthWorkoutCommand = new RelayCommand(_ => SetWorkout(true));
             CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
             SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
@@ -185,7 +185,7 @@ namespace Fit_Track.ViewModel
             StrengthWorkout = isStrength;
             CardioWorkout = !isStrength;
 
-            // Uppdatera knappens tillstånd
+            //uppdatera knappens tillstånd
             IsStrengthWorkoutEnabled = !isStrength;
             IsCardioWorkoutEnabled = isStrength;
 
@@ -205,7 +205,7 @@ namespace Fit_Track.ViewModel
                 return !string.IsNullOrWhiteSpace(Date) &&
                        !string.IsNullOrWhiteSpace(Type) &&
                        !string.IsNullOrWhiteSpace(Duration) &&
-                       !string.IsNullOrWhiteSpace(Repetitions) && // Kontrollera att Repetitions inte är tom
+                       !string.IsNullOrWhiteSpace(Repetitions) &&
                        !string.IsNullOrWhiteSpace(Notes);
             }
             else
@@ -213,7 +213,7 @@ namespace Fit_Track.ViewModel
                 return !string.IsNullOrWhiteSpace(Date) &&
                        !string.IsNullOrWhiteSpace(Type) &&
                        !string.IsNullOrWhiteSpace(Duration) &&
-                       !string.IsNullOrWhiteSpace(Distance) && // Kontrollera att Distance inte är tom
+                       !string.IsNullOrWhiteSpace(Distance) &&
                        !string.IsNullOrWhiteSpace(Notes);
             }
         }
@@ -222,7 +222,6 @@ namespace Fit_Track.ViewModel
         {
             var addWorkoutWindow = param as Window;
 
-            // Parse and validate duration and calories
             if (!int.TryParse(Duration, out int workoutDuration))
             {
                 MessageBox.Show("Please enter a valid number for duration.");
@@ -237,7 +236,6 @@ namespace Fit_Track.ViewModel
                 {
                     var newStrengthWorkout = new StrengthWorkout(Date, Type, workoutDuration, caloriesBurned, Notes, repetitions);
 
-                    // Add to both CurrentUser and the local StrengthWorkouts collection
                     _workoutsWindowViewModel.CurrentUser.AddWorkout(newStrengthWorkout);
                     _workoutsWindowViewModel.StrengthWorkouts.Add(newStrengthWorkout);
 
@@ -254,7 +252,6 @@ namespace Fit_Track.ViewModel
                 {
                     var newCardioWorkout = new CardioWorkout(Date, Type, workoutDuration, caloriesBurned, Notes, distance);
 
-                    // Add to both CurrentUser and the local CardioWorkouts collection
                     _workoutsWindowViewModel.CurrentUser.AddWorkout(newCardioWorkout);
                     _workoutsWindowViewModel.CardioWorkouts.Add(newCardioWorkout);
 
@@ -269,13 +266,13 @@ namespace Fit_Track.ViewModel
 
         public AddWorkoutWindowViewModel(WorkoutsWindowViewModel workoutsWindowViewModel)
         {
-            _workoutsWindowViewModel = workoutsWindowViewModel; // Spara referensen
+            _workoutsWindowViewModel = workoutsWindowViewModel;
 
             SetWorkout(true);
-            StrengthWorkout = true; // Default inställning för Styrketräning
+            StrengthWorkout = true;
             CardioWorkout = false;
 
-            // Initiera kommandon
+            //initiera kommandon
             StrengthWorkoutCommand = new RelayCommand(_ => SetWorkout(true));
             CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
             SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
