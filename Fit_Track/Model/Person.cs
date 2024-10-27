@@ -9,8 +9,8 @@ namespace Fit_Track.Model
     public abstract class Person
     {
         //egenskaper
-        public string Username { get; private set; }
-        public string Password { get; private set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
 
         //konstruktor
         public Person(string username, string password)

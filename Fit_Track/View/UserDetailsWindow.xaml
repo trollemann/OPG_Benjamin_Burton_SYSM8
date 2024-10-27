@@ -6,7 +6,37 @@
         xmlns:local="clr-namespace:Fit_Track.View"
         mc:Ignorable="d"
         Title="UserDetailsWindow" Height="450" Width="800">
-    <Grid>
+
+
+    <Grid Background="Crimson">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="1">
+            <Label Content="Username:" HorizontalAlignment="Right" Height="30" Width="80" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label Content="Password:" HorizontalAlignment="Right" Height="30" Width="80" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label Content="Country:" HorizontalAlignment="Right" Height="30" Width="75" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label Content="Security question:" HorizontalAlignment="Right" Height="30" Width="130" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label Content="Security answer:" HorizontalAlignment="Right" Height="30" Width="120" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Button Content="Edit" HorizontalAlignment="Right" Height="30" Width="130" Margin="5" Command="{Binding Edit}" IsEnabled="{Binding IsEditable}"/>
+            <Button Content="Cancel" HorizontalAlignment="Right" Height="30" Width="130" Margin="5" Command="{Binding Cancel}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <TextBox x:Name="txtBoxUsername" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" IsEnabled="{Binding IsEditable}"/>
+            <TextBox x:Name="txtBoxPassword" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" IsEnabled="{Binding IsEditable}"/>
+            <ComboBox x:Name="comboBoxCountries" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" ItemsSource="{Binding Country}" SelectedItem="{Binding Country, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}"/>
+            <TextBox x:Name="txtBoxSecurityQuestion" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" IsEnabled="{Binding IsEditable}"/>
+            <TextBox x:Name="txtBoxSecurityAnswer" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" IsEnabled="{Binding IsEditable}"/>
+            <Button Content="Save" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Command="{Binding Save}" IsEnabled="{Binding IsEditable}"/>
+        </StackPanel>
     </Grid>
 </Window>

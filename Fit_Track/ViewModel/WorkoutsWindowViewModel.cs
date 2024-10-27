@@ -106,7 +106,10 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteUserDetails(object param)
         {
-            UserDetailsWindow userDetailsWindow = new UserDetailsWindow();
+            var userDetailsWindow = new UserDetailsWindow
+            {
+                DataContext = new UserDetailsViewModel(CurrentUser)
+            };
             userDetailsWindow.Show();
         }
 
@@ -162,5 +165,12 @@ namespace Fit_Track.ViewModel
             mainWindow.Show();
             workoutsWindow.Close();
         }
+        public void UpdateWorkoutInList(Workout updatedWorkout)
+        {
+            // Reset the SelectedWorkout to refresh the UI
+            SelectedWorkout = null;
+            SelectedWorkout = updatedWorkout;
+        }
+
     }
 }

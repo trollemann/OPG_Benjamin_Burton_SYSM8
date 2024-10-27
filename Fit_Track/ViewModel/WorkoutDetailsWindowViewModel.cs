@@ -139,9 +139,14 @@ namespace Fit_Track.ViewModel
         }
         private void ExecuteSave(object param)
         {
-            MessageBox.Show("Changes has been saved");
-            // Save logic is already handled by the property setters
+            MessageBox.Show("Changes have been saved");
             IsEditable = false; // Disable editing after saving
+
+            // Notify the main view model (WorkoutsWindowViewModel) of the updated workout
+            if (param is Window window && window.DataContext is WorkoutsWindowViewModel mainViewModel)
+            {
+                mainViewModel.UpdateWorkoutInList(_workout); // Call the method in WorkoutsWindowViewModel
+            }
         }
     }
 }
