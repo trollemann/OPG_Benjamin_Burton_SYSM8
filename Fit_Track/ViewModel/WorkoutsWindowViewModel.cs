@@ -183,9 +183,10 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteInfo(object param)
         {
-            MessageBox.Show("Fit Track är en plattform för att hjälpa användare att nå sina träningsmål genom enkel planering, spårning och analys av träningspass. " +
-                "Knappfunktionerna är självförklarande - börja lägga till träningspass för att komma igång.\n\n" +
-                "- ChatGPT");
+            MessageBox.Show("Fit Track is a platform designed to help users achieve their fitness goals " +
+                "through easy planning, tracking, and analysis of workouts. The button functions are " +
+                "self-explanatory – start adding workouts to get started.\n\nThe person behind" +
+                " Fit Track is a genius with seriously impressive abs, big guns, and more.\n-ChatGPT");
         }
 
         private void ExecuteSignOut(object param)

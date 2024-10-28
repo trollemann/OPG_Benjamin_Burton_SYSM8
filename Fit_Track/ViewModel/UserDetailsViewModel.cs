@@ -7,24 +7,32 @@ namespace Fit_Track.ViewModel
     public class UserDetailsViewModel : ViewModelBase
     {
         private User _currentUser;
-        private bool _edit;
 
         //EGENSKAPER
+        private bool _isEditable;
+        public bool IsEditable
+        {
+            get => _isEditable;
+            set
+            {
+                _isEditable = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(PasswordVisibility));
+                OnPropertyChanged(nameof(NewPasswordVisibility));
+                OnPropertyChanged(nameof(ConfirmPasswordVisibility));
+            }
+        }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string NewPassword { get; set; }
+        public string ConfirmPassword { get; set; }
         public string Country { get; set; }
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
 
-        public bool Edit
-        {
-            get => _edit;
-            set
-            {
-                _edit = value;
-                OnPropertyChanged();
-            }
-        }
+        public Visibility PasswordVisibility => IsEditable ? Visibility.Collapsed : Visibility.Visible;
+        public Visibility NewPasswordVisibility => IsEditable ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility ConfirmPasswordVisibility => IsEditable ? Visibility.Visible : Visibility.Collapsed;
 
         //KONSTRUKTOR
         public UserDetailsViewModel(User currentUser)
@@ -34,6 +42,8 @@ namespace Fit_Track.ViewModel
 
             Username = currentUser.Username;
             Password = currentUser.Password;
+            NewPassword = currentUser.Password;
+            ConfirmPassword = currentUser.Password;
             Country = currentUser.Country;
             SecurityQuestion = currentUser.SecurityQuestion;
             SecurityAnswer = currentUser.SecurityAnswer;
@@ -42,7 +52,7 @@ namespace Fit_Track.ViewModel
             SaveCommand = new RelayCommand(ExecuteSave);
             CancelCommand = new RelayCommand(ExecuteCancel);
 
-            Edit = false;
+            IsEditable = false;
         }
 
         //KOMMANDON
@@ -53,7 +63,7 @@ namespace Fit_Track.ViewModel
         //METODER
         private void ExecuteEdit(object param)
         {
-            Edit = true;
+            IsEditable = true;
         }
 
         private void ExecuteSave(object param)
@@ -70,6 +80,22 @@ namespace Fit_Track.ViewModel
                 return;
             }
 
+            if (NewPassword == ConfirmPassword)
+            {
+                Password = NewPassword;
+            }
+            else
+            {
+                MessageBox.Show("Passwords doesn't match");
+                return;
+            }
+
+            if (NewPassword.Length < 5)
+            {
+                MessageBox.Show("Password must be at least 5 characters");
+                return;
+            }
+
             //uppdaterar egenskaperna i aktuella användare
             _currentUser.Username = Username;
             _currentUser.Password = Password;
@@ -77,8 +103,11 @@ namespace Fit_Track.ViewModel
             _currentUser.SecurityQuestion = SecurityQuestion;
             _currentUser.SecurityAnswer = SecurityAnswer;
 
-            MessageBox.Show("User details have been updated");
-            Edit = false;
+            MessageBox.Show("User details has been updated");
+            IsEditable = false;
+            
+            if (param is UserDetailsWindow userDetailsWindow)
+            userDetailsWindow.Close();
         }
 
         private void ExecuteCancel(object param)
@@ -87,7 +116,7 @@ namespace Fit_Track.ViewModel
             {
                 userDetailsWindow.Close();
             }
-            Edit = false;
+            IsEditable = false;
         }
     }
 }

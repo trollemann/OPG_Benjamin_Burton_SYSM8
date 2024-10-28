@@ -11,10 +11,20 @@ namespace Fit_Track.ViewModel
 {
     public class WorkoutDetailsWindowViewModel : ViewModelBase
     {
-        private Workout _workout;
+        //boolean som bestämmer om det går att redigera
         private bool _isEditable;
+        public bool IsEditable
+        {
+            get => _isEditable;
+            set
+            {
+                _isEditable = value;
+                OnPropertyChanged();
+            }
+        }
 
         //EGENSKAPER
+        private Workout _workout;
         public Workout Workout
         {
             get => _workout;
@@ -100,17 +110,6 @@ namespace Fit_Track.ViewModel
 
         //styr synligheten av distansfältet
         public Visibility DistanceVisibility => _workout is CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
-
-        //boolean som bestämmer om det går att redigera
-        public bool IsEditable
-        {
-            get => _isEditable;
-            set
-            {
-                _isEditable = value;
-                OnPropertyChanged();
-            }
-        }
 
         //KONSTRUKTOR
         public WorkoutDetailsWindowViewModel(Workout workout)

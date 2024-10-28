@@ -21,7 +21,12 @@
 
         <StackPanel Grid.Row="1">
             <Label Content="Username:" HorizontalAlignment="Right" Height="30" Width="80" Margin="5" FontSize="15" Foreground="LightGray"/>
-            <Label Content="Password:" HorizontalAlignment="Right" Height="30" Width="80" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label Content="Password:" HorizontalAlignment="Right" Height="30" Width="80" 
+                   Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding PasswordVisibility}"/>
+            <Label Content="New password:" HorizontalAlignment="Right" Height="30" Width="115" 
+                   Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding NewPasswordVisibility}"/>
+            <Label Content="Confirm password:" HorizontalAlignment="Right" Height="30" Width="140" 
+                   Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding ConfirmPasswordVisibility}"/>
             <Label Content="Country:" HorizontalAlignment="Right" Height="30" Width="75" Margin="5" FontSize="15" Foreground="LightGray"/>
             <Label Content="Security question:" HorizontalAlignment="Right" Height="30" Width="130" Margin="5" FontSize="15" Foreground="LightGray"/>
             <Label Content="Security answer:" HorizontalAlignment="Right" Height="30" Width="120" Margin="5" FontSize="15" Foreground="LightGray"/>
@@ -33,17 +38,24 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBox x:Name="txtBoxUsername" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" />
+                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
             <TextBox x:Name="txtBoxPassword" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                     Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" />
+             Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" 
+             Visibility="{Binding PasswordVisibility}"/>
+
+            <TextBox x:Name="txtBoxNewPassword" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
+                     Text="{Binding NewPassword, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding NewPasswordVisibility}"/>
+            <TextBox x:Name="txtBoxConfirmPassword" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
+                     Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ConfirmPasswordVisibility}"/>
             <ComboBox x:Name="comboBoxCountries" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                      ItemsSource="{Binding Country}" SelectedItem="{Binding Country, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" />
+                      ItemsSource="{Binding Country}" SelectedItem="{Binding Country, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
             <TextBox x:Name="txtBoxSecurityQuestion" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                     Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" />
+                     Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
             <TextBox x:Name="txtBoxSecurityAnswer" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                     Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" />
+                     Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
             <Button Content="Save" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                    Command="{Binding SaveCommand}" IsEnabled="{Binding Edit}" />
+                    Command="{Binding SaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" IsEnabled="{Binding IsEditable}" />
+            
         </StackPanel>
     </Grid>
 </Window>

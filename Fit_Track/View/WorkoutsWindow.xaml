@@ -7,9 +7,7 @@
         mc:Ignorable="d"
         Title="WorkoutsWindow" Height="450" Width="800">
 
-
-    <Grid
-        Background="Crimson">
+    <Grid Background="Crimson">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="120"/>
@@ -20,20 +18,14 @@
             <ColumnDefinition Width="341*"/>
             <ColumnDefinition Width="141*"/>
             <ColumnDefinition Width="318*"/>
-
         </Grid.ColumnDefinitions>
 
-        <ListBox
-            x:Name="listBoxStrengthWorkouts"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Height="150"
-            Width="130"
-            Margin="5"
-            Grid.Row="1"
-            Grid.Column="2"
-            ItemsSource="{Binding StrengthWorkouts}"
-            SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
+        <Label x:Name="lblCardioWorkouts" Content="Cardio workouts" HorizontalAlignment="Center"
+               VerticalAlignment="Bottom" Grid.Column="1" FontSize="15" Foreground="LightGray" FontWeight="Bold"/>
+        <Label x:Name="lblStrengthWorkouts" Content="Strength workouts" HorizontalAlignment="Left" 
+               VerticalAlignment="Bottom" Grid.Column="2" FontSize="15" Foreground="LightGray" FontWeight="Bold"/>
+        <ListBox x:Name="listBoxStrengthWorkouts" HorizontalAlignment="Left" VerticalAlignment="Top" Height="150" Width="130" Margin="5" 
+                 Grid.Row="1" Grid.Column="2" ItemsSource="{Binding StrengthWorkouts}" SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -44,19 +36,9 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="1">
-
-            <ListBox
-                x:Name="listBoxCardioWorkouts"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Height="150"
-                Width="130"
-                Margin="5"
-                ItemsSource="{Binding CardioWorkouts}"
-                SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <ListBox x:Name="listBoxCardioWorkouts" HorizontalAlignment="Left" VerticalAlignment="Top" Height="150" Width="130"
+                     Margin="5" ItemsSource="{Binding CardioWorkouts}" SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -66,68 +48,23 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
-            <Button
-                x:Name="btnSignOut"
-                Content="Sign Out"
-                HorizontalAlignment="Left"
-                Height="30"
-                Width="130"
-                Margin="5"
-                Command="{Binding SignOutCommand, UpdateSourceTrigger=PropertyChanged}"
-                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-
+            <Button x:Name="btnSignOut" Content="Sign Out" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" 
+                    Command="{Binding SignOutCommand, UpdateSourceTrigger=PropertyChanged}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
         </StackPanel>
 
-        <StackPanel
-            Grid.Row="1">
-
-            <Button
-                x:Name="btnAddWorkout"
-                Content="Add workout"
-                HorizontalAlignment="Right"
-                Height="30"
-                Width="130"
-                Margin="5"
-                Command="{Binding AddWorkoutCommand, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <Button
-                x:Name="btnRemoveWorkout"
-                Content="Remove workout"
-                HorizontalAlignment="Right"
-                Height="30"
-                Width="130"
-                Margin="5"
-                Command="{Binding RemoveWorkoutCommand, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <Button
-                x:Name="btnWorkoutDetails"
-                Content="Workout details"
-                HorizontalAlignment="Right"
-                Height="30"
-                Width="130"
-                Margin="5"
-                Command="{Binding WorkoutDetailsCommand, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <Button
-                x:Name="btnUserDetails"
-                Content="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Height="30"
-                Width="130"
-                Margin="5"
-                Command="{Binding UserDetailsCommand, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <Button
-                x:Name="btnInfo"
-                Content="Info"
-                HorizontalAlignment="Right"
-                Height="30"
-                Width="130"
-                Margin="5"
-                Command="{Binding InfoCommand, UpdateSourceTrigger=PropertyChanged}"/>
-
+        <StackPanel Grid.Row="1">
+            <Button x:Name="btnAddWorkout" Content="Add workout" HorizontalAlignment="Right" Height="30" Width="130" Margin="5"
+                    Command="{Binding AddWorkoutCommand, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button x:Name="btnRemoveWorkout" Content="Remove workout" HorizontalAlignment="Right" Height="30" Width="130" Margin="5" 
+                    Command="{Binding RemoveWorkoutCommand, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button x:Name="btnWorkoutDetails" Content="Workout details" HorizontalAlignment="Right" Height="30" Width="130" Margin="5" 
+                    Command="{Binding WorkoutDetailsCommand, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button x:Name="btnUserDetails" Content="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                    HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Width="130" Margin="5" 
+                    Command="{Binding UserDetailsCommand, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button x:Name="btnInfo" Content="Info" HorizontalAlignment="Right" Height="30" Width="130" 
+                    Margin="5" Command="{Binding InfoCommand, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
     </Grid>
 </Window>
