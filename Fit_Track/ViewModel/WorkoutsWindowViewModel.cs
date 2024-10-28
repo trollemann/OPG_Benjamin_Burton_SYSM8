@@ -76,7 +76,7 @@ namespace Fit_Track.ViewModel
         //METODER
         private void InitializeWorkouts()
         {
-            //existerande träningspass om användarnamnet är "user"
+            //lägger till existerande träningspass om användarnamnet är "user"
             if (CurrentUser.Username == "user")
             {
                 var cardioWorkout = new CardioWorkout("2024-11-02", "Jogging", 60, 350, "Night run", 10);
@@ -170,6 +170,19 @@ namespace Fit_Track.ViewModel
             //återställ den valda träningen för att uppdatera UI
             SelectedWorkout = null;
             SelectedWorkout = updatedWorkout;
+        }
+
+        private void AddWorkoutToCollections(Workout workout)
+        {
+            UserWorkouts.Add(workout);
+            if (workout is CardioWorkout cardioWorkout)
+            {
+                CardioWorkouts.Add(cardioWorkout);
+            }
+            else if (workout is StrengthWorkout strengthWorkout)
+            {
+                StrengthWorkouts.Add(strengthWorkout);
+            }
         }
     }
 }

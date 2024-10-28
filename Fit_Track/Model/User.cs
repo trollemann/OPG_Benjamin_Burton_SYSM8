@@ -15,14 +15,15 @@ namespace Fit_Track.Model
         public string Country { get; set; }
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
+        public bool Admin { get; private set; }
 
         //KONSTRUKTOR
-        public User(string username, string password, string country, string securityQuestion, string securityAnswer)
-            : base(username, password)
+        public User(string username, string password, string country, string securityQuestion, string securityAnswer, bool admin = false) : base(username, password)
         {
             Country = country;
             SecurityQuestion = securityQuestion;
             SecurityAnswer = securityAnswer;
+            Admin = admin;
 
             //lägg till ny användare
             _users.Add(this);
@@ -49,6 +50,7 @@ namespace Fit_Track.Model
             if (_users.Count == 0)
             {
                 new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press");
+                new User("admin", "password", "Somalia", "What is your favorite exercise?", "Bicep curls", admin: true);
             }
         }
 
