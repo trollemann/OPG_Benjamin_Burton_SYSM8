@@ -49,8 +49,12 @@ namespace Fit_Track.Model
         {
             if (_users.Count == 0)
             {
-                new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press");
-                new User("admin", "password", "Somalia", "What is your favorite exercise?", "Bicep curls", admin: true);
+                var user = new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press");
+                var admin = new User("admin", "password", "Somalia", "What is your favorite exercise?", "Bicep curls", admin: true);
+
+                // Lägg till ett existerande träningspass för användaren "user"
+                var existingWorkout = new StrengthWorkout("2024-10-28", "Upper body", 60, 300, "Heavy lifting", 15);
+                user.AddWorkout(existingWorkout);
             }
         }
 
