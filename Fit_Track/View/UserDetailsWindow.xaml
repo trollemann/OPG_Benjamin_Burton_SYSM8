@@ -33,17 +33,17 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBox x:Name="txtBoxUsername" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
+                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" />
             <TextBox x:Name="txtBoxPassword" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                     Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
+                     Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" />
             <ComboBox x:Name="comboBoxCountries" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                      ItemsSource="{Binding Country}" SelectedItem="{Binding Country, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
+                      ItemsSource="{Binding Country}" SelectedItem="{Binding Country, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" />
             <TextBox x:Name="txtBoxSecurityQuestion" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                     Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
+                     Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" />
             <TextBox x:Name="txtBoxSecurityAnswer" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                     Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
+                     Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Edit}" />
             <Button Content="Save" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                    Command="{Binding SaveCommand}" IsEnabled="{Binding IsEditable}" />
+                    Command="{Binding SaveCommand}" IsEnabled="{Binding Edit}" />
         </StackPanel>
     </Grid>
 </Window>

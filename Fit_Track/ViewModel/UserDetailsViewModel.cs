@@ -7,7 +7,7 @@ namespace Fit_Track.ViewModel
     public class UserDetailsViewModel : ViewModelBase
     {
         private User _currentUser;
-        private bool _isEditable;
+        private bool _edit;
 
         //EGENSKAPER
         public string Username { get; set; }
@@ -16,12 +16,12 @@ namespace Fit_Track.ViewModel
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
 
-        public bool IsEditable
+        public bool Edit
         {
-            get => _isEditable;
+            get => _edit;
             set
             {
-                _isEditable = value;
+                _edit = value;
                 OnPropertyChanged();
             }
         }
@@ -42,7 +42,7 @@ namespace Fit_Track.ViewModel
             SaveCommand = new RelayCommand(ExecuteSave);
             CancelCommand = new RelayCommand(ExecuteCancel);
 
-            IsEditable = false;
+            Edit = false;
         }
 
         //KOMMANDON
@@ -53,7 +53,7 @@ namespace Fit_Track.ViewModel
         //METODER
         private void ExecuteEdit(object param)
         {
-            IsEditable = true;
+            Edit = true;
         }
 
         private void ExecuteSave(object param)
@@ -61,6 +61,12 @@ namespace Fit_Track.ViewModel
             if (User.TakenUsername(Username) && Username != _currentUser.Username)
             {
                 MessageBox.Show("Username already taken");
+                return;
+            }
+
+            if (Username.Length < 3)
+            {
+                MessageBox.Show("Username must be at least 3 characters");
                 return;
             }
 
@@ -72,7 +78,7 @@ namespace Fit_Track.ViewModel
             _currentUser.SecurityAnswer = SecurityAnswer;
 
             MessageBox.Show("User details have been updated");
-            IsEditable = false;
+            Edit = false;
         }
 
         private void ExecuteCancel(object param)
@@ -81,7 +87,7 @@ namespace Fit_Track.ViewModel
             {
                 userDetailsWindow.Close();
             }
-            IsEditable = false;
+            Edit = false;
         }
     }
 }
