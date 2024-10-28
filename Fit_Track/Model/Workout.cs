@@ -2,14 +2,14 @@
 {
     public abstract class Workout
     {
-        //egenskaper
+        //EGENSKAPER
         public string Date { get; set; }
         public string Type { get; set; }
         public int Duration { get; set; }
         public int CaloriesBurned { get; set; }
         public string Notes { get; set; }
 
-        //konstruktor
+        //KONSTRUKTOR
         public Workout(string date, string type, int duration, int caloriesBurned, string notes)
         {
             Date = date;
@@ -19,7 +19,8 @@
             Notes = notes;
         }
 
-        //abstrakt metod
+        //METOD
+        //abstrakt
         public abstract int CalculateCaloriesBurned();
     }
 }

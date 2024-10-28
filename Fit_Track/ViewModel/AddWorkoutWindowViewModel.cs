@@ -8,15 +8,17 @@ namespace Fit_Track.ViewModel
 {
     public class AddWorkoutWindowViewModel : ViewModelBase
     {
+        //ObservableCollection för att lagra träningspass
         public ObservableCollection<Workout> Workouts { get; set; } = new ObservableCollection<Workout>();
 
+        // Referens till parentfönstrets ViewModel
         private WorkoutsWindowViewModel _workoutsWindowViewModel;
 
-
+        //EGENSKAPER
         private bool _isStrengthWorkoutEnabled = true;
         public bool IsStrengthWorkoutEnabled
         {
-            get { return _isStrengthWorkoutEnabled; }
+            get => _isStrengthWorkoutEnabled;
             set
             {
                 _isStrengthWorkoutEnabled = value;
@@ -27,7 +29,7 @@ namespace Fit_Track.ViewModel
         private bool _isCardioWorkoutEnabled = true;
         public bool IsCardioWorkoutEnabled
         {
-            get { return _isCardioWorkoutEnabled; }
+            get => _isCardioWorkoutEnabled;
             set
             {
                 _isCardioWorkoutEnabled = value;
@@ -38,7 +40,7 @@ namespace Fit_Track.ViewModel
         private Visibility _repetitionsVisibility = Visibility.Visible;
         public Visibility RepetitionsVisibility
         {
-            get { return _repetitionsVisibility; }
+            get => _repetitionsVisibility;
             set
             {
                 _repetitionsVisibility = value;
@@ -49,7 +51,7 @@ namespace Fit_Track.ViewModel
         private Visibility _distanceVisibility = Visibility.Collapsed;
         public Visibility DistanceVisibility
         {
-            get { return _distanceVisibility; }
+            get => _distanceVisibility;
             set
             {
                 _distanceVisibility = value;
@@ -60,7 +62,7 @@ namespace Fit_Track.ViewModel
         private string _date;
         public string Date
         {
-            get { return _date; }
+            get => _date;
             set
             {
                 _date = value;
@@ -71,7 +73,7 @@ namespace Fit_Track.ViewModel
         private string _type;
         public string Type
         {
-            get { return _type; }
+            get => _type;
             set
             {
                 _type = value;
@@ -82,7 +84,7 @@ namespace Fit_Track.ViewModel
         private string _duration;
         public string Duration
         {
-            get { return _duration; }
+            get => _duration;
             set
             {
                 _duration = value;
@@ -94,7 +96,7 @@ namespace Fit_Track.ViewModel
         private string _caloriesBurned;
         public string CaloriesBurned
         {
-            get { return _caloriesBurned; }
+            get => _caloriesBurned;
             private set
             {
                 _caloriesBurned = value;
@@ -105,7 +107,7 @@ namespace Fit_Track.ViewModel
         private string _notes;
         public string Notes
         {
-            get { return _notes; }
+            get => _notes;
             set
             {
                 _notes = value;
@@ -116,7 +118,7 @@ namespace Fit_Track.ViewModel
         private string _repetitions;
         public string Repetitions
         {
-            get { return _repetitions; }
+            get => _repetitions;
             set
             {
                 _repetitions = value;
@@ -128,7 +130,7 @@ namespace Fit_Track.ViewModel
         private string _distance;
         public string Distance
         {
-            get { return _distance; }
+            get => _distance;
             set
             {
                 _distance = value;
@@ -140,7 +142,7 @@ namespace Fit_Track.ViewModel
         private bool _strengthWorkout;
         public bool StrengthWorkout
         {
-            get { return _strengthWorkout; }
+            get => _strengthWorkout;
             set
             {
                 _strengthWorkout = value;
@@ -152,7 +154,7 @@ namespace Fit_Track.ViewModel
         private bool _cardioWorkout;
         public bool CardioWorkout
         {
-            get { return _cardioWorkout; }
+            get => _cardioWorkout;
             set
             {
                 _cardioWorkout = value;
@@ -161,10 +163,7 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        public RelayCommand SaveWorkoutCommand { get; }
-        public RelayCommand StrengthWorkoutCommand { get; }
-        public RelayCommand CardioWorkoutCommand { get; }
-
+        //KONSTRUKTOR
         public AddWorkoutWindowViewModel()
         {
             SetWorkout(true);
@@ -172,7 +171,6 @@ namespace Fit_Track.ViewModel
             StrengthWorkout = true;
             CardioWorkout = false;
 
-            //initiera kommandon
             StrengthWorkoutCommand = new RelayCommand(_ => SetWorkout(true));
             CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
             SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
@@ -180,12 +178,17 @@ namespace Fit_Track.ViewModel
             UpdateVisibility();
         }
 
+        //KOMMANDON
+        public RelayCommand SaveWorkoutCommand { get; }
+        public RelayCommand StrengthWorkoutCommand { get; }
+        public RelayCommand CardioWorkoutCommand { get; }
+
+        //METODER
         private void SetWorkout(bool isStrength)
         {
             StrengthWorkout = isStrength;
             CardioWorkout = !isStrength;
 
-            //uppdatera knappens tillstånd
             IsStrengthWorkoutEnabled = !isStrength;
             IsCardioWorkoutEnabled = isStrength;
 

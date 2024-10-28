@@ -8,18 +8,19 @@ namespace Fit_Track.Model
 {
     public abstract class Person
     {
-        //egenskaper
+        //EGENSKAPER
         public string Username { get; set; }
         public string Password { get; set; }
 
-        //konstruktor
+        //KONSTRUKTOR
         public Person(string username, string password)
         {
             Username = username;
             Password = password;
         }
 
-        //abstrakt metod
+        //METOD
+        //abstrakt
         public abstract void SignIn();
     }
 }

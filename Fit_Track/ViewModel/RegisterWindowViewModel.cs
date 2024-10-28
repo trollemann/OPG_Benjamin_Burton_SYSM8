@@ -6,55 +6,51 @@ namespace Fit_Track.ViewModel
 {
     public class RegisterWindowViewModel : ViewModelBase
     {
-        //egenskaper
+        //EGENSKAPER
         private string _username;
         public string Username
         {
-            get { return _username; }
+            get => _username;
             set
             {
                 _username = value;
                 OnPropertyChanged();
             }
         }
-
         private string _password;
         public string Password
         {
-            get { return _password; }
+            get => _password;
             set
             {
                 _password = value;
                 OnPropertyChanged();
             }
         }
-
         private string _country;
         public string Country
         {
-            get { return _country; }
+            get => _country;
             set
             {
                 _country = value;
                 OnPropertyChanged();
             }
         }
-
         private string _securityQuestion;
         public string SecurityQuestion
         {
-            get { return _securityQuestion; }
+            get => _securityQuestion;
             set
             {
                 _securityQuestion = value;
                 OnPropertyChanged();
             }
         }
-
         private string _securityAnswer;
         public string SecurityAnswer
         {
-            get { return _securityAnswer; }
+            get => _securityAnswer;
             set
             {
                 _securityAnswer = value;
@@ -62,15 +58,16 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        //kommandon
-        public RelayCommand CreateNewUserCommand { get; }
-
-        //konstruktor
+        //KONSTRUKTOR
         public RegisterWindowViewModel()
         {
             CreateNewUserCommand = new RelayCommand(ExecuteCreateNewUser, CanExecuteCreateNewUser);
         }
 
+        //KOMMANDON
+        public RelayCommand CreateNewUserCommand { get; }
+
+        //METODER
         private bool CanExecuteCreateNewUser(object param)
         {
 

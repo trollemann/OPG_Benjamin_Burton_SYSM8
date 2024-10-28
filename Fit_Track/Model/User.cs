@@ -7,16 +7,16 @@ namespace Fit_Track.Model
         //statisk lista for o spara användare
         private static List<User> _users = new List<User>();
 
-        //observerbara samlingar för träningspass
+        //ObservableCollection för o lagra träningspass
         public ObservableCollection<Workout> Workouts { get; private set; } = new ObservableCollection<Workout>();
-        public static User CurrentUser { get; set; }
 
-        //egenskaper
+        //EGENSKAPER
+        public static User CurrentUser { get; set; }
         public string Country { get; set; }
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
 
-        //konstruktor
+        //KONSTRUKTOR
         public User(string username, string password, string country, string securityQuestion, string securityAnswer)
             : base(username, password)
         {
@@ -28,7 +28,8 @@ namespace Fit_Track.Model
             _users.Add(this);
         }
 
-        //metod för o lägga till träningspass
+        //METODER
+        //lägg till träningspass
         public void AddWorkout(Workout workout)
         {
             Workouts.Add(workout);
@@ -42,7 +43,7 @@ namespace Fit_Track.Model
             }
         }
 
-        //metod för o initialisera användare o undvika dubletter
+        //initialisera användare o undvika dubletter
         public static void InitializeUsers()
         {
             if (_users.Count == 0)
@@ -51,7 +52,7 @@ namespace Fit_Track.Model
             }
         }
 
-        //metod för o hämta alla användare
+        //hämta alla användare
         public static List<User> GetUsers()
         {
             return _users;
@@ -63,7 +64,7 @@ namespace Fit_Track.Model
             Console.WriteLine($"{Username} has signed in");
         }
 
-        //metod för lösenordsåterställning
+        //lösenordsåterställning
         public void ResetPassword(string securityAnswer)
         {
             if (SecurityAnswer == securityAnswer)
@@ -76,7 +77,7 @@ namespace Fit_Track.Model
             }
         }
 
-        //metod för o se om användarnamnet är taget
+        //kontrollerar om användarnamnet är taget
         public static bool TakenUsername(string username)
         {
             return _users.Any(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));

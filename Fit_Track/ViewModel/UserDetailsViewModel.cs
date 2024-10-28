@@ -1,57 +1,78 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace Fit_Track.ViewModel
 {
     public class UserDetailsViewModel : ViewModelBase
     {
-        // Properties for displaying user details
-        public string Username { get; }
-        public string Password { get; }
-        
-        private string _country;
-        public string Country
+        private User _currentUser;
+        private bool _isEditable;
+
+        //EGENSKAPER
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Country { get; set; }
+        public string SecurityQuestion { get; set; }
+        public string SecurityAnswer { get; set; }
+
+        public bool IsEditable
         {
-            get { return _country; }
+            get => _isEditable;
             set
             {
-                _country = value;
+                _isEditable = value;
                 OnPropertyChanged();
             }
         }
-        public string SecurityQuestion { get; }
-        public string SecurityAnswer { get; }
 
-        public RelayCommand Edit { get; }
-        public RelayCommand Save { get; }
-        public RelayCommand Cancel { get; }
-
-        // Constructor that accepts the current user
+        //KONSTRUKTOR
         public UserDetailsViewModel(User currentUser)
         {
+            //sätter den aktuella användaren
+            _currentUser = currentUser;
+
             Username = currentUser.Username;
             Password = currentUser.Password;
             Country = currentUser.Country;
             SecurityQuestion = currentUser.SecurityQuestion;
             SecurityAnswer = currentUser.SecurityAnswer;
 
-            Edit = new RelayCommand(ExecuteEdit);
-            Save = new RelayCommand(ExecuteSave);
-            Cancel = new RelayCommand(ExecuteCancel);
+            EditCommand = new RelayCommand(ExecuteEdit);
+            SaveCommand = new RelayCommand(ExecuteSave);
+            CancelCommand = new RelayCommand(ExecuteCancel);
+
+            IsEditable = false;
         }
+
+        //KOMMANDON
+        public RelayCommand EditCommand { get; }
+        public RelayCommand SaveCommand { get; }
+        public RelayCommand CancelCommand { get; }
+
+        //METODER
         private void ExecuteEdit(object param)
         {
-
+            IsEditable = true;
         }
 
         private void ExecuteSave(object param)
         {
+            if (User.TakenUsername(Username) && Username != _currentUser.Username)
+            {
+                MessageBox.Show("Username already taken");
+                return;
+            }
 
+            //uppdaterar egenskaperna i aktuella användare
+            _currentUser.Username = Username;
+            _currentUser.Password = Password;
+            _currentUser.Country = Country;
+            _currentUser.SecurityQuestion = SecurityQuestion;
+            _currentUser.SecurityAnswer = SecurityAnswer;
+
+            MessageBox.Show("User details have been updated");
+            IsEditable = false;
         }
 
         private void ExecuteCancel(object param)
@@ -60,6 +81,7 @@ namespace Fit_Track.ViewModel
             {
                 userDetailsWindow.Close();
             }
+            IsEditable = false;
         }
     }
 }

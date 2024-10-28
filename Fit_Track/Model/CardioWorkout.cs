@@ -9,10 +9,10 @@ namespace Fit_Track.Model
 {
     public class CardioWorkout : Workout
     {
-        //egenskap
+        //EGENSKAP
         public int Distance { get; set; }
 
-        //konstruktor
+        //KONSTRUKTOR
         public CardioWorkout(string date, string type, int duration, int caloriesBurned, string notes, int distance) : base(date, type, duration, caloriesBurned, notes)
         {
             //kollar så distans inte är negativt
@@ -24,7 +24,8 @@ namespace Fit_Track.Model
             Distance = distance;
         }
 
-        //overriding metod
+        //METOD
+        //overriding
         public override int CalculateCaloriesBurned()
         {
             return Duration * Distance;

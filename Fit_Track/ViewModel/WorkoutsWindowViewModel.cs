@@ -7,13 +7,14 @@ namespace Fit_Track.ViewModel
 {
     public class WorkoutsWindowViewModel : ViewModelBase
     {
-        //egenskaper
-        private string _username;
+        //referens till den aktuella användaren
         public User CurrentUser { get; }
 
+        //EGENSKAPER
+        private string _username;
         public string Username
         {
-            get { return _username; }
+            get => _username;
             set
             {
                 _username = value;
@@ -21,10 +22,11 @@ namespace Fit_Track.ViewModel
             }
         }
 
+        //valda träningen
         private Workout _selectedWorkout;
         public Workout SelectedWorkout
         {
-            get { return _selectedWorkout; }
+            get => _selectedWorkout;
             set
             {
                 _selectedWorkout = value;
@@ -32,13 +34,14 @@ namespace Fit_Track.ViewModel
             }
         }
 
-
-        public ObservableCollection<CardioWorkout> CardioWorkouts { get; private set; }
-        public ObservableCollection<StrengthWorkout> StrengthWorkouts { get; private set; }
+        //samling av användarens träningspass
         public ObservableCollection<Workout> UserWorkouts => CurrentUser.Workouts;
 
+        //samlingar för att hålla cardio- och styrketräningar
+        public ObservableCollection<CardioWorkout> CardioWorkouts { get; private set; }
+        public ObservableCollection<StrengthWorkout> StrengthWorkouts { get; private set; }
 
-        //kommandon
+        //KOMMANDON
         public RelayCommand AddWorkoutCommand { get; }
         public RelayCommand RemoveWorkoutCommand { get; }
         public RelayCommand WorkoutDetailsCommand { get; }
@@ -46,10 +49,10 @@ namespace Fit_Track.ViewModel
         public RelayCommand InfoCommand { get; }
         public RelayCommand SignOutCommand { get; }
 
-        //konstruktor
+        //KONSTRUKTOR
         public WorkoutsWindowViewModel(User currentUser)
         {
-            CurrentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
+            CurrentUser = currentUser;
 
             //initialisera träningslistorna
             CardioWorkouts = new ObservableCollection<CardioWorkout>();
@@ -58,8 +61,10 @@ namespace Fit_Track.ViewModel
             //initialisera existerande träningspass
             InitializeWorkouts();
 
+            //sätt användarnamnet från CurrentUser
             Username = CurrentUser.Username;
 
+            //initiera kommandon
             AddWorkoutCommand = new RelayCommand(ExecuteAddWorkout);
             RemoveWorkoutCommand = new RelayCommand(ExecuteRemoveWorkout, CanExecuteRemoveWorkout);
             WorkoutDetailsCommand = new RelayCommand(ExecuteWorkoutDetails, CanExecuteWorkoutDetails);
@@ -68,22 +73,17 @@ namespace Fit_Track.ViewModel
             SignOutCommand = new RelayCommand(ExecuteSignOut);
         }
 
+        //METODER
         private void InitializeWorkouts()
         {
-            //lägger till existerande träningspass om användarnamnet är user
+            //existerande träningspass om användarnamnet är "user"
             if (CurrentUser.Username == "user")
             {
-                if (!CurrentUser.Workouts.OfType<CardioWorkout>().Any())
-                {
-                    var cardioWorkout = new CardioWorkout("2024-11-02", "Jogging", 60, 350, "Night run", 10);
-                    CurrentUser.AddWorkout(cardioWorkout);
-                }
+                var cardioWorkout = new CardioWorkout("2024-11-02", "Jogging", 60, 350, "Night run", 10);
+                CurrentUser.AddWorkout(cardioWorkout);
 
-                if (!CurrentUser.Workouts.OfType<StrengthWorkout>().Any())
-                {
-                    var sampleStrengthWorkout = new StrengthWorkout("2024-11-01", "Upper Body", 120, 250, "Outdoor session", 10);
-                    CurrentUser.AddWorkout(sampleStrengthWorkout);
-                }
+                var sampleStrengthWorkout = new StrengthWorkout("2024-11-01", "Upper Body", 120, 250, "Outdoor session", 10);
+                CurrentUser.AddWorkout(sampleStrengthWorkout);
             }
 
             //lägg till existerande träningspass från CurrentUser till listorna
@@ -108,6 +108,7 @@ namespace Fit_Track.ViewModel
         {
             var userDetailsWindow = new UserDetailsWindow
             {
+                //sätt DataContext till användardetaljer
                 DataContext = new UserDetailsViewModel(CurrentUser)
             };
             userDetailsWindow.Show();
@@ -135,19 +136,17 @@ namespace Fit_Track.ViewModel
                 StrengthWorkouts.Remove(strengthWorkout);
             }
 
-            CurrentUser.RemoveWorkout(SelectedWorkout); // Assuming there's a RemoveWorkout method in User
-            SelectedWorkout = null; // Clear selection
+            //ta bort träningspasset från CurrentUser
+            CurrentUser.RemoveWorkout(SelectedWorkout);
+            SelectedWorkout = null;
         }
 
         private void ExecuteWorkoutDetails(object param)
         {
-            // Create a new instance of the WorkoutDetailsWindow
             WorkoutDetailsWindow workoutDetailsWindow = new WorkoutDetailsWindow();
 
-            // Pass the selected workout to the WorkoutDetailsWindow
+            //passera valda träningen till WorkoutDetailsWindow
             workoutDetailsWindow.DataContext = new WorkoutDetailsWindowViewModel(SelectedWorkout);
-
-            // Show the WorkoutDetailsWindow
             workoutDetailsWindow.Show();
         }
 
@@ -165,12 +164,12 @@ namespace Fit_Track.ViewModel
             mainWindow.Show();
             workoutsWindow.Close();
         }
+
         public void UpdateWorkoutInList(Workout updatedWorkout)
         {
-            // Reset the SelectedWorkout to refresh the UI
+            //återställ den valda träningen för att uppdatera UI
             SelectedWorkout = null;
             SelectedWorkout = updatedWorkout;
         }
-
     }
 }

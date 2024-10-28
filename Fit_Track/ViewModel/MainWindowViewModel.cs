@@ -6,11 +6,11 @@ namespace Fit_Track.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        //egenskaper
+        //EGENSKAPER
         private string _username;
         public string Username
         {
-            get { return _username; }
+            get => _username;
             set
             {
                 _username = value;
@@ -21,18 +21,15 @@ namespace Fit_Track.ViewModel
         private string _password;
         public string Password
         {
-            get { return _password; }
+            get => _password;
             set
             {
                 _password = value;
                 OnPropertyChanged();
             }
         }
-
-        //kommandon
-        public RelayCommand SignInCommand { get; }
-        public RelayCommand RegisterCommand { get; }
-
+        
+        //KONSTRUKTOR
         public MainWindowViewModel()
         {
             //tillkalla metod för att initiera användare
@@ -42,7 +39,11 @@ namespace Fit_Track.ViewModel
             RegisterCommand = new RelayCommand(ExecuteRegister);
         }
 
-        //kontrollera om fälten är ifyllda
+        //KOMMANDON
+        public RelayCommand SignInCommand { get; }
+        public RelayCommand RegisterCommand { get; }
+
+        //METODER
         private bool CanExecuteSignIn(object param)
         {
             return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
@@ -53,7 +54,7 @@ namespace Fit_Track.ViewModel
             var mainWindow = param as Window;
 
             //hämta användare från listan baserat på användarnamn och lösenord
-            var user = User.GetUsers().FirstOrDefault(u => u.Username == Username && u.Password == Password);
+            var user = User.GetUsers().FirstOrDefault(user => user.Username == Username && user.Password == Password);
 
             //kolla om användarnamn och lösenord är korrekta
             if (user != null)
@@ -61,7 +62,6 @@ namespace Fit_Track.ViewModel
                 //sätt den inloggade användaren som nuvarande användare
                 User.CurrentUser = user;
 
-                //öppna workouts-fönstret
                 WorkoutsWindow workoutsWindow = new WorkoutsWindow();
                 workoutsWindow.Show();
                 mainWindow.Close();
@@ -74,7 +74,6 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteRegister(object param)
         {
-            //öppna registreringsfönstret
             RegisterWindow registerWindow = new RegisterWindow();
             var mainWindow = param as Window;
             registerWindow.Show();

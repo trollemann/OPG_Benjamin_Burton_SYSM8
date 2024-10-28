@@ -6,49 +6,16 @@
         xmlns:local="clr-namespace:Fit_Track.View"
         mc:Ignorable="d"
         Title="RegisterWindow" Height="450" Width="800">
-    <Grid
-    Background="Crimson">
 
+    <Grid Background="Crimson">
         <StackPanel>
-            <Label
-            Content="New user"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Margin="70"
-            FontSize="40"
-            Foreground="LightGray"/>
-
-            <TextBox
-            x:Name="txtBoxUsername"
-            Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-            Width="120"/>
-
-            <TextBox
-            x:Name="txtBoxPassword"
-            Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-            Width="120"/>
-
-            <ComboBox
-            x:Name="comboBoxCountries"
-            Text="{Binding Country, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-            Width="120"/>
-
-            <TextBox
-                x:Name="txtBoxSecurityQuestion"
-                Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                Width="120"/>
-
-            <TextBox
-                x:Name="txtBoxSecurityAnswer"
-                Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                Width="120"/>
-
-            <Button
-            x:Name="btnCreateNewUser"
-            Content="Create new user"
-            Width="120"
-            Command="{Binding CreateNewUserCommand}"/>
-
+            <Label Content="New user" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="70" FontSize="40" Foreground="LightGray"/>
+            <TextBox x:Name="txtBoxUsername" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+            <TextBox x:Name="txtBoxPassword" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+            <ComboBox x:Name="comboBoxCountries" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+            <TextBox x:Name="txtBoxSecurityQuestion" Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+            <TextBox x:Name="txtBoxSecurityAnswer" Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
+            <Button x:Name="btnCreateNewUser" Content="Create new user" Width="120" Command="{Binding CreateNewUserCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

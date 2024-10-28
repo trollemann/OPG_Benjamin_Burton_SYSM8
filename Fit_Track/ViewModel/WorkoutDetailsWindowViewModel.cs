@@ -12,16 +12,9 @@ namespace Fit_Track.ViewModel
     public class WorkoutDetailsWindowViewModel : ViewModelBase
     {
         private Workout _workout;
-        private bool _isEditable; // New field to track edit mode
+        private bool _isEditable;
 
-        public WorkoutDetailsWindowViewModel(Workout workout)
-        {
-            Workout = workout ?? throw new ArgumentNullException(nameof(workout));
-            EditCommand = new RelayCommand(ExecuteEdit);
-            SaveCommand = new RelayCommand(ExecuteSave, CanExecuteSave);
-            _isEditable = false; // Initially, textboxes are disabled
-        }
-
+        //EGENSKAPER
         public Workout Workout
         {
             get => _workout;
@@ -29,11 +22,9 @@ namespace Fit_Track.ViewModel
             {
                 _workout = value;
                 OnPropertyChanged();
-                // No need to notify every property individually here
                 OnPropertyChanged(nameof(IsEditable));
             }
         }
-
         public string Date
         {
             get => _workout.Date;
@@ -43,7 +34,6 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public string Type
         {
             get => _workout.Type;
@@ -53,7 +43,6 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public int Duration
         {
             get => _workout.Duration;
@@ -63,7 +52,6 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public int CaloriesBurned
         {
             get => _workout.CaloriesBurned;
@@ -73,7 +61,6 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public string Notes
         {
             get => _workout.Notes;
@@ -83,7 +70,6 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
-
         public int Repetitions
         {
             get => _workout is StrengthWorkout strength ? strength.Repetitions : 0;
@@ -96,7 +82,6 @@ namespace Fit_Track.ViewModel
                 }
             }
         }
-
         public int Distance
         {
             get => _workout is CardioWorkout cardio ? cardio.Distance : 0;
@@ -110,10 +95,13 @@ namespace Fit_Track.ViewModel
             }
         }
 
+        //styr synligheten av repetitionsfältet
         public Visibility RepetitionsVisibility => _workout is StrengthWorkout ? Visibility.Visible : Visibility.Collapsed;
+
+        //styr synligheten av distansfältet
         public Visibility DistanceVisibility => _workout is CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
 
-        // New property to control textbox editability
+        //boolean som bestämmer om det går att redigera
         public bool IsEditable
         {
             get => _isEditable;
@@ -124,28 +112,38 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        public RelayCommand EditCommand { get; }
-        public RelayCommand SaveCommand { get; }
-
-        private void ExecuteEdit(object param)
+        //KONSTRUKTOR
+        public WorkoutDetailsWindowViewModel(Workout workout)
         {
-            // Toggle the IsEditable property
-            IsEditable = !IsEditable;
+            Workout = workout;
+
+            Edit = new RelayCommand(ExecuteEdit);
+            Save = new RelayCommand(ExecuteSave, CanExecuteSave);
+            _isEditable = false;
         }
 
+        //KOMMANDON
+        public RelayCommand Edit { get; }
+        public RelayCommand Save { get; }
+
+        //METODER
+        private void ExecuteEdit(object param)
+        {
+            IsEditable = !IsEditable;
+        }
         private bool CanExecuteSave(object param)
         {
-            return IsEditable; // Enable save only if in edit mode
+            return IsEditable;
         }
         private void ExecuteSave(object param)
         {
             MessageBox.Show("Changes have been saved");
-            IsEditable = false; // Disable editing after saving
+            IsEditable = false;
 
-            // Notify the main view model (WorkoutsWindowViewModel) of the updated workout
+            //uppdatera workout-listan i WorkoutsWindowViewModel
             if (param is Window window && window.DataContext is WorkoutsWindowViewModel mainViewModel)
             {
-                mainViewModel.UpdateWorkoutInList(_workout); // Call the method in WorkoutsWindowViewModel
+                mainViewModel.UpdateWorkoutInList(_workout);
             }
         }
     }
