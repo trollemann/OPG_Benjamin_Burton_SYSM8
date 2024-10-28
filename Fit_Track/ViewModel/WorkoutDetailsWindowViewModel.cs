@@ -145,6 +145,11 @@ namespace Fit_Track.ViewModel
             {
                 mainViewModel.UpdateWorkoutInList(_workout);
             }
+
+            var workoutDetailsWindow = param as Window;
+            var workoutsWindow = param as Window;
+
+            workoutDetailsWindow.Close();
         }
     }
 }

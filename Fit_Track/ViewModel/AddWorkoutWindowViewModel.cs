@@ -15,24 +15,24 @@ namespace Fit_Track.ViewModel
         private WorkoutsWindowViewModel _workoutsWindowViewModel;
 
         //EGENSKAPER
-        private bool _isStrengthWorkoutEnabled = true;
-        public bool IsStrengthWorkoutEnabled
+        private bool _strengthWorkoutEnabled = true;
+        public bool StrengthWorkoutEnabled
         {
-            get => _isStrengthWorkoutEnabled;
+            get => _strengthWorkoutEnabled;
             set
             {
-                _isStrengthWorkoutEnabled = value;
+                _strengthWorkoutEnabled = value;
                 OnPropertyChanged();
             }
         }
 
-        private bool _isCardioWorkoutEnabled = true;
-        public bool IsCardioWorkoutEnabled
+        private bool _cardioWorkoutEnabled = true;
+        public bool CardioWorkoutEnabled
         {
-            get => _isCardioWorkoutEnabled;
+            get => _cardioWorkoutEnabled;
             set
             {
-                _isCardioWorkoutEnabled = value;
+                _cardioWorkoutEnabled = value;
                 OnPropertyChanged();
             }
         }
@@ -184,13 +184,13 @@ namespace Fit_Track.ViewModel
         public RelayCommand CardioWorkoutCommand { get; }
 
         //METODER
-        private void SetWorkout(bool isStrength)
+        private void SetWorkout(bool Strength)
         {
-            StrengthWorkout = isStrength;
-            CardioWorkout = !isStrength;
+            StrengthWorkout = Strength;
+            CardioWorkout = !Strength;
 
-            IsStrengthWorkoutEnabled = !isStrength;
-            IsCardioWorkoutEnabled = isStrength;
+            StrengthWorkoutEnabled = !Strength;
+            CardioWorkoutEnabled = Strength;
 
             UpdateVisibility();
         }
@@ -227,7 +227,7 @@ namespace Fit_Track.ViewModel
 
             if (!int.TryParse(Duration, out int workoutDuration))
             {
-                MessageBox.Show("Please enter a valid number for duration.");
+                MessageBox.Show("Please enter a valid number for duration");
                 return;
             }
 
@@ -242,6 +242,7 @@ namespace Fit_Track.ViewModel
                     _workoutsWindowViewModel.CurrentUser.AddWorkout(newStrengthWorkout);
                     _workoutsWindowViewModel.StrengthWorkouts.Add(newStrengthWorkout);
 
+                    MessageBox.Show("New workout has been added");
                     addWorkoutWindow.Close();
                 }
                 else
@@ -262,7 +263,7 @@ namespace Fit_Track.ViewModel
                 }
                 else
                 {
-                    MessageBox.Show("Please enter a valid number for distance.");
+                    MessageBox.Show("Please enter a valid number for distance");
                 }
             }
         }

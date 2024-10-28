@@ -177,6 +177,7 @@ namespace Fit_Track.ViewModel
             {
                 DataContext = new WorkoutDetailsWindowViewModel(SelectedWorkout)
             };
+            var workoutsWindow = param as Window;
             workoutDetailsWindow.Show();
         }
 
