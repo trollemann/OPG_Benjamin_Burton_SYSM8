@@ -6,16 +6,35 @@
         xmlns:local="clr-namespace:Fit_Track.View"
         mc:Ignorable="d"
         Title="RegisterWindow" Height="450" Width="800">
-
     <Grid Background="Crimson">
-        <StackPanel>
-            <Label Content="New user" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="70" FontSize="40" Foreground="LightGray"/>
-            <TextBox x:Name="txtBoxUsername" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
-            <TextBox x:Name="txtBoxPassword" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
-            <ComboBox x:Name="comboBoxCountries" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
-            <TextBox x:Name="txtBoxSecurityQuestion" Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
-            <TextBox x:Name="txtBoxSecurityAnswer" Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120"/>
-            <Button x:Name="btnCreateNewUser" Content="Create new user" Width="120" Command="{Binding CreateNewUserCommand}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="170"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5" HorizontalAlignment="Left">
+            <TextBox x:Name="txtBoxUsername" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20"/>
+            <TextBox x:Name="txtBoxPassword" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20"/>
+            <TextBox x:Name="txtBoxConfirmPassword" Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20"/>
+            <ComboBox x:Name="comboBoxCountries" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20"/>
+            <TextBox x:Name="txtBoxSecurityQuestion" Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20"/>
+            <TextBox x:Name="txtBoxSecurityAnswer" Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20"/>
+            <Button x:Name="btnCreateNewUser" Content="Create new user" Width="120" Command="{Binding CreateNewUserCommand}" Height="20"/>
         </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">
+            <Label x:Name="lblUsername" Content="Username:" Foreground="LightGray" Height="20" FontSize="8" HorizontalAlignment="Right"/>
+            <Label x:Name="lblPassword" Content="Password:" Foreground="LightGray" Height="20" FontSize="8" HorizontalAlignment="Right"/>
+            <Label x:Name="lblConfirmPassword" Content="Confirm password:" Foreground="LightGray" Height="20" FontSize="8" HorizontalAlignment="Right"/>
+            <Label x:Name="lblCountry" Content="Country:" Foreground="LightGray" Height="20" FontSize="8" HorizontalAlignment="Right"/>
+            <Label x:Name="lblSecurityQuestion" Content="Security question:" Foreground="LightGray" Height="20" FontSize="8" HorizontalAlignment="Right"/>
+            <Label x:Name="lblSecurityAnswer" Content="Security answer:" Foreground="LightGray" Height="20" FontSize="8" HorizontalAlignment="Right"/>
+        </StackPanel>
+
     </Grid>
 </Window>

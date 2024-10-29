@@ -17,6 +17,7 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
+
         private string _password;
         public string Password
         {
@@ -27,6 +28,18 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
+
+        private string _confirmPassword;
+        public string ConfirmPassword
+        {
+            get => _confirmPassword;
+            set
+            {
+                _confirmPassword = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string _country;
         public string Country
         {
@@ -73,6 +86,7 @@ namespace Fit_Track.ViewModel
 
             return !string.IsNullOrWhiteSpace(Username) &&
                    !string.IsNullOrWhiteSpace(Password) &&
+                   !string.IsNullOrWhiteSpace(ConfirmPassword) &&
                    !string.IsNullOrWhiteSpace(Country) &&
                    !string.IsNullOrWhiteSpace(SecurityQuestion) &&
                    !string.IsNullOrWhiteSpace(SecurityAnswer);
@@ -125,6 +139,16 @@ namespace Fit_Track.ViewModel
             else if (!ctrlSpecialChar)
             {
                 MessageBox.Show("The password must contain at least one special character");
+                return;
+            }
+
+            if (Password == ConfirmPassword)
+            {
+                Password = ConfirmPassword;
+            }
+            else
+            {
+                MessageBox.Show("Passwords doesn't match");
                 return;
             }
 
