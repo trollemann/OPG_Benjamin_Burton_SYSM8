@@ -6,52 +6,40 @@
         xmlns:local="clr-namespace:Fit_Track"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid
-        Background="Crimson">
-        <StackPanel>
 
-            <Label
-                x:Name="lblFitTrack"
-                Content="Fit Track"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontFamily="Arial"
-                FontSize="90"
-                Margin="40"
-                Foreground="LightGray"/>
+    <Grid Background="Crimson">
 
-            <TextBox
-                x:Name="txtBoxUsername"
-                Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                Width="120"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <TextBox
-                x:Name="txtBoxPassword"
-                Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                Width="120"/>
+        <Label x:Name="lblFitTrack" Content="Fit Track" HorizontalAlignment="Center" VerticalAlignment="Center" 
+               FontFamily="Arial" Grid.Row="0" FontSize="90" Margin="40" Foreground="LightGray"/>
 
-            <Button
-                x:Name="btnSignIn"
-                Content="Sign in"
-                Width="120"
-                Command="{Binding SignInCommand, UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <Button
-                x:Name="btnRegister"
-                Content="Register"
-                Width="120"
-                Command="{Binding RegisterCommand}"/>
+            <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="5">
 
-            <Button
-                x:Name="btnForgotPassword"
-                Content="Forgot password?"
-                Background="Transparent"
-                BorderThickness="0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Width="120"
-                Command="{Binding ForgotPasswordCommand}"/>
+                <TextBox x:Name="txtBoxUsername" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20"/>
+                <TextBox x:Name="txtBoxPassword" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20"/>
+                <Button x:Name="btnSignIn" Content="Sign in" Width="120" Command="{Binding SignInCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button x:Name="btnRegister" Content="Register" Width="120" Command="{Binding RegisterCommand}"/>
+                <Button x:Name="btnForgotPassword" Content="Forgot password?" Background="Transparent" BorderThickness="0" HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" Width="120" Command="{Binding ForgotPasswordCommand}"/>
 
-        </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">
+
+                <Label x:Name="lblUsername" Content="Username: " Foreground="LightGray" HorizontalAlignment="Right" Height="20" FontSize="8" FontWeight="Bold"/>
+                <Label x:Name="lblPassword" Content="Password: " Foreground="LightGray" HorizontalAlignment="Right" Height="20" FontSize="8" FontWeight="Bold"/>
+
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
