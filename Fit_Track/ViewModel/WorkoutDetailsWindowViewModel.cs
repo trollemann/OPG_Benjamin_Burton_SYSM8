@@ -142,13 +142,11 @@ namespace Fit_Track.ViewModel
             //uppdatera workout-listan i WorkoutsWindowViewModel
             if (param is Window window && window.DataContext is WorkoutsWindowViewModel mainViewModel)
             {
-                mainViewModel.UpdateWorkoutInList(_workout);
+                mainViewModel.UpdateWorkoutList(_workout);
             }
-
-            var workoutDetailsWindow = param as Window;
             var workoutsWindow = param as Window;
-
-            workoutDetailsWindow.Close();
+            workoutsWindow.Show();
+            Application.Current.Windows[0].Close();
         }
     }
 }

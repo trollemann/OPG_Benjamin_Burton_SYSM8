@@ -100,7 +100,7 @@ namespace Fit_Track.ViewModel
                 {
                     foreach (var workout in user.Workouts.ToList())
                     {
-                        AddWorkoutToCollections(workout);
+                        AddWorkoutToList(workout);
                     }
                 }
             }
@@ -109,7 +109,7 @@ namespace Fit_Track.ViewModel
                 //om ej admin, lägg till endast träningspass från CurrentUser
                 foreach (var workout in CurrentUser.Workouts.ToList())
                 {
-                    AddWorkoutToCollections(workout);
+                    AddWorkoutToList(workout);
                 }
             }
         }
@@ -123,10 +123,13 @@ namespace Fit_Track.ViewModel
         {
             var userDetailsWindow = new UserDetailsWindow
             {
-                //sätt DataContext till användardetaljer
+                //hämta information från CurrentUser till userDetails   
                 DataContext = new UserDetailsViewModel(CurrentUser)
             };
+            var workoutsWindow = new WorkoutsWindow();
+
             userDetailsWindow.Show();
+            Application.Current.Windows[0].Close();
         }
 
         private void ExecuteAddWorkout(object param)
@@ -179,6 +182,7 @@ namespace Fit_Track.ViewModel
             };
             var workoutsWindow = param as Window;
             workoutDetailsWindow.Show();
+            Application.Current.Windows[0].Close();
         }
 
         private void ExecuteInfo(object param)
@@ -197,14 +201,14 @@ namespace Fit_Track.ViewModel
             workoutsWindow.Close();
         }
 
-        public void UpdateWorkoutInList(Workout updatedWorkout)
+        public void UpdateWorkoutList(Workout updatedWorkout)
         {
             //nollställ vald träning för att uppdatera UI
             SelectedWorkout = null;
             SelectedWorkout = updatedWorkout;
         }
 
-        private void AddWorkoutToCollections(Workout workout)
+        private void AddWorkoutToList(Workout workout)
         {
             //lägg till träningspass i UserWorkouts, antingen i cardioWorkouts eller strengthWorkouts
             UserWorkouts.Add(workout);

@@ -22,7 +22,17 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged(nameof(ConfirmPasswordVisibility));
             }
         }
-        public string Username { get; set; }
+        private string _username;
+        public string Username
+        {
+            get => _username;
+            set
+            {
+                _username = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string Password { get; set; }
         public string NewPassword { get; set; }
         public string ConfirmPassword { get; set; }
@@ -107,7 +117,10 @@ namespace Fit_Track.ViewModel
             IsEditable = false;
             
             if (param is UserDetailsWindow userDetailsWindow)
+            
             userDetailsWindow.Close();
+            var workoutsWindow = new WorkoutsWindow();
+            workoutsWindow.Show();
         }
 
         private void ExecuteCancel(object param)
@@ -115,6 +128,9 @@ namespace Fit_Track.ViewModel
             if (param is UserDetailsWindow userDetailsWindow)
             {
                 userDetailsWindow.Close();
+                var workoutsWindow = new WorkoutsWindow();
+                workoutsWindow.Show();
+
             }
             IsEditable = false;
         }
