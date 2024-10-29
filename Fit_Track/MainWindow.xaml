@@ -30,7 +30,7 @@
                 <Button x:Name="btnSignIn" Content="Sign in" Width="120" Command="{Binding SignInCommand, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button x:Name="btnRegister" Content="Register" Width="120" Command="{Binding RegisterCommand}"/>
                 <Button x:Name="btnForgotPassword" Content="Forgot password?" Background="Transparent" BorderThickness="0" HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" Width="120" Command="{Binding ForgotPasswordCommand}"/>
+                    VerticalAlignment="Center" Width="120" Command="{Binding ForgotPasswordCommand}" Foreground="LightGray"/>
 
             </StackPanel>
 

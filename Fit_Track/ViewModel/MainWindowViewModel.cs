@@ -37,11 +37,14 @@ namespace Fit_Track.ViewModel
 
             SignInCommand = new RelayCommand(ExecuteSignIn, CanExecuteSignIn);
             RegisterCommand = new RelayCommand(ExecuteRegister);
+            ForgotPasswordCommand = new RelayCommand(ExecuteForgotPassword);
         }
 
         //KOMMANDON
         public RelayCommand SignInCommand { get; }
         public RelayCommand RegisterCommand { get; }
+        public RelayCommand ForgotPasswordCommand { get; }
+
 
         //METODER
         private bool CanExecuteSignIn(object param)
@@ -54,10 +57,7 @@ namespace Fit_Track.ViewModel
             var mainWindow = param as Window;
 
             //hämta användare från listan baserat på användarnamn och lösenord
-            
-            var user = User.GetUsers().FirstOrDefault(user => user.Username == Username && user.Password == Password);
-            Username.ToLower();
-
+            var user = User.GetUsers().FirstOrDefault(user => user.Username.ToLower() == Username.ToLower() && user.Password == Password);
 
             //kolla om användarnamn och lösenord är korrekta
             if (user != null)
@@ -81,6 +81,13 @@ namespace Fit_Track.ViewModel
             var mainWindow = param as Window;
             registerWindow.Show();
             mainWindow.Close();
+        }
+
+        private void ExecuteForgotPassword(object param)
+        {
+            ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
+            var mainWindow = param as Window;
+            forgotPasswordWindow.Show();
         }
     }
 }
