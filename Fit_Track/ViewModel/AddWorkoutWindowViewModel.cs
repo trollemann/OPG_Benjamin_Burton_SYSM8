@@ -11,7 +11,7 @@ namespace Fit_Track.ViewModel
         //ObservableCollection för att lagra träningspass
         public ObservableCollection<Workout> Workouts { get; set; } = new ObservableCollection<Workout>();
 
-        // Referens till parentfönstrets ViewModel
+        //referens till parentfönstrets ViewModel
         private WorkoutsWindowViewModel _workoutsWindowViewModel;
 
         //EGENSKAPER

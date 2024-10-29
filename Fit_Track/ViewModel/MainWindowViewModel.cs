@@ -54,7 +54,10 @@ namespace Fit_Track.ViewModel
             var mainWindow = param as Window;
 
             //hämta användare från listan baserat på användarnamn och lösenord
+            
             var user = User.GetUsers().FirstOrDefault(user => user.Username == Username && user.Password == Password);
+            Username.ToLower();
+
 
             //kolla om användarnamn och lösenord är korrekta
             if (user != null)

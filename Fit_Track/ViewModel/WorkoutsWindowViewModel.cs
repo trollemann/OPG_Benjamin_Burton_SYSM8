@@ -1,6 +1,7 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Fit_Track.ViewModel
@@ -40,7 +41,7 @@ namespace Fit_Track.ViewModel
         public ObservableCollection<Workout> UserWorkouts
         {
             get => _userWorkouts;
-            private set
+            set
             {
                 _userWorkouts = value;
                 OnPropertyChanged();
@@ -48,8 +49,26 @@ namespace Fit_Track.ViewModel
         }
 
         //samlingar för att hålla cardio- och styrketräningar
-        public ObservableCollection<CardioWorkout> CardioWorkouts { get; private set; }
-        public ObservableCollection<StrengthWorkout> StrengthWorkouts { get; private set; }
+        private ObservableCollection<CardioWorkout> _cardioWorkouts;
+        public ObservableCollection<CardioWorkout> CardioWorkouts
+        {
+            get => _cardioWorkouts;
+            private set
+            {
+                _cardioWorkouts = value;
+                OnPropertyChanged();
+            }
+        }
+        private ObservableCollection<StrengthWorkout> _strengthWorkouts;
+        public ObservableCollection<StrengthWorkout> StrengthWorkouts
+        {
+            get => _strengthWorkouts;
+            private set
+            {
+                _strengthWorkouts = value;
+                OnPropertyChanged();
+            }
+        }
 
         //KOMMANDON
         public RelayCommand AddWorkoutCommand { get; }
@@ -142,14 +161,15 @@ namespace Fit_Track.ViewModel
         {
             if (SelectedWorkout == null) return;
 
-            //ta bort träningspass från rätt samling
-            if (SelectedWorkout is CardioWorkout cardioWorkout)
+            CurrentUser.Workouts.Remove(SelectedWorkout);
+            
+            if(SelectedWorkout is CardioWorkout)
             {
-                CardioWorkouts.Remove(cardioWorkout);
+                _userWorkouts.Remove(SelectedWorkout);
             }
-            else if (SelectedWorkout is StrengthWorkout strengthWorkout)
+            else
             {
-                StrengthWorkouts.Remove(strengthWorkout);
+                _userWorkouts.Remove(SelectedWorkout);
             }
 
             //om admin, hitta användare o ta bort träningspass från användarens samling
@@ -157,17 +177,21 @@ namespace Fit_Track.ViewModel
             {
                 var owner = User.GetUsers().FirstOrDefault(user => user.Workouts.Contains(SelectedWorkout));
                 owner?.RemoveWorkout(SelectedWorkout);
+                OnPropertyChanged();
             }
             else
             {
                 //om ej admin, ta bort träningspass från CurrentUser:s lista
                 CurrentUser.RemoveWorkout(SelectedWorkout);
+                OnPropertyChanged();
             }
 
             //ta bort träningspasset från UserWorkouts och nollställ vald träning
             UserWorkouts.Remove(SelectedWorkout);
+            InitializeWorkouts();
             SelectedWorkout = null;
         }
+
         private bool CanExecuteWorkoutDetails(object param)
         {
             return SelectedWorkout != null;
@@ -182,9 +206,6 @@ namespace Fit_Track.ViewModel
             var workoutsWindow = param as Window;
             workoutDetailsWindow.Show();
             Application.Current.Windows[0].Close();
-
-
-
         }
 
         private void ExecuteInfo(object param)

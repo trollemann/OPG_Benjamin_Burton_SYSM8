@@ -4,13 +4,13 @@ namespace Fit_Track.Model
 {
     public class User : Person
     {
-        //statisk lista for o spara användare
+        //statisk lista för o spara användare
         private static List<User> _users = new List<User>();
 
-        //ObservableCollection för o lagra träningspass
-        public ObservableCollection<Workout> Workouts { get; private set; } = new ObservableCollection<Workout>();
+        //lista för att spara träningspass 
+        public List<Workout> Workouts { get; private set; } = new List<Workout>();
 
-        //EGENSKAPER
+        //EGENSKAPER        public List<Workout> Workouts { get; private set; } = new List<Workout>();
         public static User CurrentUser { get; set; }
         public string Country { get; set; }
         public string SecurityQuestion { get; set; }
@@ -24,6 +24,7 @@ namespace Fit_Track.Model
             SecurityQuestion = securityQuestion;
             SecurityAnswer = securityAnswer;
             Admin = admin;
+            Workouts = new List<Workout>();
 
             //lägg till ny användare
             _users.Add(this);
@@ -50,11 +51,17 @@ namespace Fit_Track.Model
             if (_users.Count == 0)
             {
                 var user = new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press");
+                var user2 = new User("user2", "password", "Denmark", "What is your favorite exercise?", "Squats");
                 var admin = new User("admin", "password", "Somalia", "What is your favorite exercise?", "Bicep curls", admin: true);
 
                 // Lägg till ett existerande träningspass för användaren "user"
-                var existingWorkout = new StrengthWorkout("2024-10-28", "Upper body", 60, 300, "Heavy lifting", 15);
+                var existingWorkout = new CardioWorkout("2024-11-03", "Jogging", 60, 1000, "Morning run", 60);
+                var existingWorkout2 = new StrengthWorkout("2024-11-02", "Upper body", 120, 300, "Heavy lifting", 200);
+                var existingWorkout3 = new StrengthWorkout("2024-11-04", "Lower Body", 60, 300, "Endurance", 200);
+
                 user.AddWorkout(existingWorkout);
+                user.AddWorkout(existingWorkout2);
+                admin.AddWorkout(existingWorkout3);
             }
         }
 
