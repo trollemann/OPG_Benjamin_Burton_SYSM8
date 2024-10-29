@@ -139,12 +139,13 @@ namespace Fit_Track.ViewModel
             MessageBox.Show("Changes have been saved");
             IsEditable = false;
 
-            //uppdatera workout-listan i WorkoutsWindowViewModel
+            //uppdatera workoutList i WorkoutsWindowViewModel
             if (param is Window window && window.DataContext is WorkoutsWindowViewModel mainViewModel)
             {
                 mainViewModel.UpdateWorkoutList(_workout);
             }
-            var workoutsWindow = param as Window;
+            WorkoutsWindow workoutsWindow = new WorkoutsWindow();
+            var workoutdetailsWindow = param as Window;
             workoutsWindow.Show();
             Application.Current.Windows[0].Close();
         }

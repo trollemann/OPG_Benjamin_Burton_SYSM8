@@ -10,6 +10,7 @@ namespace Fit_Track.ViewModel
         //referens till den aktuella användaren
         public User CurrentUser { get; }
 
+
         //EGENSKAPER
         private string _username;
         public string Username
@@ -114,11 +115,6 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        private bool CanExecuteWorkoutDetails(object param)
-        {
-            return SelectedWorkout != null;
-        }
-
         private void ExecuteUserDetails(object param)
         {
             var userDetailsWindow = new UserDetailsWindow
@@ -126,8 +122,7 @@ namespace Fit_Track.ViewModel
                 //hämta information från CurrentUser till userDetails   
                 DataContext = new UserDetailsViewModel(CurrentUser)
             };
-            var workoutsWindow = new WorkoutsWindow();
-
+            var workoutsWindow = param as Window;
             userDetailsWindow.Show();
             Application.Current.Windows[0].Close();
         }
@@ -173,6 +168,10 @@ namespace Fit_Track.ViewModel
             UserWorkouts.Remove(SelectedWorkout);
             SelectedWorkout = null;
         }
+        private bool CanExecuteWorkoutDetails(object param)
+        {
+            return SelectedWorkout != null;
+        }
 
         private void ExecuteWorkoutDetails(object param)
         {
@@ -183,6 +182,9 @@ namespace Fit_Track.ViewModel
             var workoutsWindow = param as Window;
             workoutDetailsWindow.Show();
             Application.Current.Windows[0].Close();
+
+
+
         }
 
         private void ExecuteInfo(object param)
@@ -196,7 +198,7 @@ namespace Fit_Track.ViewModel
         private void ExecuteSignOut(object param)
         {
             var workoutsWindow = param as Window;
-            MainWindow mainWindow = new MainWindow();
+            var mainWindow = new MainWindow();
             mainWindow.Show();
             workoutsWindow.Close();
         }

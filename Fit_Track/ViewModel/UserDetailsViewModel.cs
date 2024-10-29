@@ -115,12 +115,14 @@ namespace Fit_Track.ViewModel
 
             MessageBox.Show("User details has been updated");
             IsEditable = false;
-            
+
             if (param is UserDetailsWindow userDetailsWindow)
-            
-            userDetailsWindow.Close();
-            var workoutsWindow = new WorkoutsWindow();
-            workoutsWindow.Show();
+            {
+                var userdetailsWindow = param as Window;
+                var workoutsWindow = new WorkoutsWindow();
+                userDetailsWindow.Close();
+                workoutsWindow.Show();
+            }
         }
 
         private void ExecuteCancel(object param)
