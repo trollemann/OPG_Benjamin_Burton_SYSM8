@@ -98,7 +98,7 @@ namespace Fit_Track.ViewModel
         {
             EnterCommand = new RelayCommand(ExecuteEnter, CanExecuteEnter);
             ConfirmCommand = new RelayCommand(ExecuteConfirm, CanExecuteConfirm);
-            SaveCommand = new RelayCommand(ExecuteEnter, CanExecuteEnter);
+            SaveCommand = new RelayCommand(ExecuteSave, CanExecuteSave);
         }
 
         //KOMMANDON
