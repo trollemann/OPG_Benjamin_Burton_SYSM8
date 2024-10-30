@@ -85,6 +85,7 @@ namespace Fit_Track.ViewModel
         //METODER
         private void ExecuteSendKey(object param)
         {
+
             Random random = new Random();
             Key = random.Next(1000, 10000);
             MessageBox.Show($"{Key}", "Key", MessageBoxButton.OK);
@@ -119,7 +120,7 @@ namespace Fit_Track.ViewModel
 
                 WorkoutsWindow workoutsWindow = new WorkoutsWindow();
                 workoutsWindow.Show();
-                mainWindow.Close();
+                Application.Current.Windows[0].Close();
             }
             else
             {
@@ -130,15 +131,14 @@ namespace Fit_Track.ViewModel
         private void ExecuteRegister(object param)
         {
             RegisterWindow registerWindow = new RegisterWindow();
-            var mainWindow = param as Window;
             registerWindow.Show();
-            mainWindow.Close();
+            Application.Current.Windows[0].Close();
+
         }
 
         private void ExecuteForgotPassword(object param)
         {
             ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
-            var mainWindow = param as Window;
             forgotPasswordWindow.Show();
             Application.Current.Windows[0].Close();
         }
