@@ -73,6 +73,7 @@ namespace Fit_Track.ViewModel
         //KOMMANDON
         public RelayCommand AddWorkoutCommand { get; }
         public RelayCommand RemoveWorkoutCommand { get; }
+        public RelayCommand CopyWorkoutCommand { get; }
         public RelayCommand WorkoutDetailsCommand { get; }
         public RelayCommand UserDetailsCommand { get; }
         public RelayCommand InfoCommand { get; }
@@ -99,6 +100,7 @@ namespace Fit_Track.ViewModel
             //initiera kommandon
             AddWorkoutCommand = new RelayCommand(ExecuteAddWorkout);
             RemoveWorkoutCommand = new RelayCommand(ExecuteRemoveWorkout, CanExecuteRemoveWorkout);
+            CopyWorkoutCommand = new RelayCommand(ExecuteCopyWorkout, CanExecuteCopyWorkout);
             WorkoutDetailsCommand = new RelayCommand(ExecuteWorkoutDetails, CanExecuteWorkoutDetails);
             UserDetailsCommand = new RelayCommand(ExecuteUserDetails);
             InfoCommand = new RelayCommand(ExecuteInfo);
@@ -164,7 +166,26 @@ namespace Fit_Track.ViewModel
             SelectedWorkout = null;
         }
 
-        private bool CanExecuteWorkoutDetails(object param)
+
+
+
+        private bool CanExecuteCopyWorkout(object param)
+        {
+            return SelectedWorkout != null;
+        }
+
+        private void ExecuteCopyWorkout(object param)
+        {
+            CopyWorkoutWindow copyWorkoutWindow = new CopyWorkoutWindow
+            {
+                DataContext = new WorkoutDetailsWindowViewModel(SelectedWorkout)
+            };
+            var workoutsWindow = param as Window;
+            copyWorkoutWindow.Show();
+            Application.Current.Windows[0].Close();
+        }
+
+            private bool CanExecuteWorkoutDetails(object param)
         {
             return SelectedWorkout != null;
         }

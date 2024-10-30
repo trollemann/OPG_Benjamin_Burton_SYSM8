@@ -7,6 +7,7 @@ namespace Fit_Track.ViewModel
     public class UserDetailsViewModel : ViewModelBase
     {
         private User _currentUser;
+        public List<string> CountryList { get; } = new List<string> { "Sweden", "Norway", "Denmark", "Iceland" };
 
         //EGENSKAPER
         private bool _isEditable;

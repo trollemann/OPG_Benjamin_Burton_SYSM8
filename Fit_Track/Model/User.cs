@@ -52,7 +52,7 @@ namespace Fit_Track.Model
             {
                 var user = new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press");
                 var user2 = new User("user2", "password", "Denmark", "What is your favorite exercise?", "Squats");
-                var admin = new User("admin", "password", "Somalia", "What is your favorite exercise?", "Bicep curls", admin: true);
+                var admin = new User("admin", "password", "Iceland", "What is your favorite exercise?", "Bicep curls", admin: true);
 
                 // Lägg till ett existerande träningspass för användaren "user"
                 var existingWorkout = new CardioWorkout("2024-11-03", "Jogging", 60, 1000, "Morning run", 60);

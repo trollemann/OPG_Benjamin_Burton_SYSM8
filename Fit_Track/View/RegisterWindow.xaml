@@ -21,7 +21,8 @@
             <TextBox x:Name="txtBoxUsername" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20" HorizontalAlignment="Left"/>
             <TextBox x:Name="txtBoxPassword" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20" HorizontalAlignment="Left"/>
             <TextBox x:Name="txtBoxConfirmPassword" Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20" HorizontalAlignment="Left"/>
-            <ComboBox x:Name="comboBoxCountries" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20" HorizontalAlignment="Left"/>
+            <ComboBox x:Name="comboBoxCountries" ItemsSource="{Binding CountryList}" Width="120" Height="20" HorizontalAlignment="Left"
+                      SelectedItem="{Binding Country, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             <TextBox x:Name="txtBoxSecurityQuestion" Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="240" Height="20" HorizontalAlignment="Left"/>
             <TextBox x:Name="txtBoxSecurityAnswer" Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="240" Height="20" HorizontalAlignment="Left"/>
             <Button x:Name="btnCreateNewUser" Content="Create new user" Width="120" Command="{Binding CreateNewUserCommand}" Height="20" HorizontalAlignment="Left"/>

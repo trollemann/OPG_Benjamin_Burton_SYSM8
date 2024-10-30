@@ -48,7 +48,8 @@
             <TextBox x:Name="txtBoxConfirmPassword" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
                      Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ConfirmPasswordVisibility}"/>
             <ComboBox x:Name="comboBoxCountries" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                      ItemsSource="{Binding Country}" SelectedItem="{Binding Country, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
+                      ItemsSource="{Binding CountryList}" SelectedItem="{Binding Country, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                      IsEnabled="{Binding IsEditable}" />
             <TextBox x:Name="txtBoxSecurityQuestion" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
                      Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
             <TextBox x:Name="txtBoxSecurityAnswer" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"

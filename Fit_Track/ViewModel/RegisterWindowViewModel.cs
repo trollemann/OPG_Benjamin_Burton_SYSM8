@@ -6,6 +6,8 @@ namespace Fit_Track.ViewModel
 {
     public class RegisterWindowViewModel : ViewModelBase
     {
+        public List<string> CountryList { get; } = new List<string> { "Sweden", "Norway", "Denmark", "Iceland" };
+
         //EGENSKAPER
         private string _username;
         public string Username

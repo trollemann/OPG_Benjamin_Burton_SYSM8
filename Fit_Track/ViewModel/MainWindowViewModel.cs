@@ -1,6 +1,7 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Fit_Track.ViewModel
 {
@@ -28,28 +29,72 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
-        
+
+        private string _sendKey;
+        public string SendKey
+        {
+            get => _sendKey;
+            set
+            {
+                _sendKey = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _keyInput;
+        public string KeyInput
+        {
+            get => _keyInput;
+            set
+            {
+                _keyInput = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _key;
+        public int Key
+        {
+            get => _key;
+            set
+            {
+                _key = value;
+                OnPropertyChanged();
+            }
+        }
+
         //KONSTRUKTOR
         public MainWindowViewModel()
         {
             //tillkalla metod för att initiera användare
             User.InitializeUsers();
 
+            SendKeyCommand = new RelayCommand(ExecuteSendKey);
             SignInCommand = new RelayCommand(ExecuteSignIn, CanExecuteSignIn);
             RegisterCommand = new RelayCommand(ExecuteRegister);
             ForgotPasswordCommand = new RelayCommand(ExecuteForgotPassword);
         }
 
         //KOMMANDON
+        public RelayCommand SendKeyCommand { get; }
         public RelayCommand SignInCommand { get; }
         public RelayCommand RegisterCommand { get; }
         public RelayCommand ForgotPasswordCommand { get; }
 
 
         //METODER
+        private void ExecuteSendKey(object param)
+        {
+            Random random = new Random();
+            Key = random.Next(1000, 10000);
+            MessageBox.Show($"{Key}", "Key", MessageBoxButton.OK);
+        }
+
         private bool CanExecuteSignIn(object param)
         {
-            return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
+            return !string.IsNullOrWhiteSpace(Username) &&
+                   !string.IsNullOrWhiteSpace(Password) &&
+                   !string.IsNullOrWhiteSpace(KeyInput);
         }
 
         private void ExecuteSignIn(object param)
@@ -57,7 +102,14 @@ namespace Fit_Track.ViewModel
             var mainWindow = param as Window;
 
             //hämta användare från listan baserat på användarnamn och lösenord
-            var user = User.GetUsers().FirstOrDefault(user => user.Username.ToLower() == Username.ToLower() && user.Password == Password);
+            var user = User.GetUsers().FirstOrDefault(user => user.Username.ToLower() == Username.ToLower() && 
+                                                      user.Password == Password);
+
+            if (Key != Convert.ToInt32(KeyInput))
+            {
+                MessageBox.Show("Authentication key is wrong, please try again");
+                return;
+            }
 
             //kolla om användarnamn och lösenord är korrekta
             if (user != null)

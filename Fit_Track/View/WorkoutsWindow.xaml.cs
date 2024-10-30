@@ -13,8 +13,9 @@ namespace Fit_Track.View
         {
             InitializeComponent();
             var viewModel = new WorkoutsWindowViewModel(User.CurrentUser);
+
             DataContext = viewModel;
-            
+
             btnUserDetails.CommandParameter = this;
             btnAddWorkout.CommandParameter = this;
             btnRemoveWorkout.CommandParameter = this;

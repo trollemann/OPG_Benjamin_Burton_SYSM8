@@ -27,10 +27,11 @@
 
                 <TextBox x:Name="txtBoxUsername" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20"/>
                 <TextBox x:Name="txtBoxPassword" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20"/>
+                <TextBox x:Name="txtBoxKeyInput" Text="{Binding KeyInput, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="120" Height="20"/>
                 <Button x:Name="btnSignIn" Content="Sign in" Width="120" Command="{Binding SignInCommand, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button x:Name="btnRegister" Content="Register" Width="120" Command="{Binding RegisterCommand}"/>
                 <Button x:Name="btnForgotPassword" Content="Forgot password?" Background="Transparent" BorderThickness="0" HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" Width="120" Command="{Binding ForgotPasswordCommand}" Foreground="LightGray"/>
+                        VerticalAlignment="Center" Width="120" Command="{Binding ForgotPasswordCommand}" Foreground="LightGray"/>
 
             </StackPanel>
 
@@ -38,6 +39,8 @@
 
                 <Label x:Name="lblUsername" Content="Username: " Foreground="LightGray" HorizontalAlignment="Right" Height="20" FontSize="8" FontWeight="Bold"/>
                 <Label x:Name="lblPassword" Content="Password: " Foreground="LightGray" HorizontalAlignment="Right" Height="20" FontSize="8" FontWeight="Bold"/>
+                <Button x:Name="btnSendKey" Content="Send key" Height="20" Width="50" Command="{Binding SendKeyCommand}" HorizontalAlignment="Right" FontSize="8"
+                        Background="Transparent" Foreground="LightGray" FontWeight="Bold" BorderThickness="0"/>
 
             </StackPanel>
         </Grid>
