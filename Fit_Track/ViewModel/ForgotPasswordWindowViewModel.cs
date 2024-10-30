@@ -135,7 +135,7 @@ namespace Fit_Track.ViewModel
         private void ExecuteConfirm(object param)
         {
             var user = User.GetUsers().FirstOrDefault(user => user.SecurityAnswer.Equals(SecurityAnswer));
-            if (SecurityAnswer == user.SecurityAnswer)
+            if (user != null && SecurityAnswer == user.SecurityAnswer)
             {
                 PasswordVisibility = Visibility.Visible;
             }
@@ -155,7 +155,10 @@ namespace Fit_Track.ViewModel
         {
             if (NewPassword == ConfirmPassword)
             {
-                Password = NewPassword;
+                var user = User.GetUsers().FirstOrDefault(u => u.Username == Username);
+                user.Password = ConfirmPassword;
+
+                MessageBox.Show("New password has been saved");
 
                 var forgotPasswordWindow = param as Window;
                 var mainWindow = new MainWindow();

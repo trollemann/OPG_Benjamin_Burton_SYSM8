@@ -88,6 +88,7 @@ namespace Fit_Track.ViewModel
             ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
             var mainWindow = param as Window;
             forgotPasswordWindow.Show();
+            Application.Current.Windows[0].Close();
         }
     }
 }

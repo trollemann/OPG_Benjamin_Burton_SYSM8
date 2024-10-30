@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fit_Track.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace Fit_Track.View
         public ForgotPasswordWindow()
         {
             InitializeComponent();
+            DataContext = new ForgotPasswordWindowViewModel();
         }
     }
 }
