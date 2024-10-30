@@ -179,6 +179,21 @@ namespace Fit_Track.ViewModel
 
             UpdateVisibility();
         }
+        public AddWorkoutWindowViewModel(WorkoutsWindowViewModel workoutsWindowViewModel)
+        {
+            _workoutsWindowViewModel = workoutsWindowViewModel;
+
+            SetWorkout(true);
+            StrengthWorkout = true;
+            CardioWorkout = false;
+
+            //initiera kommandon
+            StrengthWorkoutCommand = new RelayCommand(_ => SetWorkout(true));
+            CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
+            SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
+
+            UpdateVisibility();
+        }
 
         //KOMMANDON
         public RelayCommand SaveWorkoutCommand { get; }
@@ -186,23 +201,6 @@ namespace Fit_Track.ViewModel
         public RelayCommand CardioWorkoutCommand { get; }
 
         //METODER
-        private void SetWorkout(bool Strength)
-        {
-            StrengthWorkout = Strength;
-            CardioWorkout = !Strength;
-
-            StrengthWorkoutEnabled = !Strength;
-            CardioWorkoutEnabled = Strength;
-
-            UpdateVisibility();
-        }
-
-        private void UpdateVisibility()
-        {
-            RepetitionsVisibility = StrengthWorkout ? Visibility.Visible : Visibility.Collapsed;
-            DistanceVisibility = CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
-        }
-
         private bool CanExecuteSaveWorkout(object param)
         {
             if (StrengthWorkout)
@@ -225,68 +223,37 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteSaveWorkout(object param)
         {
-            
 
-
-            if (!int.TryParse(Duration, out int duration))
+            if (StrengthWorkoutEnabled)
             {
-                MessageBox.Show("Please enter a valid number for duration");
-                return;
+                Workout newStrengthWorkout = new StrengthWorkout(Date, Type, 0, 0, Notes, 0);
+                _workoutsWindowViewModel.CurrentUser.AddWorkout(newStrengthWorkout);
+            }
+            else
+            {
+                Workout newCardioWorkout = new CardioWorkout(Date, Type, 0, 0, Notes, 0);
+                _workoutsWindowViewModel.CurrentUser.AddWorkout(newCardioWorkout);
             }
 
-            int caloriesBurned = 0;
-            if (StrengthWorkout)
-            {
-                if (int.TryParse(Repetitions, out int repetitions))
-                {
-                    var newStrengthWorkout = new StrengthWorkout(Date, Type, duration, caloriesBurned, Notes, repetitions);
-
-                    _workoutsWindowViewModel.CurrentUser.AddWorkout(newStrengthWorkout);
-                    _workoutsWindowViewModel.StrengthWorkouts.Add(newStrengthWorkout);
-
-                    MessageBox.Show("New workout has been added");
-                    var workoutsWindow = new WorkoutsWindow();
-                    workoutsWindow.Show();
-                    Application.Current.Windows[0].Close();
-                }
-                else
-                {
-                    MessageBox.Show("Please enter a valid number for repetitions");
-                }
-            }
-            else if (CardioWorkout)
-            {
-                if (int.TryParse(Distance, out int distance))
-                {
-                    var newCardioWorkout = new CardioWorkout(Date, Type, duration, caloriesBurned, Notes, distance);
-
-                    _workoutsWindowViewModel.CurrentUser.AddWorkout(newCardioWorkout);
-                    _workoutsWindowViewModel.CardioWorkouts.Add(newCardioWorkout);
-
-                    MessageBox.Show("New workout has been added");
-                    var workoutsWindow = new WorkoutsWindow();
-                    workoutsWindow.Show();
-                    Application.Current.Windows[0].Close();
-                }
-                else
-                {
-                    MessageBox.Show("Please enter a valid number for distance");
-                }
-            }
+            MessageBox.Show("New workout has been added");
+            var workoutsWindow = new WorkoutsWindow();
+            workoutsWindow.Show();
+            Application.Current.Windows[0].Close();
         }
 
-        public AddWorkoutWindowViewModel(WorkoutsWindowViewModel workoutsWindowViewModel)
+        private void UpdateVisibility()
         {
-            _workoutsWindowViewModel = workoutsWindowViewModel;
+            RepetitionsVisibility = StrengthWorkout ? Visibility.Visible : Visibility.Collapsed;
+            DistanceVisibility = CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
+        }
 
-            SetWorkout(true);
-            StrengthWorkout = true;
-            CardioWorkout = false;
+        private void SetWorkout(bool Strength)
+        {
+            StrengthWorkout = Strength;
+            CardioWorkout = !Strength;
 
-            //initiera kommandon
-            StrengthWorkoutCommand = new RelayCommand(_ => SetWorkout(true));
-            CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
-            SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
+            StrengthWorkoutEnabled = !Strength;
+            CardioWorkoutEnabled = Strength;
 
             UpdateVisibility();
         }
