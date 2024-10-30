@@ -18,9 +18,5 @@ namespace Fit_Track.Model
             Username = username;
             Password = password;
         }
-
-        //METOD
-        //abstrakt
-        public abstract void SignIn();
     }
 }

@@ -139,7 +139,7 @@ namespace Fit_Track.ViewModel
         {
             if (SelectedWorkout == null) return;
 
-            CurrentUser.Workouts.Remove(SelectedWorkout);
+            CurrentUser._workouts.Remove(SelectedWorkout);
 
             if (SelectedWorkout is CardioWorkout)
             {
@@ -153,7 +153,7 @@ namespace Fit_Track.ViewModel
             //om admin, hitta användare o ta bort träningspass från användarens samling
             if (CurrentUser.Admin)
             {
-                var owner = User.GetUsers().FirstOrDefault(user => user.Workouts.Contains(SelectedWorkout));
+                var owner = User.GetUsers().FirstOrDefault(user => user._workouts.Contains(SelectedWorkout));
                 owner?.RemoveWorkout(SelectedWorkout);
                 OnPropertyChanged();
             }
@@ -250,7 +250,7 @@ namespace Fit_Track.ViewModel
                 //admin hämtar träningspass från alla användare
                 foreach (var user in User.GetUsers())
                 {
-                    foreach (var workout in user.Workouts.ToList())
+                    foreach (var workout in user._workouts.ToList())
                     {
                         AddWorkoutToList(workout);
                     }
@@ -259,7 +259,7 @@ namespace Fit_Track.ViewModel
             else
             {
                 //om ej admin, lägg till endast träningspass från CurrentUser
-                foreach (var workout in CurrentUser.Workouts.ToList())
+                foreach (var workout in CurrentUser._workouts.ToList())
                 {
                     AddWorkoutToList(workout);
                 }
