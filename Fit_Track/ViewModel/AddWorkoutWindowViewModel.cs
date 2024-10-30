@@ -1,4 +1,5 @@
 ﻿using Fit_Track.Model;
+using Fit_Track.View;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -223,7 +224,6 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteSaveWorkout(object param)
         {
-            var addWorkoutWindow = param as Window;
 
             if (!int.TryParse(Duration, out int workoutDuration))
             {
@@ -243,7 +243,9 @@ namespace Fit_Track.ViewModel
                     _workoutsWindowViewModel.StrengthWorkouts.Add(newStrengthWorkout);
 
                     MessageBox.Show("New workout has been added");
-                    addWorkoutWindow.Close();
+                    var workoutsWindow = new WorkoutsWindow();
+                    workoutsWindow.Show();
+                    Application.Current.Windows[0].Close();
                 }
                 else
                 {
@@ -259,7 +261,10 @@ namespace Fit_Track.ViewModel
                     _workoutsWindowViewModel.CurrentUser.AddWorkout(newCardioWorkout);
                     _workoutsWindowViewModel.CardioWorkouts.Add(newCardioWorkout);
 
-                    addWorkoutWindow.Close();
+                    MessageBox.Show("New workout has been added");
+                    var workoutsWindow = new WorkoutsWindow();
+                    workoutsWindow.Show();
+                    Application.Current.Windows[0].Close();
                 }
                 else
                 {

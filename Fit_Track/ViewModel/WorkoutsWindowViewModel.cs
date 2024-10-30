@@ -1,18 +1,15 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows;
 
 namespace Fit_Track.ViewModel
 {
     public class WorkoutsWindowViewModel : ViewModelBase
     {
-        //referens till den aktuella användaren
+        //EGENSKAPER
         public User CurrentUser { get; }
 
-
-        //EGENSKAPER
         private string _username;
         public string Username
         {
@@ -110,11 +107,12 @@ namespace Fit_Track.ViewModel
         //METODER
         private void ExecuteUserDetails(object param)
         {
-            var userDetailsWindow = new UserDetailsWindow
+            var userDetailsWindow = new UserDetailsWindow()
             {
                 //hämta information från CurrentUser till userDetails   
                 DataContext = new UserDetailsViewModel(CurrentUser)
             };
+
             var workoutsWindow = param as Window;
             userDetailsWindow.Show();
             Application.Current.Windows[0].Close();
@@ -122,8 +120,14 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteAddWorkout(object param)
         {
-            var addWorkoutWindow = new AddWorkoutWindow { DataContext = new AddWorkoutWindowViewModel(this) };
+            var addWorkoutWindow = new AddWorkoutWindow
+            {
+                DataContext = new AddWorkoutWindowViewModel(this)
+            };
+
+            var workoutsWindow = param as Window;
             addWorkoutWindow.Show();
+            Application.Current.Windows[0].Close();
         }
 
         private bool CanExecuteRemoveWorkout(object param)
@@ -136,8 +140,8 @@ namespace Fit_Track.ViewModel
             if (SelectedWorkout == null) return;
 
             CurrentUser.Workouts.Remove(SelectedWorkout);
-            
-            if(SelectedWorkout is CardioWorkout)
+
+            if (SelectedWorkout is CardioWorkout)
             {
                 _userWorkouts.Remove(SelectedWorkout);
             }
@@ -166,9 +170,6 @@ namespace Fit_Track.ViewModel
             SelectedWorkout = null;
         }
 
-
-
-
         private bool CanExecuteCopyWorkout(object param)
         {
             return SelectedWorkout != null;
@@ -185,7 +186,7 @@ namespace Fit_Track.ViewModel
             Application.Current.Windows[0].Close();
         }
 
-            private bool CanExecuteWorkoutDetails(object param)
+        private bool CanExecuteWorkoutDetails(object param)
         {
             return SelectedWorkout != null;
         }
@@ -211,10 +212,9 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteSignOut(object param)
         {
-            var workoutsWindow = param as Window;
             var mainWindow = new MainWindow();
             mainWindow.Show();
-            workoutsWindow.Close();
+            Application.Current.Windows[0].Close();
         }
 
         private void AddWorkoutToList(Workout workout)
