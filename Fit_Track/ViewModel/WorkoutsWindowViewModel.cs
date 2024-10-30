@@ -106,34 +106,6 @@ namespace Fit_Track.ViewModel
         }
 
         //METODER
-        private void InitializeWorkouts()
-        {
-            //töm befintliga samlingar för att undvika dubbletter vid upprepade anrop
-            CardioWorkouts.Clear();
-            StrengthWorkouts.Clear();
-            UserWorkouts.Clear();
-
-            if (CurrentUser.Admin)
-            {
-                //admin hämtar träningspass från alla användare
-                foreach (var user in User.GetUsers())
-                {
-                    foreach (var workout in user.Workouts.ToList())
-                    {
-                        AddWorkoutToList(workout);
-                    }
-                }
-            }
-            else
-            {
-                //om ej admin, lägg till endast träningspass från CurrentUser
-                foreach (var workout in CurrentUser.Workouts.ToList())
-                {
-                    AddWorkoutToList(workout);
-                }
-            }
-        }
-
         private void ExecuteUserDetails(object param)
         {
             var userDetailsWindow = new UserDetailsWindow
@@ -224,13 +196,6 @@ namespace Fit_Track.ViewModel
             workoutsWindow.Close();
         }
 
-        public void UpdateWorkoutList(Workout updatedWorkout)
-        {
-            //nollställ vald träning för att uppdatera UI
-            SelectedWorkout = null;
-            SelectedWorkout = updatedWorkout;
-        }
-
         private void AddWorkoutToList(Workout workout)
         {
             //lägg till träningspass i UserWorkouts, antingen i cardioWorkouts eller strengthWorkouts
@@ -242,6 +207,41 @@ namespace Fit_Track.ViewModel
             else if (workout is StrengthWorkout strengthWorkout)
             {
                 StrengthWorkouts.Add(strengthWorkout);
+            }
+        }
+
+        public void UpdateWorkoutList(Workout updatedWorkout)
+        {
+            //nollställ vald träning för att uppdatera UI
+            SelectedWorkout = null;
+            SelectedWorkout = updatedWorkout;
+        }
+
+        private void InitializeWorkouts()
+        {
+            //töm befintliga samlingar för att undvika dubbletter vid upprepade anrop
+            CardioWorkouts.Clear();
+            StrengthWorkouts.Clear();
+            UserWorkouts.Clear();
+
+            if (CurrentUser.Admin)
+            {
+                //admin hämtar träningspass från alla användare
+                foreach (var user in User.GetUsers())
+                {
+                    foreach (var workout in user.Workouts.ToList())
+                    {
+                        AddWorkoutToList(workout);
+                    }
+                }
+            }
+            else
+            {
+                //om ej admin, lägg till endast träningspass från CurrentUser
+                foreach (var workout in CurrentUser.Workouts.ToList())
+                {
+                    AddWorkoutToList(workout);
+                }
             }
         }
     }
