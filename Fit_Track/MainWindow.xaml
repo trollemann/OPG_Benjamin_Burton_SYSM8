@@ -39,7 +39,7 @@
 
                 <Label x:Name="lblUsername" Content="Username: " Foreground="LightGray" HorizontalAlignment="Right" Height="20" FontSize="8" FontWeight="Bold"/>
                 <Label x:Name="lblPassword" Content="Password: " Foreground="LightGray" HorizontalAlignment="Right" Height="20" FontSize="8" FontWeight="Bold"/>
-                <Button x:Name="btnSendKey" Content="Send key" Height="20" Width="50" Command="{Binding SendKeyCommand, UpdateSourceTrigger=PropertyChanged}" 
+                <Button x:Name="btnSendKey" Content="Send key" Height="20" Width="50" Command="{Binding SendKeyCommand}" 
                         HorizontalAlignment="Right" FontSize="8"
                         Background="Transparent" Foreground="LightGray" FontWeight="Bold" BorderThickness="0"/>
 

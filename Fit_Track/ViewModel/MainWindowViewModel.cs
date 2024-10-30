@@ -85,7 +85,6 @@ namespace Fit_Track.ViewModel
         //METODER
         private void ExecuteSendKey(object param)
         {
-
             Random random = new Random();
             Key = random.Next(1000, 10000);
             MessageBox.Show($"{Key}", "Key", MessageBoxButton.OK);
@@ -103,10 +102,16 @@ namespace Fit_Track.ViewModel
             var mainWindow = param as Window;
 
             //hämta användare från listan baserat på användarnamn och lösenord
-            var user = User.GetUsers().FirstOrDefault(user => user.Username.ToLower() == Username.ToLower() && 
-                                                      user.Password == Password);
-
-            if (Key != Convert.ToInt32(KeyInput))
+            var user = User.GetUsers().FirstOrDefault(user => user.Username.ToLower() == Username.ToLower() && user.Password == Password);
+            try
+            {
+                if (Key != Convert.ToInt32(KeyInput))
+                {
+                    MessageBox.Show("Authentication key is wrong, please try again");
+                    return;
+                }
+            }
+            catch (FormatException )
             {
                 MessageBox.Show("Authentication key is wrong, please try again");
                 return;
