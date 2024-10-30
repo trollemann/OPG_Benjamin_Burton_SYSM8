@@ -159,7 +159,7 @@ namespace Fit_Track.ViewModel
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-            registerWindow.Close();
+            Application.Current.Windows[0].Close();
         }
 
         static bool Length(string password)

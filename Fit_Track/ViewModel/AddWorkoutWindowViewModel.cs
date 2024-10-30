@@ -1,8 +1,8 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Metrics;
 using System.Windows;
-using System.Windows.Input;
 
 
 namespace Fit_Track.ViewModel
@@ -12,7 +12,7 @@ namespace Fit_Track.ViewModel
         //ObservableCollection för att lagra träningspass
         public ObservableCollection<Workout> Workouts { get; set; } = new ObservableCollection<Workout>();
 
-        //referens till parentfönstrets ViewModel
+        //referens till ViewModel
         private WorkoutsWindowViewModel _workoutsWindowViewModel;
 
         //EGENSKAPER
@@ -90,7 +90,8 @@ namespace Fit_Track.ViewModel
             {
                 _duration = value;
                 OnPropertyChanged();
-                UpdateCaloriesBurned();
+                CalculateCaloriesBurned();
+
             }
         }
 
@@ -124,7 +125,7 @@ namespace Fit_Track.ViewModel
             {
                 _repetitions = value;
                 OnPropertyChanged();
-                UpdateCaloriesBurned();
+                CalculateCaloriesBurned();
             }
         }
 
@@ -136,7 +137,7 @@ namespace Fit_Track.ViewModel
             {
                 _distance = value;
                 OnPropertyChanged();
-                UpdateCaloriesBurned();
+                CalculateCaloriesBurned();
             }
         }
 
@@ -224,20 +225,21 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteSaveWorkout(object param)
         {
+            
 
-            if (!int.TryParse(Duration, out int workoutDuration))
+
+            if (!int.TryParse(Duration, out int duration))
             {
                 MessageBox.Show("Please enter a valid number for duration");
                 return;
             }
 
-            int caloriesBurned = int.TryParse(CaloriesBurned, out int result) ? result : 0;
-
+            int caloriesBurned = 0;
             if (StrengthWorkout)
             {
                 if (int.TryParse(Repetitions, out int repetitions))
                 {
-                    var newStrengthWorkout = new StrengthWorkout(Date, Type, workoutDuration, caloriesBurned, Notes, repetitions);
+                    var newStrengthWorkout = new StrengthWorkout(Date, Type, duration, caloriesBurned, Notes, repetitions);
 
                     _workoutsWindowViewModel.CurrentUser.AddWorkout(newStrengthWorkout);
                     _workoutsWindowViewModel.StrengthWorkouts.Add(newStrengthWorkout);
@@ -256,7 +258,7 @@ namespace Fit_Track.ViewModel
             {
                 if (int.TryParse(Distance, out int distance))
                 {
-                    var newCardioWorkout = new CardioWorkout(Date, Type, workoutDuration, caloriesBurned, Notes, distance);
+                    var newCardioWorkout = new CardioWorkout(Date, Type, duration, caloriesBurned, Notes, distance);
 
                     _workoutsWindowViewModel.CurrentUser.AddWorkout(newCardioWorkout);
                     _workoutsWindowViewModel.CardioWorkouts.Add(newCardioWorkout);
@@ -289,19 +291,19 @@ namespace Fit_Track.ViewModel
             UpdateVisibility();
         }
 
-        private void UpdateCaloriesBurned()
+        private void CalculateCaloriesBurned()
         {
-            if (int.TryParse(Duration, out int workoutDuration))
+            if (int.TryParse(Duration, out int duration))
             {
                 if (StrengthWorkout && int.TryParse(Repetitions, out int repetitions))
                 {
-                    var tempWorkout = new StrengthWorkout(Date, Type, workoutDuration, 0, Notes, repetitions);
-                    CaloriesBurned = tempWorkout.CalculateCaloriesBurned().ToString();
+                    var strengthWorkout = new StrengthWorkout(Date, Type, duration, 0, Notes, repetitions);
+                    CaloriesBurned = strengthWorkout.CalculateCaloriesBurned().ToString();
                 }
                 else if (CardioWorkout && int.TryParse(Distance, out int distance))
                 {
-                    var tempWorkout = new CardioWorkout(Date, Type, workoutDuration, 0, Notes, distance);
-                    CaloriesBurned = tempWorkout.CalculateCaloriesBurned().ToString();
+                    var cardioWorkout = new CardioWorkout(Date, Type, duration, 0, Notes, distance);
+                    CaloriesBurned = cardioWorkout.CalculateCaloriesBurned().ToString();
                 }
                 else
                 {

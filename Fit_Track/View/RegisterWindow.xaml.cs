@@ -14,7 +14,6 @@ namespace Fit_Track.View
             InitializeComponent();
             var viewModel = new RegisterWindowViewModel();
             DataContext = viewModel;
-            btnCreateNewUser.CommandParameter = this;
         }
     }
 }

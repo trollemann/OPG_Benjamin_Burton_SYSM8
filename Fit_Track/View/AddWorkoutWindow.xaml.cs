@@ -23,10 +23,6 @@ namespace Fit_Track.View
         public AddWorkoutWindow()
         {
             InitializeComponent();
-            var viewModel = new AddWorkoutWindowViewModel();
-            DataContext = viewModel;
-
-            btnSaveWorkout.CommandParameter = this;
         }
     }
 }

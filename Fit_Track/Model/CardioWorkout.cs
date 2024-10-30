@@ -28,7 +28,7 @@ namespace Fit_Track.Model
         //overriding
         public override int CalculateCaloriesBurned()
         {
-            return Duration * Distance;
+            return Distance * Duration;
         }
     }
 }
