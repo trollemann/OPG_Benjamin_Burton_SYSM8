@@ -1,7 +1,6 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Metrics;
 using System.Windows;
 
 
@@ -260,22 +259,22 @@ namespace Fit_Track.ViewModel
 
         private void CalculateCaloriesBurned()
         {
-            if (int.TryParse(Duration, out int duration))
+            //försöker omvandla Duration till heltal
+            if (!int.TryParse(Duration, out int duration))
             {
-                if (StrengthWorkout && int.TryParse(Repetitions, out int repetitions))
-                {
-                    var strengthWorkout = new StrengthWorkout(Date, Type, duration, 0, Notes, repetitions);
-                    CaloriesBurned = strengthWorkout.CalculateCaloriesBurned().ToString();
-                }
-                else if (CardioWorkout && int.TryParse(Distance, out int distance))
-                {
-                    var cardioWorkout = new CardioWorkout(Date, Type, duration, 0, Notes, distance);
-                    CaloriesBurned = cardioWorkout.CalculateCaloriesBurned().ToString();
-                }
-                else
-                {
-                    CaloriesBurned = "0";
-                }
+                CaloriesBurned = "0";
+                return;
+            }
+
+            //försök omvandla Repetitions till heltal
+            if (StrengthWorkout && int.TryParse(Repetitions, out int repetitions))
+            {
+                CaloriesBurned = (repetitions * duration).ToString();
+            }
+            //försöker omvandla Distance till heltal och beräkna kalorier
+            else if (CardioWorkout && int.TryParse(Distance, out int distance))
+            {
+                CaloriesBurned = (distance * duration).ToString();
             }
             else
             {
