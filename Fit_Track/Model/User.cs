@@ -13,7 +13,7 @@
         private static List<User> _users = new List<User>();
 
         //lista för att spara träningspass för varje användare
-        public List<Workout> _workouts { get; private set; } = new List<Workout>();
+        public List<Workout> _workout { get; private set; } = new List<Workout>();
 
         //KONSTRUKTOR
         public User(string username, string password, string country, string securityQuestion, string securityAnswer, bool admin = false) : base(username, password)
@@ -22,7 +22,7 @@
             SecurityQuestion = securityQuestion;
             SecurityAnswer = securityAnswer;
             Admin = admin;
-            _workouts = new List<Workout>();
+            _workout = new List<Workout>();
 
             //lägg till ny användare i listan _users
             _users.Add(this);
@@ -39,8 +39,8 @@
             var admin = new User("admin", "password", "Iceland", "What is your favorite exercise?", "Bicep curls", admin: true);
 
             //skapa existerande träningspass
-            var existingWorkout = new CardioWorkout("2024-11-03", "Jogging", 60, 1000, "Morning run", 60);
-            var existingWorkout2 = new StrengthWorkout("2024-11-02", "Upper body", 120, 300, "Heavy lifting", 200);
+            var existingWorkout = new CardioWorkout(DateTime.Parse("2024-11-03"), "Jogging", TimeSpan.FromMinutes(60), 1000, "Morning run", 6);
+            var existingWorkout2 = new StrengthWorkout(DateTime.Parse("2024-11-02"), "Upper body", TimeSpan.FromMinutes(120), 300, "Heavy lifting", 200);
 
             //tilldela user och admin träningspassen
             user.AddWorkout(existingWorkout);
@@ -62,14 +62,14 @@
         //lägger till träningspass i användarens lista _workouts
         public void AddWorkout(Workout workout)
         {
-            _workouts.Add(workout);
+            _workout.Add(workout);
         }
 
         //tar bort träningspass från användarens lista _workouts
         public void RemoveWorkout(Workout workout)
         {
             {
-                _workouts.Remove(workout);
+                _workout.Remove(workout);
             }
         }
     }

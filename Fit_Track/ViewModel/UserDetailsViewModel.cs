@@ -7,6 +7,7 @@ namespace Fit_Track.ViewModel
     public class UserDetailsViewModel : ViewModelBase
     {
         private User _currentUser;
+
         public List<string> CountryList { get; } = new List<string> { "Sweden", "Norway", "Denmark", "Iceland" };
 
         //EGENSKAPER
@@ -23,17 +24,8 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged(nameof(ConfirmPasswordVisibility));
             }
         }
-        private string _username;
-        public string Username
-        {
-            get => _username;
-            set
-            {
-                _username = value;
-                OnPropertyChanged();
-            }
-        }
-
+  
+        public string Username { get; set; }
         public string Password { get; set; }
         public string NewPassword { get; set; }
         public string ConfirmPassword { get; set; }
@@ -48,13 +40,12 @@ namespace Fit_Track.ViewModel
         //KONSTRUKTOR
         public UserDetailsViewModel(User currentUser)
         {
+
             //sätter den aktuella användaren
             _currentUser = currentUser;
 
             Username = currentUser.Username;
             Password = currentUser.Password;
-            NewPassword = currentUser.Password;
-            ConfirmPassword = currentUser.Password;
             Country = currentUser.Country;
             SecurityQuestion = currentUser.SecurityQuestion;
             SecurityAnswer = currentUser.SecurityAnswer;
@@ -115,7 +106,6 @@ namespace Fit_Track.ViewModel
             _currentUser.SecurityAnswer = SecurityAnswer;
 
             MessageBox.Show("User details has been updated");
-            IsEditable = false;
 
             var workoutsWindow = new WorkoutsWindow();
             workoutsWindow.Show();
@@ -125,7 +115,7 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteCancel(object param)
         {
-            WorkoutsWindow workoutsWindow = new WorkoutsWindow();
+            var workoutsWindow = new WorkoutsWindow();
             workoutsWindow.Show();
             Application.Current.Windows[0].Close();
         }

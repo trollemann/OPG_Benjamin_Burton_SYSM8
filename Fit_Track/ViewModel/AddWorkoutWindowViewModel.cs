@@ -78,8 +78,9 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        private string _date;
-        public string Date
+        // Ändrat till DateTime
+        private DateTime _date;
+        public DateTime Date
         {
             get => _date;
             set
@@ -100,21 +101,20 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        private string _duration;
-        public string Duration
+        private TimeSpan _duration;
+        public TimeSpan Duration
         {
             get => _duration;
             set
             {
                 _duration = value;
-                OnPropertyChanged();
                 CalculateCaloriesBurned();
-
+                OnPropertyChanged();
             }
         }
 
-        private string _caloriesBurned;
-        public string CaloriesBurned
+        private int _caloriesBurned;
+        public int CaloriesBurned
         {
             get => _caloriesBurned;
             private set
@@ -135,27 +135,27 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        private string _repetitions;
-        public string Repetitions
+        private int _repetitions;
+        public int Repetitions
         {
             get => _repetitions;
             set
             {
                 _repetitions = value;
-                OnPropertyChanged();
                 CalculateCaloriesBurned();
+                OnPropertyChanged();
             }
         }
 
-        private string _distance;
-        public string Distance
+        private int _distance;
+        public int Distance
         {
             get => _distance;
             set
             {
                 _distance = value;
-                OnPropertyChanged();
                 CalculateCaloriesBurned();
+                OnPropertyChanged();
             }
         }
 
@@ -229,35 +229,37 @@ namespace Fit_Track.ViewModel
         {
             if (StrengthWorkout)
             {
-                return !string.IsNullOrWhiteSpace(Date) &&
+                return !string.IsNullOrWhiteSpace(Date.ToString()) &&
                        !string.IsNullOrWhiteSpace(Type) &&
-                       !string.IsNullOrWhiteSpace(Duration) &&
-                       !string.IsNullOrWhiteSpace(Repetitions) &&
+                       Repetitions >= 0 &&
+                       CaloriesBurned >= 0 &&
                        !string.IsNullOrWhiteSpace(Notes);
             }
             else
             {
-                return !string.IsNullOrWhiteSpace(Date) &&
+                return !string.IsNullOrWhiteSpace(Date.ToString()) &&
                        !string.IsNullOrWhiteSpace(Type) &&
-                       !string.IsNullOrWhiteSpace(Duration) &&
-                       !string.IsNullOrWhiteSpace(Distance) &&
+                       Distance >= 0 &&
+                       CaloriesBurned >= 0 &&
                        !string.IsNullOrWhiteSpace(Notes);
             }
         }
 
         private void ExecuteSaveWorkout(object param)
         {
+            Workout workout;
 
-            if (StrengthWorkoutEnabled)
+            if (StrengthWorkout)
             {
-                Workout newStrengthWorkout = new StrengthWorkout(Date, Type, 0, 0, Notes, 0);
-                _workoutsWindowViewModel.CurrentUser.AddWorkout(newStrengthWorkout);
+                workout = new StrengthWorkout(Date, Type, Duration, CaloriesBurned, Notes, Repetitions);
             }
             else
             {
-                Workout newCardioWorkout = new CardioWorkout(Date, Type, 0, 0, Notes, 0);
-                _workoutsWindowViewModel.CurrentUser.AddWorkout(newCardioWorkout);
+                workout = new CardioWorkout(Date, Type, Duration, CaloriesBurned, Notes, Distance);
             }
+
+            // Lägg till workout i listan
+            _workoutsWindowViewModel.CurrentUser.AddWorkout(workout);
 
             MessageBox.Show("New workout has been added");
             var workoutsWindow = new WorkoutsWindow();
@@ -271,39 +273,26 @@ namespace Fit_Track.ViewModel
             DistanceVisibility = CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void SetWorkout(bool Strength)
+        private void SetWorkout(bool isStrength)
         {
-            StrengthWorkout = Strength;
-            CardioWorkout = !Strength;
+            StrengthWorkout = isStrength;
+            CardioWorkout = !isStrength;
 
-            StrengthWorkoutEnabled = !Strength;
-            CardioWorkoutEnabled = Strength;
+            StrengthWorkoutEnabled = !isStrength;
+            CardioWorkoutEnabled = isStrength;
 
             UpdateVisibility();
         }
 
         private void CalculateCaloriesBurned()
         {
-            //försöker omvandla Duration till heltal
-            if (!int.TryParse(Duration, out int duration))
+            if (StrengthWorkout)
             {
-                CaloriesBurned = "0";
-                return;
+                CaloriesBurned = (int)Duration.TotalMinutes * Repetitions; // Räkna kalorier baserat på minuter
             }
-
-            //försöker omvandla Repetitions till heltal
-            if (StrengthWorkout && int.TryParse(Repetitions, out int repetitions))
+            else if (CardioWorkout)
             {
-                CaloriesBurned = (repetitions * duration).ToString();
-            }
-            //försöker omvandla Distance till heltal och beräkna kalorier
-            else if (CardioWorkout && int.TryParse(Distance, out int distance))
-            {
-                CaloriesBurned = (distance * duration).ToString();
-            }
-            else
-            {
-                CaloriesBurned = "0";
+                CaloriesBurned = (int)Duration.TotalMinutes * (int)Distance; // Räkna kalorier baserat på minuter
             }
         }
     }

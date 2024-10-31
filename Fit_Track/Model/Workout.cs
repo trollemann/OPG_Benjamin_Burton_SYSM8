@@ -3,14 +3,14 @@
     public abstract class Workout
     {
         //EGENSKAPER
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
         public string Type { get; set; }
-        public int Duration { get; set; }
+        public TimeSpan Duration { get; set; }
         public int CaloriesBurned { get; set; }
         public string Notes { get; set; }
 
         //KONSTRUKTOR
-        public Workout(string date, string type, int duration, int caloriesBurned, string notes)
+        public Workout(DateTime date, string type, TimeSpan duration, int caloriesBurned, string notes)
         {
             Date = date;
             Type = type;

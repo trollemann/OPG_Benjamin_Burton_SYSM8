@@ -81,11 +81,7 @@ namespace Fit_Track.ViewModel
         //METODER
         private void ExecuteUserDetails(object param)
         {
-            var userDetailsWindow = new UserDetailsWindow()
-            {
-                //hämta information från CurrentUser till userDetails   
-                DataContext = new UserDetailsViewModel(CurrentUser)
-            };
+            var userDetailsWindow = new UserDetailsWindow { DataContext = new UserDetailsViewModel(CurrentUser) };
 
             var workoutsWindow = param as Window;
             userDetailsWindow.Show();
@@ -110,7 +106,7 @@ namespace Fit_Track.ViewModel
         {
             if (CurrentUser.Admin)
             {
-                var user = User.GetUsers().FirstOrDefault(u => u._workouts.Contains(SelectedWorkout));
+                var user = User.GetUsers().FirstOrDefault(u => u._workout.Contains(SelectedWorkout));
                 user.RemoveWorkout(SelectedWorkout);
             }
             else
@@ -128,7 +124,7 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteWorkoutDetails(object param)
         {
-            WorkoutDetailsWindow workoutDetailsWindow = new WorkoutDetailsWindow { DataContext = new WorkoutDetailsWindowViewModel(SelectedWorkout) }; 
+            var workoutDetailsWindow = new WorkoutDetailsWindow { DataContext = new WorkoutDetailsWindowViewModel(SelectedWorkout) }; 
 
             var workoutsWindow = param as Window;
             workoutDetailsWindow.Show();
@@ -176,7 +172,7 @@ namespace Fit_Track.ViewModel
             {
                 foreach (var user in User.GetUsers())
                 {
-                    foreach (var workout in user._workouts)
+                    foreach (var workout in user._workout)
                     {
                         WorkoutsList.Add(workout);
                     }
@@ -184,7 +180,7 @@ namespace Fit_Track.ViewModel
             }
             else
             {
-                foreach (var workout in CurrentUser._workouts)
+                foreach (var workout in CurrentUser._workout)
                 {
                     WorkoutsList.Add(workout);
                 }
