@@ -35,7 +35,7 @@ namespace Fit_Track.ViewModel
 
         //samling av användarens träningspass
         private ObservableCollection<Workout> _userWorkouts;
-        public ObservableCollection<Workout> UserWorkouts
+        public ObservableCollection<Workout> WorkoutsList
         {
             get => _userWorkouts;
             set
@@ -45,28 +45,6 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        //samlingar för att hålla cardio- och styrketräningar
-        private ObservableCollection<CardioWorkout> _cardioWorkouts;
-        public ObservableCollection<CardioWorkout> CardioWorkouts
-        {
-            get => _cardioWorkouts;
-            private set
-            {
-                _cardioWorkouts = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private ObservableCollection<StrengthWorkout> _strengthWorkouts;
-        public ObservableCollection<StrengthWorkout> StrengthWorkouts
-        {
-            get => _strengthWorkouts;
-            private set
-            {
-                _strengthWorkouts = value;
-                OnPropertyChanged();
-            }
-        }
 
         //KOMMANDON
         public RelayCommand AddWorkoutCommand { get; }
@@ -81,13 +59,8 @@ namespace Fit_Track.ViewModel
         public WorkoutsWindowViewModel(User currentUser)
         {
             CurrentUser = currentUser;
-
-            //initialisera träningslistor
-            CardioWorkouts = new ObservableCollection<CardioWorkout>();
-            StrengthWorkouts = new ObservableCollection<StrengthWorkout>();
-
             //initialisera UserWorkouts med en ny ObservableCollection
-            UserWorkouts = new ObservableCollection<Workout>();
+            WorkoutsList = new ObservableCollection<Workout>();
 
             //initialisera existerande träningspass
             InitializeWorkouts();
@@ -138,37 +111,17 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteRemoveWorkout(object param)
         {
-            if (SelectedWorkout == null) return;
-
-            CurrentUser._workouts.Remove(SelectedWorkout);
-
-            if (SelectedWorkout is CardioWorkout)
-            {
-                _userWorkouts.Remove(SelectedWorkout);
-            }
-            else
-            {
-                _userWorkouts.Remove(SelectedWorkout);
-            }
-
-            //om admin, hitta användare o ta bort träningspass från användarens samling
             if (CurrentUser.Admin)
             {
-                var owner = User.GetUsers().FirstOrDefault(user => user._workouts.Contains(SelectedWorkout));
-                owner?.RemoveWorkout(SelectedWorkout);
-                OnPropertyChanged();
-            }
-            else
-            {
-                //om ej admin, ta bort träningspass från CurrentUser:s lista
-                CurrentUser.RemoveWorkout(SelectedWorkout);
-                OnPropertyChanged();
+                var user = User.GetUsers().FirstOrDefault(u => u._workouts.Contains(SelectedWorkout));
+                user.RemoveWorkout(SelectedWorkout);
             }
 
-            //ta bort träningspasset från UserWorkouts och nollställ vald träning
-            UserWorkouts.Remove(SelectedWorkout);
+            else
+            {
+                CurrentUser.RemoveWorkout(SelectedWorkout);
+            }
             InitializeWorkouts();
-            SelectedWorkout = null;
         }
 
         private bool CanExecuteCopyWorkout(object param)
@@ -206,9 +159,9 @@ namespace Fit_Track.ViewModel
         private void ExecuteInfo(object param)
         {
             MessageBox.Show("Fit Track is a platform designed to help users achieve their fitness goals " +
-                "through easy planning, tracking, and analysis of workouts. The button functions are " +
-                "self-explanatory – start adding workouts to get started.\n\nThe person behind" +
-                " Fit Track is a genius with seriously impressive abs, big guns, and more.\n-ChatGPT");
+                            "through easy planning, tracking, and analysis of workouts. The button functions are " +
+                            "self-explanatory – start adding workouts to get started.\n\nThe person behind" +
+                            " Fit Track is a genius with seriously impressive abs, big guns, and more.\n-ChatGPT");
         }
 
         private void ExecuteSignOut(object param)
@@ -221,14 +174,13 @@ namespace Fit_Track.ViewModel
         private void AddWorkoutToList(Workout workout)
         {
             //lägg till träningspass i UserWorkouts, antingen i cardioWorkouts eller strengthWorkouts
-            UserWorkouts.Add(workout);
             if (workout is CardioWorkout cardioWorkout)
             {
-                CardioWorkouts.Add(cardioWorkout);
+                WorkoutsList.Add(cardioWorkout);
             }
             else if (workout is StrengthWorkout strengthWorkout)
             {
-                StrengthWorkouts.Add(strengthWorkout);
+                WorkoutsList.Add(strengthWorkout);
             }
         }
 
@@ -241,28 +193,25 @@ namespace Fit_Track.ViewModel
 
         private void InitializeWorkouts()
         {
-            //töm befintliga samlingar för att undvika dubbletter vid upprepade anrop
-            CardioWorkouts.Clear();
-            StrengthWorkouts.Clear();
-            UserWorkouts.Clear();
+            //rensar befintliga träningspass
+            WorkoutsList.Clear();
 
             if (CurrentUser.Admin)
             {
-                //admin hämtar träningspass från alla användare
+                //lägger till träningspass från alla användare
                 foreach (var user in User.GetUsers())
                 {
-                    foreach (var workout in user._workouts.ToList())
+                    foreach (var workout in user._workouts)
                     {
-                        AddWorkoutToList(workout);
+                        WorkoutsList.Add(workout);
                     }
                 }
             }
             else
             {
-                //om ej admin, lägg till endast träningspass från CurrentUser
-                foreach (var workout in CurrentUser._workouts.ToList())
+                foreach (var workout in CurrentUser._workouts)
                 {
-                    AddWorkoutToList(workout);
+                    WorkoutsList.Add(workout);
                 }
             }
         }

@@ -42,7 +42,6 @@
             //tilldela user och admin träningspassen
             user.AddWorkout(existingWorkout);
             admin.AddWorkout(existingWorkout2);
-
         }
 
         //hämta alla användare

@@ -15,30 +15,16 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="341*"/>
-            <ColumnDefinition Width="141*"/>
-            <ColumnDefinition Width="318*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Label x:Name="lblCardioWorkouts" Content="Cardio workouts" HorizontalAlignment="Center"
-               VerticalAlignment="Bottom" Grid.Column="1" FontSize="15" Foreground="LightGray" FontWeight="Bold"/>
-        <Label x:Name="lblStrengthWorkouts" Content="Strength workouts" HorizontalAlignment="Left" 
+        <Label x:Name="lblWorkouts" Content="Workouts" HorizontalAlignment="Left" 
                VerticalAlignment="Bottom" Grid.Column="2" FontSize="15" Foreground="LightGray" FontWeight="Bold"/>
-        <ListBox x:Name="listBoxStrengthWorkouts" HorizontalAlignment="Left" VerticalAlignment="Top" Height="150" Width="130" Margin="5" 
-                 Grid.Row="1" Grid.Column="2" ItemsSource="{Binding StrengthWorkouts}" SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Date}" />
-                        <TextBlock Text="{Binding Type}" FontWeight="Bold"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <ListBox x:Name="listBoxCardioWorkouts" HorizontalAlignment="Left" VerticalAlignment="Top" Height="150" Width="130"
-                     Margin="5" ItemsSource="{Binding CardioWorkouts}" SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
+            <ListBox x:Name="listBoxWorkouts" HorizontalAlignment="Left" VerticalAlignment="Top" Height="190" Width="130"
+                     Margin="5" ItemsSource="{Binding WorkoutsList}" SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
