@@ -9,6 +9,31 @@ namespace Fit_Track.ViewModel
     public class AddWorkoutWindowViewModel : ViewModelBase
     {
         //EGENSKAPER
+        public User CurrentUser { get; }
+
+        private Workout _selectedWorkout;
+        public Workout SelectedWorkout
+        {
+            get => _selectedWorkout;
+            set
+            {
+                _selectedWorkout = value;
+                OnPropertyChanged();
+            }
+        }
+
+        //samling av användarens träningspass
+        private ObservableCollection<Workout> _workouts;
+        public ObservableCollection<Workout> WorkoutsList
+        {
+            get => _workouts;
+            set
+            {
+                _workouts = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool _strengthWorkoutEnabled = true;
         public bool StrengthWorkoutEnabled
         {
@@ -187,6 +212,10 @@ namespace Fit_Track.ViewModel
             CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
             SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
 
+            //initialisera UserWorkouts med en ny ObservableCollection (uppdateras direkt)
+            WorkoutsList = new ObservableCollection<Workout>();
+            workoutsWindowViewModel.InitializeWorkouts();
+
             UpdateVisibility();
         }
 
@@ -262,7 +291,7 @@ namespace Fit_Track.ViewModel
                 return;
             }
 
-            //försök omvandla Repetitions till heltal
+            //försöker omvandla Repetitions till heltal
             if (StrengthWorkout && int.TryParse(Repetitions, out int repetitions))
             {
                 CaloriesBurned = (repetitions * duration).ToString();

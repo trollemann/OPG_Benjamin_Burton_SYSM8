@@ -15,6 +15,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+
         </Grid.ColumnDefinitions>
 
         <Button x:Name="btnStrengthWorkout" Content="Strength workout" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
@@ -42,5 +44,21 @@
             <TextBox x:Name="txtBoxNotes" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             <Button x:Name="btnSaveWorkout" Content="Save workout" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Command="{Binding SaveWorkoutCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
         </StackPanel>
+
+        <Label x:Name="lblWorkouts" Content="Workouts" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Row="0" Grid.Column="2" FontWeight="Bold"
+               Height="40" FontSize="25" Foreground="LightGray"/>
+
+        <ListBox x:Name="listBoxWorkouts" HorizontalAlignment="Left" VerticalAlignment="Top" Height="270" Width="130" Grid.Row="1" Grid.Column="2"
+         Margin="5" ItemsSource="{Binding WorkoutsList}" SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Date}" />
+                        <TextBlock Text="{Binding Type}" FontWeight="Bold" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
     </Grid>
 </Window>

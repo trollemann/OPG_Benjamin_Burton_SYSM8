@@ -137,7 +137,6 @@ namespace Fit_Track.ViewModel
         private void ExecuteSave(object param)
         {
             MessageBox.Show("Changes have been saved");
-            IsEditable = false;
 
             //uppdatera workoutList i WorkoutsWindowViewModel
             if (param is Window window && window.DataContext is WorkoutsWindowViewModel mainViewModel)
@@ -148,6 +147,6 @@ namespace Fit_Track.ViewModel
             WorkoutsWindow workoutsWindow = new WorkoutsWindow();
             workoutsWindow.Show();
             Application.Current.Windows[0].Close();
-        }
+        } 
     }
 }
