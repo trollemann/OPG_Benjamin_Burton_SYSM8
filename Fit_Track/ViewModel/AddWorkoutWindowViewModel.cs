@@ -8,12 +8,6 @@ namespace Fit_Track.ViewModel
 {
     public class AddWorkoutWindowViewModel : ViewModelBase
     {
-        //ObservableCollection för att lagra träningspass
-        public ObservableCollection<Workout> Workouts { get; set; } = new ObservableCollection<Workout>();
-
-        //referens till ViewModel
-        private WorkoutsWindowViewModel _workoutsWindowViewModel;
-
         //EGENSKAPER
         private bool _strengthWorkoutEnabled = true;
         public bool StrengthWorkoutEnabled
@@ -178,6 +172,8 @@ namespace Fit_Track.ViewModel
 
             UpdateVisibility();
         }
+
+        private WorkoutsWindowViewModel _workoutsWindowViewModel;
         public AddWorkoutWindowViewModel(WorkoutsWindowViewModel workoutsWindowViewModel)
         {
             _workoutsWindowViewModel = workoutsWindowViewModel;

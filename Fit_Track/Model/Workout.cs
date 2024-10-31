@@ -18,9 +18,5 @@
             CaloriesBurned = caloriesBurned;
             Notes = notes;
         }
-
-        //METOD
-        //abstrakt
-        public abstract int CalculateCaloriesBurned();
     }
 }

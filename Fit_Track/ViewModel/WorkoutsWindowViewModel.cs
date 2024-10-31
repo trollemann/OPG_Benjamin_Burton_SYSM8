@@ -56,6 +56,7 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
+
         private ObservableCollection<StrengthWorkout> _strengthWorkouts;
         public ObservableCollection<StrengthWorkout> StrengthWorkouts
         {

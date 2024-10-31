@@ -10,12 +10,5 @@
         {
             Repetitions = repetitions;
         }
-
-        //METOD
-        //overriding
-        public override int CalculateCaloriesBurned()
-        {
-            return Duration * Repetitions;
-        }
     }
 }
