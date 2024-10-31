@@ -31,6 +31,9 @@
         //initialisera användare
         public static void InitializeUsers()
         {
+            //om det redan finns existerande användare, avbryt metoden
+            if (_users.Count > 0) return;
+
             //skapa existerande användare
             var user = new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press");
             var admin = new User("admin", "password", "Iceland", "What is your favorite exercise?", "Bicep curls", admin: true);

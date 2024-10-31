@@ -34,16 +34,17 @@ namespace Fit_Track.ViewModel
         }
 
         //samling av användarens träningspass
-        private ObservableCollection<Workout> _userWorkouts;
+        private ObservableCollection<Workout> _workouts;
         public ObservableCollection<Workout> WorkoutsList
         {
-            get => _userWorkouts;
+            get => _workouts;
             set
             {
-                _userWorkouts = value;
+                _workouts = value;
                 OnPropertyChanged();
             }
         }
+
 
 
         //KOMMANDON
@@ -59,13 +60,11 @@ namespace Fit_Track.ViewModel
         public WorkoutsWindowViewModel(User currentUser)
         {
             CurrentUser = currentUser;
-            //initialisera UserWorkouts med en ny ObservableCollection
+
+            //initialisera UserWorkouts med en ny ObservableCollection (uppdateras direkt)
             WorkoutsList = new ObservableCollection<Workout>();
 
-            //initialisera existerande träningspass
-            InitializeWorkouts();
-
-            //sätt användarnamnet från CurrentUser
+            //sätt användarnamnet från CurrentUser (userDetails-knappen)
             Username = CurrentUser.Username;
 
             //initiera kommandon
@@ -76,6 +75,9 @@ namespace Fit_Track.ViewModel
             UserDetailsCommand = new RelayCommand(ExecuteUserDetails);
             InfoCommand = new RelayCommand(ExecuteInfo);
             SignOutCommand = new RelayCommand(ExecuteSignOut);
+
+            //initialisera existerande träningspass
+            InitializeWorkouts();
         }
 
         //METODER
@@ -116,11 +118,11 @@ namespace Fit_Track.ViewModel
                 var user = User.GetUsers().FirstOrDefault(u => u._workouts.Contains(SelectedWorkout));
                 user.RemoveWorkout(SelectedWorkout);
             }
-
             else
             {
                 CurrentUser.RemoveWorkout(SelectedWorkout);
             }
+
             InitializeWorkouts();
         }
 
@@ -193,12 +195,10 @@ namespace Fit_Track.ViewModel
 
         private void InitializeWorkouts()
         {
-            //rensar befintliga träningspass
             WorkoutsList.Clear();
 
             if (CurrentUser.Admin)
             {
-                //lägger till träningspass från alla användare
                 foreach (var user in User.GetUsers())
                 {
                     foreach (var workout in user._workouts)

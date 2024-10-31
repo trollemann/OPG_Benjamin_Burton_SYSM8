@@ -1,5 +1,6 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
+using System.Diagnostics.Metrics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -66,13 +67,13 @@ namespace Fit_Track.ViewModel
         //KONSTRUKTOR
         public MainWindowViewModel()
         {
-            //tillkalla metod för att initiera användare
-            User.InitializeUsers();
-
             SendKeyCommand = new RelayCommand(ExecuteSendKey);
             SignInCommand = new RelayCommand(ExecuteSignIn, CanExecuteSignIn);
             RegisterCommand = new RelayCommand(ExecuteRegister);
             ForgotPasswordCommand = new RelayCommand(ExecuteForgotPassword);
+            
+            //tillkalla metod för att initiera användare
+            User.InitializeUsers();
         }
 
         //KOMMANDON
@@ -111,7 +112,7 @@ namespace Fit_Track.ViewModel
                     return;
                 }
             }
-            catch (FormatException )
+            catch (FormatException)
             {
                 MessageBox.Show("Authentication key is wrong, please try again");
                 return;
