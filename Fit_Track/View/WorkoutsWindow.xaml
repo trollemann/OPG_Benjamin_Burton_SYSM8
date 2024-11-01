@@ -22,15 +22,14 @@
         <StackPanel Grid.Column="1" Orientation="Horizontal">
             <TextBox x:Name="txtBoxFilter" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="130" Margin="5"
                      Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            <ComboBox x:Name="comboBoxFilter" ItemsSource="{Binding FilterList}" Width="120" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                      SelectedItem="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
-
+            <ComboBox x:Name="comboBoxFilter" ItemsSource="{Binding FilterList}" Width="120" Height="30" 
+          VerticalAlignment="Bottom" HorizontalAlignment="Left" SelectedItem="{Binding SelectedFilter, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
         </StackPanel>
 
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <ListBox x:Name="listBoxWorkouts" HorizontalAlignment="Left" VerticalAlignment="Top" Height="190" Width="130"
-                     Margin="5" ItemsSource="{Binding WorkoutsList}" SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
+                     Margin="5" ItemsSource="{Binding WorkoutsView}" SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>

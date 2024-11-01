@@ -40,7 +40,7 @@ namespace Fit_Track.Model
 
             //skapa existerande användare
             var user = new User("q", "q", "Sweden", "What is your favorite exercise?", "Bench press");
-            var admin = new User("admin", "password", "Iceland", "What is your favorite exercise?", "Bicep curls", admin: true);
+            var admin = new User("w", "w", "Iceland", "What is your favorite exercise?", "Bicep curls", admin: true);
 
             //skapa existerande träningspass
             var existingWorkout = new CardioWorkout(new DateTime(2024,11,03), "Jogging", TimeSpan.FromMinutes(60), 1000, "Morning run", 6);

@@ -1,7 +1,9 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 
 namespace Fit_Track.ViewModel
 {
@@ -56,13 +58,29 @@ namespace Fit_Track.ViewModel
         public RelayCommand InfoCommand { get; }
         public RelayCommand SignOutCommand { get; }
 
+
+        public ICollectionView WorkoutsView { get; set; }
+
+        private string _selectedFilter;
+        public string SelectedFilter
+        {
+            get => _selectedFilter;
+            set
+            {
+                _selectedFilter = value;
+                OnPropertyChanged();
+                ApplySorting();
+            }
+        }
+
+
         //KONSTRUKTOR
         public WorkoutsWindowViewModel(User currentUser)
         {
             CurrentUser = currentUser;
 
-            //initialisera UserWorkouts med en ny ObservableCollection (uppdateras direkt)
             WorkoutsList = new ObservableCollection<Workout>();
+            WorkoutsView = CollectionViewSource.GetDefaultView(WorkoutsList);
 
             //sätt användarnamnet från CurrentUser (userDetails-knappen)
             Username = CurrentUser.Username;
@@ -78,6 +96,9 @@ namespace Fit_Track.ViewModel
 
             //initialisera existerande träningspass
             InitializeWorkouts();
+
+            _selectedFilter = "Date";
+            ApplySorting();
         }
 
         //METODER
@@ -206,7 +227,7 @@ namespace Fit_Track.ViewModel
         public void SetSelectedWorkout(Workout workout)
         {
             SelectedWorkout = workout;
-            OnPropertyChanged(nameof(SelectedWorkout)); // Meddela om att SelectedWorkout har ändrats
+            OnPropertyChanged(nameof(SelectedWorkout));
         }
 
         public void InitializeWorkouts()
@@ -230,6 +251,26 @@ namespace Fit_Track.ViewModel
                     WorkoutsList.Add(workout);
                 }
             }
+        }
+
+        private void ApplySorting()
+        {
+            WorkoutsView.SortDescriptions.Clear();
+
+            switch (SelectedFilter)
+            {
+                case "Date":
+                    WorkoutsView.SortDescriptions.Add(new SortDescription(nameof(Workout.Date), ListSortDirection.Ascending));
+                    break;
+                case "Type":
+                    WorkoutsView.SortDescriptions.Add(new SortDescription(nameof(Workout.Type), ListSortDirection.Ascending));
+                    break;
+                case "Duration":
+                    WorkoutsView.SortDescriptions.Add(new SortDescription(nameof(Workout.Duration), ListSortDirection.Ascending));
+                    break;
+            }
+
+            WorkoutsView.Refresh();
         }
     }
 }
