@@ -164,6 +164,12 @@ namespace Fit_Track.ViewModel
             SelectedWorkout = updatedWorkout;
         }
 
+        public void SetSelectedWorkout(Workout workout)
+        {
+            SelectedWorkout = workout;
+            OnPropertyChanged(nameof(SelectedWorkout)); // Meddela om att SelectedWorkout har ändrats
+        }
+
         public void InitializeWorkouts()
         {
             WorkoutsList.Clear();

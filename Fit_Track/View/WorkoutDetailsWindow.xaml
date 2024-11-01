@@ -12,36 +12,32 @@
             <RowDefinition Height="75"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="btnStrengthWorkout" Content="Strength workout" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
-            Height="30" Width="130" Margin="5" Command="{Binding StrengthWorkoutCommand}" IsEnabled="{Binding StrengthWorkoutEnabled}"/>
-        <Button x:Name="btnCardioWorkout" Content="Cardio workout" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" 
-            Width="130" Margin="5" Grid.Column="1" Command="{Binding CardioWorkoutCommand}" IsEnabled="{Binding CardioWorkoutEnabled}"/>
-
         <StackPanel Grid.Row="1">
-            <Label x:Name="lblDate" Content="Date:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
-            <Label x:Name="lblType" Content="Type:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
-            <Label x:Name="lblDuration" Content="Duration:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
-            <Label x:Name="lblRepititions" Content="Repetitions:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding RepetitionsVisibility}"/>
-            <Label x:Name="lblDistance" Content="Distance:" HorizontalAlignment="Right" Height="30"  Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding DistanceVisibility}"/>
+            <Label x:Name="lblDate" Content="Date:" HorizontalAlignment="Right" Height="30" Width="50" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label x:Name="lblType" Content="Type:" HorizontalAlignment="Right" Height="30" Width="50" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label x:Name="lblDuration" Content="Duration:" HorizontalAlignment="Right" Height="30" Width="75" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label x:Name="lblRepititions" Content="Repititions:" HorizontalAlignment="Right" Height="30" Width="87" Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding RepetitionsVisibility}"/>
+            <Label x:Name="lblDistance" Content="Distance:" HorizontalAlignment="Right" Height="30" Width="87" Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding DistanceVisibility}"/>
             <Label x:Name="lblCaloriesBurned" Content="Calories burned:" HorizontalAlignment="Right" Height="30" Width="120" Margin="5" FontSize="15" Foreground="LightGray"/>
-            <Label x:Name="lblNotes" Content="Notes:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label x:Name="lblNotes" Content="Notes:"  HorizontalAlignment="Right" Height="30" Width="55" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Button x:Name="btnEdit" Content="Edit" HorizontalAlignment="Right" Height="30" Width="130" Margin="5" Command="{Binding Edit}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" IsEnabled="True"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <TextBox x:Name="txtBoxDate" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            <TextBox x:Name="txtBoxType" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Type, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            <TextBox x:Name="txtBoxDuration" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            <TextBox x:Name="txtBoxRepititions" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Repetitions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="{Binding RepetitionsVisibility}"/>
-            <TextBox x:Name="txtBoxDistance" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="{Binding DistanceVisibility}"/>
-            <TextBox x:Name="txtBoxCaloriesBurned" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding CaloriesBurned, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
-            <TextBox x:Name="txtBoxNotes" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            <Button x:Name="btnSaveWorkout" Content="Save workout" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Command="{Binding SaveWorkoutCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+            <TextBox x:Name="txtBoxDate" HorizontalAlignment="Left" Height="30"  Width="130" Margin="5" Text="{Binding Date, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding IsEditable}"/>
+            <TextBox x:Name="txtBoxType" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Type, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding IsEditable}"/>
+            <TextBox x:Name="txtBoxDuration" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding IsEditable}"/>
+            <TextBox x:Name="txtBoxRepititions" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Repetitions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="{Binding RepetitionsVisibility}" IsEnabled="{Binding IsEditable}"/>
+            <TextBox x:Name="txtBoxDistance" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="{Binding DistanceVisibility}" IsEnabled="{Binding IsEditable}"/>
+            <TextBox x:Name="txtBoxCaloriesBurned" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding CaloriesBurned, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" IsEnabled="{Binding IsEditable}"/>
+            <TextBox x:Name="txtBoxNotes" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding IsEditable}"/>
+            <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Command="{Binding Save}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" IsEnabled="{Binding IsEditable}"/>
         </StackPanel>
     </Grid>
 </Window>
