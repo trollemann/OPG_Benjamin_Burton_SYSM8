@@ -7,6 +7,9 @@ namespace Fit_Track.ViewModel
 {
     public class WorkoutsWindowViewModel : ViewModelBase
     {
+        public List<string> FilterList { get; } = new List<string> { "Date", "Type", "Duration" };
+
+
         //EGENSKAPER
         public User CurrentUser { get; }
 

@@ -1,13 +1,14 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace Fit_Track.ViewModel
 {
     public class RegisterWindowViewModel : ViewModelBase
     {
-        public List<string> CountryList { get; } = new List<string> { "Sweden", "Norway", "Denmark", "Iceland" };
-
+        public List<string> CountryList { get; } = new List<string> { "Sweden", "Denmark", "Norway", "Iceland" };
+        
         //EGENSKAPER
         private string _username;
         public string Username
