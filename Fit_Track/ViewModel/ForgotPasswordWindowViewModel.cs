@@ -93,18 +93,19 @@ namespace Fit_Track.ViewModel
             }
         }
 
+        public RelayCommand EnterCommand { get; }
+        public RelayCommand ConfirmCommand { get; }
+        public RelayCommand SaveCommand { get; }
+        public RelayCommand CancelCommand { get; }
+
         //KONSTRUKTOR
         public ForgotPasswordWindowViewModel()
         {
             EnterCommand = new RelayCommand(ExecuteEnter, CanExecuteEnter);
             ConfirmCommand = new RelayCommand(ExecuteConfirm, CanExecuteConfirm);
             SaveCommand = new RelayCommand(ExecuteSave, CanExecuteSave);
+            CancelCommand = new RelayCommand(ExecuteCancel);
         }
-
-        //KOMMANDON
-        public RelayCommand EnterCommand { get; }
-        public RelayCommand ConfirmCommand { get; }
-        public RelayCommand SaveCommand { get; }
 
         //METODER
         private bool CanExecuteEnter(object param)
@@ -114,27 +115,28 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteEnter(object param)
         {
+            //hämtar den första användaren som matchar det angivna användarnamnet
             var user = User.GetUsers().FirstOrDefault(user => user.Username.Equals(Username));
-            
+
             if (user != null)
             {
+                //sätter säkerhetsfrågan till användarens säkerhetsfråga
                 SecurityQuestion = user.SecurityQuestion;
                 SecurityVisibility = Visibility.Visible;
-            }
-            else
-            {
-                SecurityQuestion = string.Empty;
-                SecurityVisibility = Visibility.Collapsed;
-            }
+            }         
         }
 
         private bool CanExecuteConfirm(object param)
         {
             return !string.IsNullOrWhiteSpace(SecurityAnswer);
         }
+
         private void ExecuteConfirm(object param)
         {
+            //hämtar den första användaren som har det angivna säkerhetssvaret
             var user = User.GetUsers().FirstOrDefault(user => user.SecurityAnswer.Equals(SecurityAnswer));
+
+            //om användaren finns och säkerhetssvaret matchar gör lösenordsfältet synligt
             if (user != null && SecurityAnswer == user.SecurityAnswer)
             {
                 PasswordVisibility = Visibility.Visible;
@@ -147,24 +149,34 @@ namespace Fit_Track.ViewModel
 
         private bool CanExecuteSave(object param)
         {
-            return !string.IsNullOrWhiteSpace(NewPassword) &&
+            return !string.IsNullOrWhiteSpace(NewPassword) && 
                    !string.IsNullOrWhiteSpace(ConfirmPassword);
         }
 
         private void ExecuteSave(object param)
         {
+            //kontrollerar att det nya lösenordet matchar bekräftelsen
             if (NewPassword == ConfirmPassword)
             {
+                //hämtar den första användaren som matchar det angivna användarnamnet
                 var user = User.GetUsers().FirstOrDefault(u => u.Username == Username);
+
+                //sätter användarens lösenord till det bekräftade lösenordet
                 user.Password = ConfirmPassword;
 
                 MessageBox.Show("New password has been saved");
 
-                var forgotPasswordWindow = param as Window;
                 var mainWindow = new MainWindow();
                 mainWindow.Show();
-                forgotPasswordWindow.Close();
+                Application.Current.Windows[0].Close();
             }
+        }
+
+        private void ExecuteCancel(object param)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            Application.Current.Windows[0].Close();
         }
     }
 }

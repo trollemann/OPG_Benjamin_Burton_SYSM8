@@ -25,7 +25,9 @@
             <Label x:Name="lblDistance" Content="Distance:" HorizontalAlignment="Right" Height="30" Width="87" Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding DistanceVisibility}"/>
             <Label x:Name="lblCaloriesBurned" Content="Calories burned:" HorizontalAlignment="Right" Height="30" Width="120" Margin="5" FontSize="15" Foreground="LightGray"/>
             <Label x:Name="lblNotes" Content="Notes:"  HorizontalAlignment="Right" Height="30" Width="55" Margin="5" FontSize="15" Foreground="LightGray"/>
-            <Button x:Name="btnEdit" Content="Edit" HorizontalAlignment="Right" Height="30" Width="130" Margin="5" Command="{Binding Edit}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" IsEnabled="True"/>
+            <Button x:Name="btnEdit" Content="Edit" HorizontalAlignment="Right" Height="30" Width="130" Margin="5" Command="{Binding Edit}" IsEnabled="True"/>
+            <Button Content="Cancel" HorizontalAlignment="Right" Height="30" Width="130" Margin="5"
+                    Command="{Binding Cancel}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
@@ -36,7 +38,7 @@
             <TextBox x:Name="txtBoxDistance" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="{Binding DistanceVisibility}" IsEnabled="{Binding IsEditable}"/>
             <TextBox x:Name="txtBoxCaloriesBurned" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding CaloriesBurned, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding IsEditable}"/>
             <TextBox x:Name="txtBoxNotes" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding IsEditable}"/>
-            <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Command="{Binding Save}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" IsEnabled="{Binding IsEditable}"/>
+            <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Command="{Binding Save}" IsEnabled="{Binding IsEditable}"/>
         </StackPanel>
     </Grid>
 </Window>

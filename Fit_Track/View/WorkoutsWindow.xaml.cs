@@ -12,6 +12,7 @@ namespace Fit_Track.View
         public WorkoutsWindow()
         {
             InitializeComponent();
+            //passerar den aktuella användaren som parameter
             var viewModel = new WorkoutsWindowViewModel(User.CurrentUser);
             DataContext = viewModel;
         }

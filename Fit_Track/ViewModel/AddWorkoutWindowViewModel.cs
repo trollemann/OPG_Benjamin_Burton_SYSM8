@@ -1,7 +1,9 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Input;
 
 
 namespace Fit_Track.ViewModel
@@ -9,6 +11,7 @@ namespace Fit_Track.ViewModel
     public class AddWorkoutWindowViewModel : ViewModelBase
     {
         //EGENSKAPER
+
         public User CurrentUser { get; }
 
         private Workout _selectedWorkout;
@@ -188,30 +191,38 @@ namespace Fit_Track.ViewModel
         {
             _workoutsWindowViewModel = workoutsWindowViewModel;
 
+            //ställer in styrketräning som förval
             SetWorkout(true);
             StrengthWorkout = true;
             CardioWorkout = false;
 
-            //initiera kommandon
-            StrengthWorkoutCommand = new RelayCommand(_ => SetWorkout(true));
-            CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
+            StrengthWorkoutCommand = new RelayCommand(ExecuteStrengthWorkout);
+            CardioWorkoutCommand = new RelayCommand(ExecuteCardioWorkout);
             SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
-
-            //initialisera UserWorkouts med en ny ObservableCollection (uppdateras direkt)
-            WorkoutsList = new ObservableCollection<Workout>(); 
-
-            workoutsWindowViewModel.InitializeWorkouts();
-            WorkoutsList = new ObservableCollection<Workout>(_workoutsWindowViewModel.CurrentUser.Workouts);
-
-            UpdateVisibility();
+            CancelCommand = new RelayCommand(ExecuteCancel);
         }
 
-        //KOMMANDON
-        public RelayCommand SaveWorkoutCommand { get; }
+        // KOMMANDON
         public RelayCommand StrengthWorkoutCommand { get; }
         public RelayCommand CardioWorkoutCommand { get; }
+        public RelayCommand SaveWorkoutCommand { get; }
+        public RelayCommand CancelCommand { get; }
 
         //METODER
+
+        //ställer in synligheten för Repetitions
+        private void ExecuteStrengthWorkout(object param)
+        {
+            SetWorkout(true);
+        }
+
+        //ställer in synligheten för Distance
+        private void ExecuteCardioWorkout(object param)
+        {
+            SetWorkout(false); // Ställer in att konditionsträning är aktivt
+        }
+
+
         private bool CanExecuteSaveWorkout(object param)
         {
             if (StrengthWorkout)
@@ -236,6 +247,21 @@ namespace Fit_Track.ViewModel
         {
             Workout workout;
 
+            //kontrollerar om datum är giltigt
+            if (Date == default(DateTime))
+            {
+                MessageBox.Show("Please enter a valid date");
+                return;
+            }
+
+            //kontrollerar om varaktigheten är giltig
+            if (Duration == default(TimeSpan))
+            {
+                MessageBox.Show("Please enter a valid time duration.");
+                return;
+            }
+
+            //skapar ett nytt träningspass baserat på typ
             if (StrengthWorkout)
             {
                 workout = new StrengthWorkout(Date, Type, Duration, CaloriesBurned, Notes, Repetitions);
@@ -245,7 +271,6 @@ namespace Fit_Track.ViewModel
                 workout = new CardioWorkout(Date, Type, Duration, CaloriesBurned, Notes, Distance);
             }
 
-            //lägg till workout i listan
             _workoutsWindowViewModel.CurrentUser.AddWorkout(workout);
 
             MessageBox.Show("New workout has been added");
@@ -254,12 +279,21 @@ namespace Fit_Track.ViewModel
             Application.Current.Windows[0].Close();
         }
 
+        private void ExecuteCancel(object param)
+        {
+            var workoutsWindow = new WorkoutsWindow();
+            workoutsWindow.Show();
+            Application.Current.Windows[0].Close();
+        }
+
+        //uppdaterar synligheten av repetitioner och distansfält
         private void UpdateVisibility()
         {
             RepetitionsVisibility = StrengthWorkout ? Visibility.Visible : Visibility.Collapsed;
             DistanceVisibility = CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        //ställer in vilken typ av träningspass som är aktivt
         private void SetWorkout(bool isStrength)
         {
             StrengthWorkout = isStrength;
@@ -275,11 +309,11 @@ namespace Fit_Track.ViewModel
         {
             if (StrengthWorkout)
             {
-                CaloriesBurned = (int)Duration.TotalMinutes * Repetitions; // Räkna kalorier baserat på minuter
+                CaloriesBurned = (int)Duration.TotalMinutes * Repetitions;
             }
             else if (CardioWorkout)
             {
-                CaloriesBurned = (int)Duration.TotalMinutes * (int)Distance; // Räkna kalorier baserat på minuter
+                CaloriesBurned = (int)Duration.TotalMinutes * (int)Distance;
             }
         }
     }

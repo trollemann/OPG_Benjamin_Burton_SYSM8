@@ -15,7 +15,6 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
 
         </Grid.ColumnDefinitions>
 
@@ -29,7 +28,7 @@
             <Label x:Name="lblType" Content="Type:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
             <Label x:Name="lblDuration" Content="Duration:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
             <Label x:Name="lblRepititions" Content="Repetitions:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding RepetitionsVisibility}"/>
-            <Label x:Name="lblDistance" Content="Distance:" HorizontalAlignment="Right" Height="30"  Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding DistanceVisibility}"/>
+            <Label x:Name="lblDistance" Content="Distance (km):" HorizontalAlignment="Right" Height="30"  Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding DistanceVisibility}"/>
             <Label x:Name="lblCaloriesBurned" Content="Calories burned:" HorizontalAlignment="Right" Height="30" Width="120" Margin="5" FontSize="15" Foreground="LightGray"/>
             <Label x:Name="lblNotes" Content="Notes:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
         </StackPanel>
@@ -42,22 +41,8 @@
             <TextBox x:Name="txtBoxDistance" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="{Binding DistanceVisibility}"/>
             <TextBox x:Name="txtBoxCaloriesBurned" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding CaloriesBurned, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
             <TextBox x:Name="txtBoxNotes" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-            <Button x:Name="btnSaveWorkout" Content="Save workout" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Command="{Binding SaveWorkoutCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+            <Button x:Name="btnSaveWorkout" Content="Save workout" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Command="{Binding SaveWorkoutCommand}"/>
+            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Height="30" Width="130" Margin="5" Command="{Binding CancelCommand}"/>
         </StackPanel>
-
-        <Label x:Name="lblWorkouts" Content="Workouts" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Grid.Row="0" Grid.Column="2" FontWeight="Bold"
-               Height="40" FontSize="25" Foreground="LightGray"/>
-
-        <ListBox x:Name="listBoxWorkouts" HorizontalAlignment="Left" VerticalAlignment="Top" Height="270" Width="130" Grid.Row="1" Grid.Column="2"
-         Margin="5" ItemsSource="{Binding WorkoutsList}" SelectedItem="{Binding SelectedWorkout, Mode=TwoWay}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Date}" />
-                        <TextBlock Text="{Binding Type}" FontWeight="Bold" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
     </Grid>
 </Window>

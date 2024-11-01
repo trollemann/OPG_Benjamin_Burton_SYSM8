@@ -11,7 +11,7 @@ namespace Fit_Track.ViewModel
 {
     public class WorkoutDetailsWindowViewModel : ViewModelBase
     {
-        //boolean som bestämmer om det går att redigera
+        //EGENSKAPER
         private bool _isEditable;
         public bool IsEditable
         {
@@ -23,7 +23,6 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        //EGENSKAPER
         private Workout _workout;
         public Workout Workout
         {
@@ -35,6 +34,7 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged(nameof(IsEditable));
             }
         }
+
         public DateTime Date
         {
             get => _workout.Date;
@@ -64,6 +64,7 @@ namespace Fit_Track.ViewModel
                 CalculateCaloriesBurned();
             }
         }
+
         public int CaloriesBurned
         {
             get => _workout.CaloriesBurned;
@@ -73,6 +74,7 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
+
         public string Notes
         {
             get => _workout.Notes;
@@ -82,6 +84,7 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
+
         public int Repetitions
         {
             get => _workout is StrengthWorkout strength ? strength.Repetitions : 0;
@@ -95,6 +98,7 @@ namespace Fit_Track.ViewModel
                 }
             }
         }
+
         public int Distance
         {
             get => _workout is CardioWorkout cardio ? cardio.Distance : 0;
@@ -109,11 +113,12 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        //styr synligheten av repetitionsfältet
         public Visibility RepetitionsVisibility => _workout is StrengthWorkout ? Visibility.Visible : Visibility.Collapsed;
-
-        //styr synligheten av distansfältet
         public Visibility DistanceVisibility => _workout is CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
+
+        public RelayCommand Edit { get; }
+        public RelayCommand Save { get; }
+        public RelayCommand Cancel { get; }
 
         //KONSTRUKTOR
         public WorkoutDetailsWindowViewModel(Workout workout)
@@ -122,35 +127,71 @@ namespace Fit_Track.ViewModel
 
             Edit = new RelayCommand(ExecuteEdit);
             Save = new RelayCommand(ExecuteSave, CanExecuteSave);
+            Cancel = new RelayCommand(ExecuteCancel);
             _isEditable = false;
         }
-
-        //KOMMANDON
-        public RelayCommand Edit { get; }
-        public RelayCommand Save { get; }
 
         //METODER
         private void ExecuteEdit(object param)
         {
             IsEditable = !IsEditable;
         }
+
         private bool CanExecuteSave(object param)
         {
-            return IsEditable;
+            if (_workout is StrengthWorkout)
+            {
+                return !string.IsNullOrWhiteSpace(Date.ToString()) &&
+                       !string.IsNullOrWhiteSpace(Type) &&
+                       Repetitions >= 0 &&
+                       CaloriesBurned >= 0 &&
+                       !string.IsNullOrWhiteSpace(Notes);
+            }
+            else if (_workout is CardioWorkout)
+            {
+                return !string.IsNullOrWhiteSpace(Date.ToString()) &&
+                       !string.IsNullOrWhiteSpace(Type) &&
+                       Distance >= 0 &&
+                       CaloriesBurned >= 0 &&
+                       !string.IsNullOrWhiteSpace(Notes);
+            }
+            else
+            {
+                return IsEditable;
+            }
         }
+
         private void ExecuteSave(object param)
         {
+            if (Date == default(DateTime))
+            {
+                MessageBox.Show("Please enter a valid date");
+                return;
+            }
+
+            if (Duration == default(TimeSpan))
+            {
+                MessageBox.Show("Please enter a valid time duration");
+                return;
+            }
+
             MessageBox.Show("Changes have been saved");
             IsEditable = false;
 
-            //uppdatera workoutList i WorkoutsWindowViewModel
+            //uppdatera det valda träningspasset med dem nya värdena
             if (param is WorkoutsWindowViewModel mainViewModel)
             {
                 mainViewModel.SetSelectedWorkout(_workout);
             }
 
             WorkoutsWindow workoutsWindow = new WorkoutsWindow();
-            var workoutdetailsWindow = param as Window;
+            workoutsWindow.Show();
+            Application.Current.Windows[0].Close();
+        }
+
+        private void ExecuteCancel(object param)
+        {
+            WorkoutsWindow workoutsWindow = new WorkoutsWindow();
             workoutsWindow.Show();
             Application.Current.Windows[0].Close();
         }

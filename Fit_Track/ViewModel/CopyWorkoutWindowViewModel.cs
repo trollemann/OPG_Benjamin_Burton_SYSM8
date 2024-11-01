@@ -18,15 +18,6 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        //private Workout _workout;
-        //public Workout Workout
-        //{
-        //    get => _workout;
-        //    set
-        //    {
-        //        _workout = value;   
-        //    }
-        //}
         public Workout _workout;
         public DateTime Date
         {
@@ -106,7 +97,11 @@ namespace Fit_Track.ViewModel
         public Visibility DistanceVisibility => _workout is CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
 
         public WorkoutsWindowViewModel _workoutsWindowViewModel;
-       
+
+        public RelayCommand Edit { get; }
+        public RelayCommand Save { get; }
+        public RelayCommand Cancel { get; }
+
         //KONSTRUKTOR
         public CopyWorkoutWindowViewModel(Workout workout, WorkoutsWindowViewModel workoutsWindowViewModel)
         {
@@ -115,12 +110,9 @@ namespace Fit_Track.ViewModel
 
             Edit = new RelayCommand(ExecuteEdit);
             Save = new RelayCommand(ExecuteSave, CanExecuteSave);
+            Cancel = new RelayCommand(ExecuteCancel);
             _isEditable = false;
         }
-
-        //KOMMANDON
-        public RelayCommand Edit { get; }
-        public RelayCommand Save { get; }
 
         //METODER
         private void ExecuteEdit(object param)
@@ -129,10 +121,43 @@ namespace Fit_Track.ViewModel
         }
         private bool CanExecuteSave(object param)
         {
-            return IsEditable;
+
+            if (_workout is StrengthWorkout)
+            {
+                return !string.IsNullOrWhiteSpace(Date.ToString()) &&
+                       !string.IsNullOrWhiteSpace(Type) &&
+                       Repetitions >= 0 &&
+                       CaloriesBurned >= 0 &&
+                       !string.IsNullOrWhiteSpace(Notes);
+            }
+            else if (_workout is CardioWorkout)
+            {
+                return !string.IsNullOrWhiteSpace(Date.ToString()) &&
+                       !string.IsNullOrWhiteSpace(Type) &&
+                       Distance >= 0 &&
+                       CaloriesBurned >= 0 &&
+                       !string.IsNullOrWhiteSpace(Notes);
+            }
+            else
+            {
+                return IsEditable;
+            }
+
         }
         private void ExecuteSave(object param)
         {
+            if (Date == default(DateTime))
+            {
+                MessageBox.Show("Please enter a valid date");
+                return;
+            }
+
+            if (Duration == default(TimeSpan))
+            {
+                MessageBox.Show("Please enter a valid time duration");
+                return;
+            }
+
             MessageBox.Show("Changes have been saved");
 
             Workout workout;
@@ -150,10 +175,17 @@ namespace Fit_Track.ViewModel
                 return;
             }
 
-            //lägg till träningspasset
+            //lägg till träningspasset till nuvarande användare
             _workoutsWindowViewModel.CurrentUser.AddWorkout(workout);
 
             WorkoutsWindow workoutsWindow = new WorkoutsWindow();
+            workoutsWindow.Show();
+            Application.Current.Windows[0].Close();
+        }
+
+        private void ExecuteCancel(object param)
+        {
+            var workoutsWindow = new WorkoutsWindow();
             workoutsWindow.Show();
             Application.Current.Windows[0].Close();
         }

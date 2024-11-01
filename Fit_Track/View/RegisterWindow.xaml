@@ -26,6 +26,8 @@
             <TextBox x:Name="txtBoxSecurityQuestion" Text="{Binding SecurityQuestion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="240" Height="20" HorizontalAlignment="Left"/>
             <TextBox x:Name="txtBoxSecurityAnswer" Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="240" Height="20" HorizontalAlignment="Left"/>
             <Button x:Name="btnCreateNewUser" Content="Create new user" Width="120" Command="{Binding CreateNewUserCommand}" Height="20" HorizontalAlignment="Left"/>
+            <Button x:Name="btnCancel" Content="Cancel" Width="120" Command="{Binding CancelCommand}" Height="20" HorizontalAlignment="Left"/>
+
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">

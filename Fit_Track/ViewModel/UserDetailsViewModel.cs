@@ -7,7 +7,6 @@ namespace Fit_Track.ViewModel
     public class UserDetailsViewModel : ViewModelBase
     {
         private User _currentUser;
-
         public List<string> CountryList { get; } = new List<string> { "Sweden", "Norway", "Denmark", "Iceland" };
 
         //EGENSKAPER
@@ -24,7 +23,7 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged(nameof(ConfirmPasswordVisibility));
             }
         }
-  
+
         public string Username { get; set; }
         public string Password { get; set; }
         public string NewPassword { get; set; }
@@ -37,11 +36,14 @@ namespace Fit_Track.ViewModel
         public Visibility NewPasswordVisibility => IsEditable ? Visibility.Visible : Visibility.Collapsed;
         public Visibility ConfirmPasswordVisibility => IsEditable ? Visibility.Visible : Visibility.Collapsed;
 
+        //KOMMANDON
+        public RelayCommand EditCommand { get; }
+        public RelayCommand SaveCommand { get; }
+        public RelayCommand CancelCommand { get; }
+
         //KONSTRUKTOR
         public UserDetailsViewModel(User currentUser)
         {
-
-            //sätter den aktuella användaren
             _currentUser = currentUser;
 
             Username = currentUser.Username;
@@ -56,11 +58,6 @@ namespace Fit_Track.ViewModel
 
             IsEditable = false;
         }
-
-        //KOMMANDON
-        public RelayCommand EditCommand { get; }
-        public RelayCommand SaveCommand { get; }
-        public RelayCommand CancelCommand { get; }
 
         //METODER
         private void ExecuteEdit(object param)
@@ -91,14 +88,39 @@ namespace Fit_Track.ViewModel
                 MessageBox.Show("Passwords doesn't match");
                 return;
             }
-
-            if (NewPassword.Length < 5)
+            try
             {
-                MessageBox.Show("Password must be at least 5 characters");
+                if (string.IsNullOrEmpty(NewPassword))
+                {
+                    MessageBox.Show("Please input new password");
+                    return;
+                }
+
+                if (NewPassword.Length < 5)
+                {
+                    MessageBox.Show("Password must be at least 5 characters");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
                 return;
             }
 
-            //uppdaterar egenskaperna i aktuella användare
+            if (string.IsNullOrEmpty(SecurityQuestion))
+            {
+                MessageBox.Show("Please enter a security question");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(SecurityAnswer))
+            {
+                MessageBox.Show("Please enter a security answer");
+                return;
+            }
+
+            //uppdaterar egenskaperna för den nuvarande användaren
             _currentUser.Username = Username;
             _currentUser.Password = Password;
             _currentUser.Country = Country;

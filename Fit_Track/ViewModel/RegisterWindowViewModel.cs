@@ -73,15 +73,16 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
+        public RelayCommand CreateNewUserCommand { get; }
+        public RelayCommand CancelCommand { get; }
+            
 
         //KONSTRUKTOR
         public RegisterWindowViewModel()
         {
             CreateNewUserCommand = new RelayCommand(ExecuteCreateNewUser, CanExecuteCreateNewUser);
+            CancelCommand = new RelayCommand(ExecuteCancel);
         }
-
-        //KOMMANDON
-        public RelayCommand CreateNewUserCommand { get; }
 
         //METODER
         private bool CanExecuteCreateNewUser(object param)
@@ -163,6 +164,13 @@ namespace Fit_Track.ViewModel
             Application.Current.Windows[0].Close();
         }
 
+        private void ExecuteCancel(object param)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            Application.Current.Windows[0].Close();
+        }
+
         static bool Length(string password)
         {
             return password.Length >= 8;
@@ -180,7 +188,6 @@ namespace Fit_Track.ViewModel
             return false;
         }
 
-        //metod03, uppgift05
         static bool SpecialChar(string password)
         {
             foreach (char c in password)

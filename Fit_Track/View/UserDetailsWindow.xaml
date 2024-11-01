@@ -31,9 +31,9 @@
             <Label Content="Security question:" HorizontalAlignment="Right" Height="30" Width="130" Margin="5" FontSize="15" Foreground="LightGray"/>
             <Label Content="Security answer:" HorizontalAlignment="Right" Height="30" Width="120" Margin="5" FontSize="15" Foreground="LightGray"/>
             <Button x:Name="btnEdit" Content="Edit" HorizontalAlignment="Right" Height="30" Width="130" Margin="5"
-                    Command="{Binding EditCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+                    Command="{Binding EditCommand}" />
             <Button Content="Cancel" HorizontalAlignment="Right" Height="30" Width="130" Margin="5"
-                    Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
+                    Command="{Binding CancelCommand}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
@@ -55,7 +55,7 @@
             <TextBox x:Name="txtBoxSecurityAnswer" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
                      Text="{Binding SecurityAnswer, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditable}" />
             <Button Content="Save" HorizontalAlignment="Left" Height="30" Width="130" Margin="5"
-                    Command="{Binding SaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" IsEnabled="{Binding IsEditable}" />
+                    Command="{Binding SaveCommand}"  IsEnabled="{Binding IsEditable}" />
             
         </StackPanel>
     </Grid>

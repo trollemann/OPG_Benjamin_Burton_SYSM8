@@ -64,6 +64,11 @@ namespace Fit_Track.ViewModel
             }
         }
 
+        public RelayCommand SendKeyCommand { get; }
+        public RelayCommand SignInCommand { get; }
+        public RelayCommand RegisterCommand { get; }
+        public RelayCommand ForgotPasswordCommand { get; }
+
         //KONSTRUKTOR
         public MainWindowViewModel()
         {
@@ -72,22 +77,16 @@ namespace Fit_Track.ViewModel
             RegisterCommand = new RelayCommand(ExecuteRegister);
             ForgotPasswordCommand = new RelayCommand(ExecuteForgotPassword);
             
-            //tillkalla metod för att initiera användare
+            //initialisera användare
             User.InitializeUsers();
         }
-
-        //KOMMANDON
-        public RelayCommand SendKeyCommand { get; }
-        public RelayCommand SignInCommand { get; }
-        public RelayCommand RegisterCommand { get; }
-        public RelayCommand ForgotPasswordCommand { get; }
 
 
         //METODER
         private void ExecuteSendKey(object param)
         {
             Random random = new Random();
-            Key = random.Next(1000, 10000);
+            Key = random.Next(100000, 1000000);
             MessageBox.Show($"{Key}", "Key", MessageBoxButton.OK);
         }
 
@@ -105,7 +104,6 @@ namespace Fit_Track.ViewModel
             //hämta användare från listan baserat på användarnamn och lösenord
             var user = User.GetUsers().FirstOrDefault(user => user.Username.ToLower() == Username.ToLower() && user.Password == Password);
             
-            /*
             try
             {
                 if (Key != Convert.ToInt32(KeyInput))
@@ -119,8 +117,7 @@ namespace Fit_Track.ViewModel
                 MessageBox.Show("Authentication key is wrong, please try again");
                 return;
             }
-            */
-
+            
             //kolla om användarnamn och lösenord är korrekta
             if (user != null)
             {
