@@ -7,6 +7,15 @@ namespace Fit_Track.ViewModel
     //EGENSKAPER
     public class CopyWorkoutWindowViewModel : ViewModelBase
     {
+
+        private User _currentUser;
+
+        public User CurrentUser
+        {
+            get { return _currentUser; }
+            set { _currentUser = value; }
+        }
+
         private bool _isEditable;
         public bool IsEditable
         {
@@ -106,10 +115,14 @@ namespace Fit_Track.ViewModel
 
         public Visibility DistanceVisibility => _workout is CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
 
+        public WorkoutsWindowViewModel _workoutsWindowViewModel;
+
+       
         //KONSTRUKTOR
-        public CopyWorkoutWindowViewModel(Workout workout)
+        public CopyWorkoutWindowViewModel(Workout workout, WorkoutsWindowViewModel workoutsWindowViewModel)
         {
             Workout = workout;
+            _workoutsWindowViewModel = workoutsWindowViewModel;
 
             Edit = new RelayCommand(ExecuteEdit);
             Save = new RelayCommand(ExecuteSave, CanExecuteSave);
@@ -132,17 +145,23 @@ namespace Fit_Track.ViewModel
         private void ExecuteSave(object param)
         {
             MessageBox.Show("Changes have been saved");
-            
+
             Workout workout;
 
-            if (_workout is StrengthWorkout strengthWorkout)
+            if (_workout is StrengthWorkout)
             {
-                strengthWorkout = new StrengthWorkout(Date, Type, Duration, CaloriesBurned, Notes, Repetitions);
+                workout = new StrengthWorkout(Date, Type, Duration, CaloriesBurned, Notes, Repetitions);
             }
-            else if (_workout is CardioWorkout cardioWorkout)
+            else if (_workout is CardioWorkout)
             {
-                cardioWorkout = new CardioWorkout(Date, Type, Duration, CaloriesBurned, Notes, Distance);
+                workout = new CardioWorkout(Date, Type, Duration, CaloriesBurned, Notes, Distance);
             }
+            else
+            {
+                return;
+            }
+
+            _workoutsWindowViewModel.CurrentUser.AddWorkout(workout);
 
             WorkoutsWindow workoutsWindow = new WorkoutsWindow();
             workoutsWindow.Show();

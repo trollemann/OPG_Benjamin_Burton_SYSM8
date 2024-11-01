@@ -12,7 +12,7 @@
         //KONSTRUKTOR
         public Workout(DateTime date, string type, TimeSpan duration, int caloriesBurned, string notes)
         {
-            Date = date;
+            Date = date.Date;
             Type = type;
             Duration = duration;
             CaloriesBurned = caloriesBurned;

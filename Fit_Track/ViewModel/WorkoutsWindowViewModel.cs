@@ -121,7 +121,7 @@ namespace Fit_Track.ViewModel
         }
         private void ExecuteCopyWorkout(object param)
         {
-            var copyWorkoutWindow = new CopyWorkoutWindow { DataContext = new CopyWorkoutWindowViewModel(SelectedWorkout) };
+            var copyWorkoutWindow = new CopyWorkoutWindow { DataContext = new CopyWorkoutWindowViewModel(SelectedWorkout, this) };
 
             var workoutsWindow = param as Window;
             copyWorkoutWindow.Show();

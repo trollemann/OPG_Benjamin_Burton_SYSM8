@@ -183,20 +183,6 @@ namespace Fit_Track.ViewModel
         }
 
         //KONSTRUKTOR
-        public AddWorkoutWindowViewModel()
-        {
-            SetWorkout(true);
-
-            StrengthWorkout = true;
-            CardioWorkout = false;
-
-            StrengthWorkoutCommand = new RelayCommand(_ => SetWorkout(true));
-            CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
-            SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
-
-            UpdateVisibility();
-        }
-
         private WorkoutsWindowViewModel _workoutsWindowViewModel;
         public AddWorkoutWindowViewModel(WorkoutsWindowViewModel workoutsWindowViewModel)
         {
@@ -212,8 +198,10 @@ namespace Fit_Track.ViewModel
             SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
 
             //initialisera UserWorkouts med en ny ObservableCollection (uppdateras direkt)
-            WorkoutsList = new ObservableCollection<Workout>();
+            WorkoutsList = new ObservableCollection<Workout>(); 
+
             workoutsWindowViewModel.InitializeWorkouts();
+            WorkoutsList = new ObservableCollection<Workout>(_workoutsWindowViewModel.CurrentUser.Workouts);
 
             UpdateVisibility();
         }
@@ -257,7 +245,7 @@ namespace Fit_Track.ViewModel
                 workout = new CardioWorkout(Date, Type, Duration, CaloriesBurned, Notes, Distance);
             }
 
-            // Lägg till workout i listan
+            //lägg till workout i listan
             _workoutsWindowViewModel.CurrentUser.AddWorkout(workout);
 
             MessageBox.Show("New workout has been added");

@@ -1,4 +1,6 @@
-﻿namespace Fit_Track.Model
+﻿using System.Collections.ObjectModel;
+
+namespace Fit_Track.Model
 {
     public class User : Person
     {
@@ -8,6 +10,8 @@
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
         public bool Admin { get; private set; }
+
+        public ObservableCollection<Workout> Workouts { get; set; } = new ObservableCollection<Workout>();
 
         //lista för att spara användare
         private static List<User> _users = new List<User>();
@@ -39,7 +43,7 @@
             var admin = new User("admin", "password", "Iceland", "What is your favorite exercise?", "Bicep curls", admin: true);
 
             //skapa existerande träningspass
-            var existingWorkout = new CardioWorkout(DateTime.Parse("2024-11-03"), "Jogging", TimeSpan.FromMinutes(60), 1000, "Morning run", 6);
+            var existingWorkout = new CardioWorkout(new DateTime(2024,11,03), "Jogging", TimeSpan.FromMinutes(60), 1000, "Morning run", 6);
             var existingWorkout2 = new StrengthWorkout(DateTime.Parse("2024-11-02"), "Upper body", TimeSpan.FromMinutes(120), 300, "Heavy lifting", 200);
 
             //tilldela user och admin träningspassen
