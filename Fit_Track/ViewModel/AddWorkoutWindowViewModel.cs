@@ -78,7 +78,6 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        // Ändrat till DateTime
         private DateTime _date;
         public DateTime Date
         {
