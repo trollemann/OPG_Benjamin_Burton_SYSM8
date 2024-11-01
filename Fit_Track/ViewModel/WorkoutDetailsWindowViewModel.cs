@@ -1,125 +1,201 @@
 ﻿using Fit_Track.Model;
 using Fit_Track.View;
+using System.Collections.ObjectModel;
+using System.Printing;
 using System.Windows;
 
 namespace Fit_Track.ViewModel
 {
     public class WorkoutDetailsWindowViewModel : ViewModelBase
     {
+        //EGENSKAPER
+        public User CurrentUser { get; }
+
+        private Workout _selectedWorkout;
+        public Workout SelectedWorkout
+        {
+            get => _selectedWorkout;
+            set
+            {
+                _selectedWorkout = value;
+                OnPropertyChanged();
+            }
+        }
+        
         private Workout _workout;
-        private StrengthWorkout _strengthWorkout;
-        private CardioWorkout _cardioWorkout;
-
-        // Egenskaper
-        private bool _isEditable;
-        public bool IsEditable
+        //samling av användarens träningspass
+        private ObservableCollection<Workout> _workouts;
+        public ObservableCollection<Workout> WorkoutsList
         {
-            get => _isEditable;
+            get => _workouts;
             set
             {
-                _isEditable = value;
+                _workouts = value;
                 OnPropertyChanged();
             }
         }
 
-        public Workout Workout
+        private bool _strengthWorkoutEnabled = true;
+        public bool StrengthWorkoutEnabled
         {
-            get => _workout;
+            get => _strengthWorkoutEnabled;
             set
             {
-                _workout = value;
+                _strengthWorkoutEnabled = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(RepetitionsVisibility)); // Ensure visibility is updated
-                OnPropertyChanged(nameof(DistanceVisibility));
             }
         }
 
+        private bool _cardioWorkoutEnabled = true;
+        public bool CardioWorkoutEnabled
+        {
+            get => _cardioWorkoutEnabled;
+            set
+            {
+                _cardioWorkoutEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _repetitionsVisibility = Visibility.Visible;
+        public Visibility RepetitionsVisibility
+        {
+            get => _repetitionsVisibility;
+            set
+            {
+                _repetitionsVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _distanceVisibility = Visibility.Collapsed;
+        public Visibility DistanceVisibility
+        {
+            get => _distanceVisibility;
+            set
+            {
+                _distanceVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private DateTime _date;
         public DateTime Date
         {
-            get => _workout.Date;
+            get => _date;
             set
             {
-                _workout.Date = value;
+                _date = value;
                 OnPropertyChanged();
             }
         }
 
+        private string _type;
         public string Type
         {
-            get => _workout.Type;
+            get => _type;
             set
             {
-                _workout.Type = value;
+                _type = value;
                 OnPropertyChanged();
             }
         }
 
+        private TimeSpan _duration;
         public TimeSpan Duration
         {
-            get => _workout.Duration;
+            get => _duration;
             set
             {
-                _workout.Duration = value;
+                _duration = value;
+                CalculateCaloriesBurned();
                 OnPropertyChanged();
             }
         }
 
+        private int _caloriesBurned;
         public int CaloriesBurned
         {
-            get => _workout.CaloriesBurned;
-            set
+            get => _caloriesBurned;
+            private set
             {
-                _workout.CaloriesBurned = value;
+                _caloriesBurned = value;
                 OnPropertyChanged();
             }
         }
 
+        private string _notes;
         public string Notes
         {
-            get => _workout.Notes;
+            get => _notes;
             set
             {
-                _workout.Notes = value;
+                _notes = value;
                 OnPropertyChanged();
             }
         }
 
+        private int _repetitions;
         public int Repetitions
         {
-            get => _strengthWorkout.Repetitions;
+            get => _repetitions;
             set
             {
-                _strengthWorkout.Repetitions = value;
+                _repetitions = value;
+                CalculateCaloriesBurned();
                 OnPropertyChanged();
             }
         }
 
+        private int _distance;
         public int Distance
         {
-            get => _cardioWorkout.Distance;
+            get => _distance;
             set
             {
-                _cardioWorkout.Distance = value;
+                _distance = value;
+                CalculateCaloriesBurned();
                 OnPropertyChanged();
             }
         }
 
-        public Visibility RepetitionsVisibility => _workout is StrengthWorkout ? Visibility.Collapsed : Visibility.Visible;
-        public Visibility DistanceVisibility => _workout is CardioWorkout ? Visibility.Collapsed : Visibility.Visible;
+        private bool _strengthWorkout;
+        public bool StrengthWorkout
+        {
+            get => _strengthWorkout;
+            set
+            {
+                _strengthWorkout = value;
+                OnPropertyChanged();
+                UpdateVisibility();
+            }
+        }
 
-        //Konstruktor
+        private bool _cardioWorkout;
+        public bool CardioWorkout
+        {
+            get => _cardioWorkout;
+            set
+            {
+                _cardioWorkout = value;
+                OnPropertyChanged();
+                UpdateVisibility();
+            }
+        }
+
+        //KONSTRUKTOR
         public WorkoutDetailsWindowViewModel(Workout workout)
         {
-            _isEditable = false;
+            SetWorkout(true);
 
-            Workout = workout;
-        
+            StrengthWorkout = true;
+            CardioWorkout = false;
+
             Date = workout.Date;
             Type = workout.Type;
             Duration = workout.Duration;
             CaloriesBurned = workout.CaloriesBurned;
             Notes = workout.Notes;
-            
 
             if (_workout is StrengthWorkout strengthWorkout)
             {
@@ -130,59 +206,107 @@ namespace Fit_Track.ViewModel
                 cardioWorkout.Distance = Distance;
             }
 
-            Edit = new RelayCommand(ExecuteEdit);
-            Save = new RelayCommand(ExecuteSave, CanExecuteSave);
+            StrengthWorkoutCommand = new RelayCommand(_ => SetWorkout(true));
+            CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
+            SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
+
+            UpdateVisibility();
         }
 
-        // Commands
-        public RelayCommand Edit { get; }
-        public RelayCommand Save { get; }
-
-        // Methods
-        private void ExecuteEdit(object param)
+        private WorkoutsWindowViewModel _workoutsWindowViewModel;
+        public WorkoutDetailsWindowViewModel(WorkoutsWindowViewModel workoutsWindowViewModel)
         {
-            IsEditable = !IsEditable;
+            _workoutsWindowViewModel = workoutsWindowViewModel;
+
+            SetWorkout(true);
+
+            //initiera kommandon
+            StrengthWorkoutCommand = new RelayCommand(_ => SetWorkout(true));
+            CardioWorkoutCommand = new RelayCommand(_ => SetWorkout(false));
+            SaveWorkoutCommand = new RelayCommand(ExecuteSaveWorkout, CanExecuteSaveWorkout);
+
+            //initialisera UserWorkouts med en ny ObservableCollection (uppdateras direkt)
+            WorkoutsList = new ObservableCollection<Workout>();
+            workoutsWindowViewModel.InitializeWorkouts();
+
+            UpdateVisibility();
         }
 
-        private bool CanExecuteSave(object param)
-        {
-            return IsEditable;
-        }
+        //KOMMANDON
+        public RelayCommand SaveWorkoutCommand { get; }
+        public RelayCommand StrengthWorkoutCommand { get; }
+        public RelayCommand CardioWorkoutCommand { get; }
 
-        private void ExecuteSave(object param)
+        //METODER
+        private bool CanExecuteSaveWorkout(object param)
         {
-            _workout.Date = Date;
-            _workout.Type = Type;
-            _workout.Duration = Duration;
-            _workout.CaloriesBurned = CaloriesBurned;
-            _workout.Notes = Notes;
-
-            if (_workout is StrengthWorkout strengthWorkout)
+            if (StrengthWorkout)
             {
-                strengthWorkout.Repetitions = Repetitions;
+                return !string.IsNullOrWhiteSpace(Date.ToString()) &&
+                       !string.IsNullOrWhiteSpace(Type) &&
+                       Repetitions >= 0 &&
+                       CaloriesBurned >= 0 &&
+                       !string.IsNullOrWhiteSpace(Notes);
             }
-            else if (_workout is CardioWorkout cardioWorkout)
+            else
             {
-                cardioWorkout.Distance = Distance;
+                return !string.IsNullOrWhiteSpace(Date.ToString()) &&
+                       !string.IsNullOrWhiteSpace(Type) &&
+                       Distance >= 0 &&
+                       CaloriesBurned >= 0 &&
+                       !string.IsNullOrWhiteSpace(Notes);
+            }
+        }
+
+        private void ExecuteSaveWorkout(object param)
+        {
+            Workout workout;
+
+            if (StrengthWorkout)
+            {
+                workout = new StrengthWorkout(Date, Type, Duration, CaloriesBurned, Notes, Repetitions);
+            }
+            else
+            {
+                workout = new CardioWorkout(Date, Type, Duration, CaloriesBurned, Notes, Distance);
             }
 
-            MessageBox.Show("Changes have been saved");
+            // Lägg till workout i listan
+            _workoutsWindowViewModel.CurrentUser.AddWorkout(workout);
 
-            // Close current window and open WorkoutsWindow
+            MessageBox.Show("Changes saved");
+
             var workoutsWindow = new WorkoutsWindow();
             workoutsWindow.Show();
             Application.Current.Windows[0].Close();
         }
 
+        private void UpdateVisibility()
+        {
+            RepetitionsVisibility = StrengthWorkout ? Visibility.Visible : Visibility.Collapsed;
+            DistanceVisibility = CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void SetWorkout(bool isStrength)
+        {
+            StrengthWorkout = isStrength;
+            CardioWorkout = !isStrength;
+
+            StrengthWorkoutEnabled = !isStrength;
+            CardioWorkoutEnabled = isStrength;
+
+            UpdateVisibility();
+        }
+
         private void CalculateCaloriesBurned()
         {
-            if (_workout is StrengthWorkout strengthWorkout)
+            if (StrengthWorkout)
             {
-                CaloriesBurned = (int)(Duration.TotalMinutes * Repetitions);
+                CaloriesBurned = (int)Duration.TotalMinutes * Repetitions; // Räkna kalorier baserat på minuter
             }
-            else if (_workout is CardioWorkout cardioWorkout)
+            else if (CardioWorkout)
             {
-                CaloriesBurned = (int)(Duration.TotalMinutes * Distance);
+                CaloriesBurned = (int)Duration.TotalMinutes * (int)Distance; // Räkna kalorier baserat på minuter
             }
         }
     }

@@ -104,6 +104,8 @@ namespace Fit_Track.ViewModel
 
             //hämta användare från listan baserat på användarnamn och lösenord
             var user = User.GetUsers().FirstOrDefault(user => user.Username.ToLower() == Username.ToLower() && user.Password == Password);
+            
+            /*
             try
             {
                 if (Key != Convert.ToInt32(KeyInput))
@@ -117,6 +119,7 @@ namespace Fit_Track.ViewModel
                 MessageBox.Show("Authentication key is wrong, please try again");
                 return;
             }
+            */
 
             //kolla om användarnamn och lösenord är korrekta
             if (user != null)
