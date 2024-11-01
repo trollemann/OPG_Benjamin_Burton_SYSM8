@@ -121,7 +121,31 @@ namespace Fit_Track.ViewModel
         }
         private void ExecuteCopyWorkout(object param)
         {
-            var copyWorkoutWindow = new CopyWorkoutWindow { DataContext = new CopyWorkoutWindowViewModel(SelectedWorkout, this) };
+
+            Workout copiedWorkout = null;
+
+            if (SelectedWorkout is StrengthWorkout strengthWorkout)
+            {
+                copiedWorkout = new StrengthWorkout(
+                strengthWorkout.Date,
+                strengthWorkout.Type,
+                strengthWorkout.Duration,
+                strengthWorkout.CaloriesBurned,
+                strengthWorkout.Notes,
+                strengthWorkout.Repetitions);
+            }
+            else if (SelectedWorkout is CardioWorkout cardioWorkout)
+            {
+                copiedWorkout = new CardioWorkout(
+                cardioWorkout.Date,
+                cardioWorkout.Type,
+                cardioWorkout.Duration,
+                cardioWorkout.CaloriesBurned,
+                cardioWorkout.Notes,
+                cardioWorkout.Distance);
+            }
+
+            var copyWorkoutWindow = new CopyWorkoutWindow { DataContext = new CopyWorkoutWindowViewModel(copiedWorkout, this) };
 
             var workoutsWindow = param as Window;
             copyWorkoutWindow.Show();
@@ -136,7 +160,7 @@ namespace Fit_Track.ViewModel
 
         private void ExecuteWorkoutDetails(object param)
         {
-            var workoutDetailsWindow = new WorkoutDetailsWindow { DataContext = new WorkoutDetailsWindowViewModel(SelectedWorkout) }; 
+            var workoutDetailsWindow = new WorkoutDetailsWindow { DataContext = new WorkoutDetailsWindowViewModel(SelectedWorkout) };
 
             var workoutsWindow = param as Window;
             workoutDetailsWindow.Show();

@@ -53,6 +53,7 @@ namespace Fit_Track.ViewModel
                 OnPropertyChanged();
             }
         }
+
         public TimeSpan Duration
         {
             get => _workout.Duration;

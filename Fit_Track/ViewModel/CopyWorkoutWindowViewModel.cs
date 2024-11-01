@@ -7,15 +7,6 @@ namespace Fit_Track.ViewModel
     //EGENSKAPER
     public class CopyWorkoutWindowViewModel : ViewModelBase
     {
-
-        private User _currentUser;
-
-        public User CurrentUser
-        {
-            get { return _currentUser; }
-            set { _currentUser = value; }
-        }
-
         private bool _isEditable;
         public bool IsEditable
         {
@@ -27,17 +18,16 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        private Workout _workout;
-        public Workout Workout
-        {
-            get => _workout;
-            set
-            {
-                _workout = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsEditable));
-            }
-        }
+        //private Workout _workout;
+        //public Workout Workout
+        //{
+        //    get => _workout;
+        //    set
+        //    {
+        //        _workout = value;   
+        //    }
+        //}
+        public Workout _workout;
         public DateTime Date
         {
             get => _workout.Date;
@@ -116,12 +106,11 @@ namespace Fit_Track.ViewModel
         public Visibility DistanceVisibility => _workout is CardioWorkout ? Visibility.Visible : Visibility.Collapsed;
 
         public WorkoutsWindowViewModel _workoutsWindowViewModel;
-
        
         //KONSTRUKTOR
         public CopyWorkoutWindowViewModel(Workout workout, WorkoutsWindowViewModel workoutsWindowViewModel)
         {
-            Workout = workout;
+            _workout = workout;
             _workoutsWindowViewModel = workoutsWindowViewModel;
 
             Edit = new RelayCommand(ExecuteEdit);
@@ -161,6 +150,7 @@ namespace Fit_Track.ViewModel
                 return;
             }
 
+            //lägg till träningspasset
             _workoutsWindowViewModel.CurrentUser.AddWorkout(workout);
 
             WorkoutsWindow workoutsWindow = new WorkoutsWindow();
