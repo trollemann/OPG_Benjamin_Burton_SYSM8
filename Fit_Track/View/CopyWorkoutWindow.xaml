@@ -18,13 +18,13 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="1">
-            <Label x:Name="lblDate" Content="Date:" HorizontalAlignment="Right" Height="30" Width="50" Margin="5" FontSize="15" Foreground="LightGray"/>
-            <Label x:Name="lblType" Content="Type:" HorizontalAlignment="Right" Height="30" Width="50" Margin="5" FontSize="15" Foreground="LightGray"/>
-            <Label x:Name="lblDuration" Content="Duration:" HorizontalAlignment="Right" Height="30" Width="75" Margin="5" FontSize="15" Foreground="LightGray"/>
-            <Label x:Name="lblRepititions" Content="Repititions:" HorizontalAlignment="Right" Height="30" Width="87" Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding RepetitionsVisibility}"/>
-            <Label x:Name="lblDistance" Content="Distance:" HorizontalAlignment="Right" Height="30" Width="87" Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding DistanceVisibility}"/>
-            <Label x:Name="lblCaloriesBurned" Content="Calories burned:" HorizontalAlignment="Right" Height="30" Width="120" Margin="5" FontSize="15" Foreground="LightGray"/>
-            <Label x:Name="lblNotes" Content="Notes:"  HorizontalAlignment="Right" Height="30" Width="55" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label x:Name="lblDate" Content="Date:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label x:Name="lblType" Content="Type:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label x:Name="lblDuration" Content="Duration:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label x:Name="lblRepititions" Content="Repititions:" HorizontalAlignment="Right" Height="30"  Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding RepetitionsVisibility}"/>
+            <Label x:Name="lblDistance" Content="Distance (km):" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray" Visibility="{Binding DistanceVisibility}"/>
+            <Label x:Name="lblCaloriesBurned" Content="Calories burned:" HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
+            <Label x:Name="lblNotes" Content="Notes:"  HorizontalAlignment="Right" Height="30" Margin="5" FontSize="15" Foreground="LightGray"/>
             <Button x:Name="btnEdit" Content="Edit" HorizontalAlignment="Right" Height="30" Width="130" Margin="5" Command="{Binding Edit}" IsEnabled="True"/>
             <Button Content="Cancel" HorizontalAlignment="Right" Height="30" Width="130" Margin="5"
                     Command="{Binding Cancel}"/>
