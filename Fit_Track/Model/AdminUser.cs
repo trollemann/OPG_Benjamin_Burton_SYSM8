@@ -16,7 +16,7 @@ namespace Fit_Track.Model
 
         public static new void InitializeAdminUser()
         {
-            var admin = new AdminUser("q", "q", "Iceland", "What is your favorite exercise?", "Bicep curls");
+            var admin = new AdminUser("admin", "password", "Iceland", "What is your favorite exercise?", "Bicep curls");
             User._users.Add(admin);
         }
     }

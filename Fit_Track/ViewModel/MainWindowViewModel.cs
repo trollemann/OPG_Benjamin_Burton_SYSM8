@@ -101,6 +101,20 @@ namespace Fit_Track.ViewModel
         {
             var mainWindow = param as Window;
 
+            try
+            {
+                if (Key != Convert.ToInt32(KeyInput))
+                {
+                    MessageBox.Show("Authentication key is wrong, please try again");
+                    return;
+                }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Authentication key is wrong, please try again");
+                return;
+            }
+
             // Kolla efter användare baserat på inloggningsuppgifter
             var user = User.GetUsers().FirstOrDefault(user => user.Username.ToLower() == Username.ToLower() && user.Password == Password);
 
