@@ -257,7 +257,7 @@ namespace Fit_Track.ViewModel
             //kontrollerar om varaktigheten är giltig
             if (Duration == default(TimeSpan))
             {
-                MessageBox.Show("Please enter a valid time duration.");
+                MessageBox.Show("Please enter a valid time duration");
                 return;
             }
 

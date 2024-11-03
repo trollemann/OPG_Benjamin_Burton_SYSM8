@@ -243,15 +243,21 @@ namespace Fit_Track.ViewModel
         public void InitializeWorkouts()
         {
             WorkoutsList.Clear();
+            //användning av hashSet för kontroll så dubletter inte kan skapas som admin
+            var workoutSet = new HashSet<Workout>();
 
             //om nuvarande användare är admin, lägg till alla träningspass från alla användare
             if (CurrentUser is AdminUser)
             {
-                foreach (var user in User.GetUsers()) 
+                foreach (var user in User.GetUsers())
                 {
                     foreach (var workout in user._workout)
                     {
-                        WorkoutsList.Add(workout);
+                        //lägg endast till om träningspasset inte redan är tillagt
+                        if (workoutSet.Add(workout))
+                        {
+                            WorkoutsList.Add(workout);
+                        }
                     }
                 }
             }
@@ -260,7 +266,10 @@ namespace Fit_Track.ViewModel
             {
                 foreach (var workout in CurrentUser._workout)
                 {
-                    WorkoutsList.Add(workout);
+                    if (workoutSet.Add(workout))
+                    {
+                        WorkoutsList.Add(workout);
+                    }
                 }
             }
         }

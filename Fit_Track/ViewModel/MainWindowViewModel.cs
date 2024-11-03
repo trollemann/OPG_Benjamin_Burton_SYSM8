@@ -114,13 +114,13 @@ namespace Fit_Track.ViewModel
                 MessageBox.Show("Authentication key is wrong, please try again");
                 return;
             }
-
-            // Kolla efter användare baserat på inloggningsuppgifter
+            
+            //kolla efter användare baserat på inloggningsuppgifter
             var user = User.GetUsers().FirstOrDefault(user => user.Username.ToLower() == Username.ToLower() && user.Password == Password);
 
             if (user != null)
             {
-                // Sätter den inloggade användaren som nuvarande användare
+                //sätter den inloggade användaren som nuvarande användare
                 User.CurrentUser = user;
 
                 WorkoutsWindow workoutsWindow = new WorkoutsWindow();
