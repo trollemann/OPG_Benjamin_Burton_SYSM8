@@ -25,7 +25,7 @@ namespace Fit_Track.ViewModel
             }
         }
 
-        private Workout _selectedWorkout;
+        public Workout _selectedWorkout;
         public Workout SelectedWorkout
         {
             get => _selectedWorkout;
@@ -133,7 +133,7 @@ namespace Fit_Track.ViewModel
                 MessageBox.Show("Please select a workout first");
             }
 
-            if (CurrentUser.Admin)
+            if (CurrentUser is AdminUser)
             {
                 var user = User.GetUsers().FirstOrDefault(u => u._workout.Contains(SelectedWorkout));
                 user.RemoveWorkout(SelectedWorkout);
@@ -245,7 +245,7 @@ namespace Fit_Track.ViewModel
             WorkoutsList.Clear();
 
             //om nuvarande användare är admin, lägg till alla träningspass från alla användare
-            if (CurrentUser.Admin)
+            if (CurrentUser is AdminUser)
             {
                 foreach (var user in User.GetUsers()) 
                 {

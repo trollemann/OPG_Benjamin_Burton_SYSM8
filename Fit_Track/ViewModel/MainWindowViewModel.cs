@@ -101,27 +101,12 @@ namespace Fit_Track.ViewModel
         {
             var mainWindow = param as Window;
 
-            //hämta användare från listan baserat på användarnamn och lösenord
+            // Kolla efter användare baserat på inloggningsuppgifter
             var user = User.GetUsers().FirstOrDefault(user => user.Username.ToLower() == Username.ToLower() && user.Password == Password);
-            
-            try
-            {
-                if (Key != Convert.ToInt32(KeyInput))
-                {
-                    MessageBox.Show("Authentication key is wrong, please try again");
-                    return;
-                }
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Authentication key is wrong, please try again");
-                return;
-            }
-            
-            //kolla om användarnamn och lösenord är korrekta
+
             if (user != null)
             {
-                //sätt den inloggade användaren som nuvarande användare
+                // Sätter den inloggade användaren som nuvarande användare
                 User.CurrentUser = user;
 
                 WorkoutsWindow workoutsWindow = new WorkoutsWindow();

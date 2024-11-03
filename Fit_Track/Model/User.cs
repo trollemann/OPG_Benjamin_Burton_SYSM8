@@ -4,32 +4,27 @@ namespace Fit_Track.Model
 {
     public class User : Person
     {
-       
-
         //håller den för närvarande inloggade användaren
         public static User CurrentUser { get; set; }
         public string Country { get; set; }
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
-        public bool Admin { get; private set; }
 
         //samling för att hålla användarens träningspass
         public ObservableCollection<Workout> Workouts { get; set; } = new ObservableCollection<Workout>();
 
         //lista för att spara alla registrerade användare
-        private static List<User> _users = new List<User>();
+        public static List<User> _users = new List<User>();
 
         //lista för att spara träningspass kopplat till användare
-        public List<Workout> _workout { get; private set; } = new List<Workout>();
+        public List<Workout> _workout { get; set; } = new List<Workout>();
 
         //KONSTRUKTOR
-        public User(string username, string password, string country, string securityQuestion, string securityAnswer, bool admin = false)
-            : base(username, password)
+        public User(string username, string password, string country, string securityQuestion, string securityAnswer) : base(username, password)
         {
             Country = country;
             SecurityQuestion = securityQuestion;
             SecurityAnswer = securityAnswer;
-            Admin = admin;
 
             //initierar _workout-listan för användare
             _workout = new List<Workout>();
@@ -41,13 +36,12 @@ namespace Fit_Track.Model
         //initierar existerande användare o träningspass
         public static void InitializeUsers()
         {
-            //om det redan finns existerande användare, avbryt metoden
-            if (_users.Count > 0) return;
+            AdminUser.InitializeAdminUser();
+            
+            if (_users.Count > 2) return;
 
             var user = new User("user", "password", "Sweden", "What is your favorite exercise?", "Bench press");
-            var admin = new User("admin", "password", "Iceland", "What is your favorite exercise?", "Bicep curls", admin: true);
 
-            //DateTime sparas som MM/dd/yyyy (fkn amerikanare)
             var existingWorkout = new CardioWorkout(DateTime.Parse("01/11/2024"), "Jogging", TimeSpan.FromMinutes(60), 1000, "Morning run", 6);
             var existingWorkout2 = new StrengthWorkout(DateTime.Parse("2024-11-02"), "Upper body", TimeSpan.FromMinutes(120), 300, "Heavy lifting", 200);
 

@@ -73,6 +73,62 @@ namespace Fit_Track.ViewModel
                 return;
             }
 
+            bool ctrlLength = Length(NewPassword);
+            bool ctrlUpperCase = UpperCase(NewPassword);
+            bool ctrlSpecialChar = SpecialChar(NewPassword);
+            bool ctrlNumber = Number(NewPassword);
+
+            if (!ctrlLength && !ctrlUpperCase && !ctrlSpecialChar)
+            {
+                MessageBox.Show("The password must contain at least eight characters, one uppercase letter, and one special character");
+                return;
+            }
+            else if (!ctrlLength && !ctrlUpperCase)
+            {
+                MessageBox.Show("The password must contain at least eight characters and at least one uppercase letter");
+                return;
+            }
+            else if (!ctrlLength && !ctrlSpecialChar)
+            {
+                MessageBox.Show("The password must contain at least eight characters and at least one special character");
+                return;
+            }
+            else if (!ctrlUpperCase && !ctrlSpecialChar)
+            {
+                MessageBox.Show("The password must contain at least one uppercase letter and one special character");
+                return;
+            }
+            else if (!ctrlLength)
+            {
+                MessageBox.Show("The password must be at least eight characters long");
+                return;
+            }
+            else if (!ctrlUpperCase)
+            {
+                MessageBox.Show("The password must contain at least one uppercase letter");
+                return;
+            }
+            else if (!ctrlSpecialChar)
+            {
+                MessageBox.Show("The password must contain at least one special character");
+                return;
+            }
+            else if (!ctrlNumber)
+            {
+                MessageBox.Show("The password must cointain at least one number");
+                return;
+            }
+
+            if (Password != ConfirmPassword)
+            {
+                Password = ConfirmPassword;
+            }
+            else
+            {
+                MessageBox.Show("Passwords doesn't match");
+                return;
+            }
+
             if (Username.Length < 3)
             {
                 MessageBox.Show("Username must be at least 3 characters");
@@ -140,6 +196,46 @@ namespace Fit_Track.ViewModel
             var workoutsWindow = new WorkoutsWindow();
             workoutsWindow.Show();
             Application.Current.Windows[0].Close();
+        }
+
+        static bool Length(string password)
+        {
+            return password.Length >= 8;
+        }
+
+        static bool UpperCase(string password)
+        {
+            foreach (char c in password)
+            {
+                if (char.IsUpper(c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        static bool SpecialChar(string password)
+        {
+            foreach (char c in password)
+            {
+                if (char.IsSymbol(c) || char.IsPunctuation(c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        static bool Number(string password)
+        {
+            foreach (char c in password)
+            {
+                if (char.IsNumber(c))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

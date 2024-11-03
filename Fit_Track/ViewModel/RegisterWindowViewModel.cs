@@ -109,6 +109,7 @@ namespace Fit_Track.ViewModel
             bool ctrlLength = Length(Password);
             bool ctrlUpperCase = UpperCase(Password);
             bool ctrlSpecialChar = SpecialChar(Password);
+            bool ctrlNumber = Number(Password);
 
             if (!ctrlLength && !ctrlUpperCase && !ctrlSpecialChar)
             {
@@ -143,6 +144,11 @@ namespace Fit_Track.ViewModel
             else if (!ctrlSpecialChar)
             {
                 MessageBox.Show("The password must contain at least one special character");
+                return;
+            }
+            else if (!ctrlNumber)
+            {
+                MessageBox.Show("The password must cointain at least one number");
                 return;
             }
 
@@ -199,5 +205,17 @@ namespace Fit_Track.ViewModel
             }
             return false;
         }
+        static bool Number(string password)
+        {
+            foreach (char c in password)
+            {
+                if (char.IsNumber(c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }
