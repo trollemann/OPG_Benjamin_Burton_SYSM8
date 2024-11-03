@@ -117,7 +117,6 @@ namespace Fit_Track.ViewModel
         {
             //hämtar den första användaren som matchar det angivna användarnamnet
             var user = User.GetUsers().FirstOrDefault(user => user.Username.Equals(Username));
-
             if (user != null)
             {
                 //sätter säkerhetsfrågan till användarens säkerhetsfråga

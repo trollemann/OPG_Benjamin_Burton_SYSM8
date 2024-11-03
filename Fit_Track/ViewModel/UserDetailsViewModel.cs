@@ -119,7 +119,7 @@ namespace Fit_Track.ViewModel
                 return;
             }
 
-            if (Password != ConfirmPassword)
+            if (NewPassword == ConfirmPassword)
             {
                 Password = ConfirmPassword;
             }
